@@ -16,13 +16,18 @@
 		841296B82C418A17006FB7D5 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296AF2C418A17006FB7D5 /* Inter-Thin.ttf */; };
 		841296B92C418A17006FB7D5 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296B02C418A17006FB7D5 /* Inter-ExtraBold.ttf */; };
 		841296BA2C418A17006FB7D5 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296B12C418A17006FB7D5 /* Inter-Medium.ttf */; };
-		841296BB2C418A17006FB7D5 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296B22C418A17006FB7D5 /* Inter-Black.ttf */; };
 		84B14E7F2C41930400A7908E /* SecondOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B14E7E2C41930400A7908E /* SecondOnboardViewController.swift */; };
 		84B14E812C41930E00A7908E /* ThirdOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B14E802C41930E00A7908E /* ThirdOnboardViewController.swift */; };
 		84B14E832C41931800A7908E /* FourthOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B14E822C41931800A7908E /* FourthOnboardViewController.swift */; };
+		84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA30002C428B4F00B8B232 /* SettingsViewController.swift */; };
+		84BA30042C428E7600B8B232 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA30032C428E7600B8B232 /* UIViewController.swift */; };
+		84BA30082C4290FF00B8B232 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA30072C4290FF00B8B232 /* ActionSheetViewController.swift */; };
+		84BA300A2C42915800B8B232 /* ActionSheet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84BA30092C42915700B8B232 /* ActionSheet.storyboard */; };
+		84BA300C2C4291C500B8B232 /* UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA300B2C4291C500B8B232 /* UIWindow.swift */; };
+		84BA300D2C42959D00B8B232 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296B22C418A17006FB7D5 /* Inter-Black.ttf */; };
 		84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173A32C3D6E750082C6FC /* AppDelegate.swift */; };
 		84D173A62C3D6E750082C6FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173A52C3D6E750082C6FC /* SceneDelegate.swift */; };
-		84D173A82C3D6E750082C6FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173A72C3D6E750082C6FC /* ViewController.swift */; };
+		84D173A82C3D6E750082C6FC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173A72C3D6E750082C6FC /* HomeViewController.swift */; };
 		84D173AB2C3D6E750082C6FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AA2C3D6E750082C6FC /* Base */; };
 		84D173AD2C3D6E770082C6FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AC2C3D6E770082C6FC /* Assets.xcassets */; };
 		84D173B02C3D6E770082C6FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AF2C3D6E770082C6FC /* Base */; };
@@ -74,10 +79,15 @@
 		84B14E7E2C41930400A7908E /* SecondOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondOnboardViewController.swift; sourceTree = "<group>"; };
 		84B14E802C41930E00A7908E /* ThirdOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdOnboardViewController.swift; sourceTree = "<group>"; };
 		84B14E822C41931800A7908E /* FourthOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthOnboardViewController.swift; sourceTree = "<group>"; };
+		84BA30002C428B4F00B8B232 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		84BA30032C428E7600B8B232 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		84BA30072C4290FF00B8B232 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
+		84BA30092C42915700B8B232 /* ActionSheet.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ActionSheet.storyboard; sourceTree = "<group>"; };
+		84BA300B2C4291C500B8B232 /* UIWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindow.swift; sourceTree = "<group>"; };
 		84D173A02C3D6E750082C6FC /* QR-Reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QR-Reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D173A32C3D6E750082C6FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84D173A52C3D6E750082C6FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		84D173A72C3D6E750082C6FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		84D173A72C3D6E750082C6FC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		84D173AA2C3D6E750082C6FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		84D173AC2C3D6E770082C6FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84D173AF2C3D6E770082C6FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -154,6 +164,40 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		84BA30022C428B5500B8B232 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				84BA30002C428B4F00B8B232 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		84BA30052C428E7A00B8B232 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				84BA30032C428E7600B8B232 /* UIViewController.swift */,
+				84BA300B2C4291C500B8B232 /* UIWindow.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		84BA30062C428F8400B8B232 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				84D173A72C3D6E750082C6FC /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		84C190BB2C429DF600F3C846 /* ActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				84BA30072C4290FF00B8B232 /* ActionSheetViewController.swift */,
+				84BA30092C42915700B8B232 /* ActionSheet.storyboard */,
+			);
+			path = ActionSheet;
+			sourceTree = "<group>";
+		};
 		84D173972C3D6E750082C6FC = {
 			isa = PBXGroup;
 			children = (
@@ -179,15 +223,18 @@
 		84D173A22C3D6E750082C6FC /* QR-Reader */ = {
 			isa = PBXGroup;
 			children = (
-				84DC11F42C418EC8002128D0 /* Onboarding */,
 				84D173A32C3D6E750082C6FC /* AppDelegate.swift */,
 				84D173A52C3D6E750082C6FC /* SceneDelegate.swift */,
-				84D173A72C3D6E750082C6FC /* ViewController.swift */,
+				84DC11F42C418EC8002128D0 /* Onboarding */,
+				84BA30062C428F8400B8B232 /* Home */,
+				84BA30022C428B5500B8B232 /* Settings */,
+				84C190BB2C429DF600F3C846 /* ActionSheet */,
 				84D173A92C3D6E750082C6FC /* Main.storyboard */,
 				84D173AC2C3D6E770082C6FC /* Assets.xcassets */,
 				84D173AE2C3D6E770082C6FC /* LaunchScreen.storyboard */,
 				84D173B12C3D6E770082C6FC /* Info.plist */,
 				84DAD0EE2C419A69008278F0 /* R.generated.swift */,
+				84BA30052C428E7A00B8B232 /* Extension */,
 				843D44B82C3EBC73007522EC /* fonts */,
 			);
 			path = "QR-Reader";
@@ -369,18 +416,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D173AD2C3D6E770082C6FC /* Assets.xcassets in Resources */,
+				84BA300A2C42915800B8B232 /* ActionSheet.storyboard in Resources */,
 				841296B92C418A17006FB7D5 /* Inter-ExtraBold.ttf in Resources */,
 				841296B32C418A17006FB7D5 /* Inter-Regular.ttf in Resources */,
 				841296B62C418A17006FB7D5 /* Inter-Bold.ttf in Resources */,
 				841296B72C418A17006FB7D5 /* Inter-SemiBold.ttf in Resources */,
 				84D17AF72C4032A500CF1C36 /* Onboarding.storyboard in Resources */,
-				841296BB2C418A17006FB7D5 /* Inter-Black.ttf in Resources */,
 				841296B52C418A17006FB7D5 /* Inter-ExtraLight.ttf in Resources */,
 				84D173B02C3D6E770082C6FC /* Base in Resources */,
 				841296BA2C418A17006FB7D5 /* Inter-Medium.ttf in Resources */,
 				841296B42C418A17006FB7D5 /* Inter-Light.ttf in Resources */,
 				841296B82C418A17006FB7D5 /* Inter-Thin.ttf in Resources */,
 				84D173AB2C3D6E750082C6FC /* Base in Resources */,
+				84BA300D2C42959D00B8B232 /* Inter-Black.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,14 +576,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				84DC11FA2C418F23002128D0 /* FirstOnboardViewController.swift in Sources */,
-				84D173A82C3D6E750082C6FC /* ViewController.swift in Sources */,
+				84D173A82C3D6E750082C6FC /* HomeViewController.swift in Sources */,
+				84BA30042C428E7600B8B232 /* UIViewController.swift in Sources */,
+				84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */,
 				84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */,
 				84DC11F72C418EF1002128D0 /* OnboardingPageViewController.swift in Sources */,
 				84B14E812C41930E00A7908E /* ThirdOnboardViewController.swift in Sources */,
+				84BA300C2C4291C500B8B232 /* UIWindow.swift in Sources */,
 				84D173A62C3D6E750082C6FC /* SceneDelegate.swift in Sources */,
 				84B14E7F2C41930400A7908E /* SecondOnboardViewController.swift in Sources */,
 				84DAD0EF2C419A69008278F0 /* R.generated.swift in Sources */,
 				84B14E832C41931800A7908E /* FourthOnboardViewController.swift in Sources */,
+				84BA30082C4290FF00B8B232 /* ActionSheetViewController.swift in Sources */,
 				84DC11F32C418EC1002128D0 /* OnboardingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
