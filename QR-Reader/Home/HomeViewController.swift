@@ -36,7 +36,7 @@ class HomeViewController: UIViewController {
         
         scanButton.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
+            .drive(onNext: { _ in
                 ActionSheetViewController.showActionSheet {
                     print("Go to settings")
                 }
