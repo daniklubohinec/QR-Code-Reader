@@ -21,7 +21,7 @@ class OnboardingViewController: UIViewController {
     var currentIndex: Int = 0 {
         didSet {
             setCurrentSegment(currentIndex)
-            pageControl.currentPage = currentIndex
+            //pageControl.currentPage = currentIndex
         }
     }
     
@@ -37,18 +37,18 @@ class OnboardingViewController: UIViewController {
     }
     
     func bindButtons() {
-        nextPageButton.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                if strongSelf.currentIndex <= 3 {
-                    strongSelf.currentIndex += 1
-                } else {
-                    UserDefaults.standard.set(true, forKey: "onboardingShown")
-                    // strongSelf.presentLogIn()
-                }
-            })
-            .disposed(by: disposeBag)
+//        nextPageButton.rx.tap
+//            .asDriver()
+//            .drive(onNext: { [weak self] _ in
+//                guard let strongSelf = self else { return }
+//                if strongSelf.currentIndex <= 3 {
+//                    strongSelf.currentIndex += 1
+//                } else {
+//                    UserDefaults.standard.set(true, forKey: "onboardingShown")
+//                    // strongSelf.presentLogIn()
+//                }
+//            })
+//            .disposed(by: disposeBag)
     }
     
 //    func presentLogIn() {

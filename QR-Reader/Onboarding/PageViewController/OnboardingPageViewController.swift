@@ -17,14 +17,18 @@ class OnboardingPageViewController: UIPageViewController, UIPageViewControllerDe
     var onboardingViewController: OnboardingViewController!
     weak var parentVC: UIViewController?
     private var previousIndex = 0
-    
-    lazy var orderedViewControllers: [UIViewController] = {
-        return [
-            R.storyboard.onboarding.firstOnboardViewController()!,
-            R.storyboard.onboarding.secondOnboardViewController()!,
-            R.storyboard.onboarding.thirdOnboardViewController()!,
-            R.storyboard.onboarding.fourthOnboardViewController()!,
-        ]
+    private(set) lazy var orderedViewControllers: [UIViewController] = {
+        return OnboardingPage.allCases.compactMap { page in
+            let vc = R.storyboard.onboarding.firstOnboardViewController.callAsFunction()!
+            _ = vc.view
+            vc.setupView(page: page, nextTapped: { [weak self] page in
+                guard let index = OnboardingPage.allCases.firstIndex(of: page), index + 1 < OnboardingPage.allCases.count  else {
+                    return
+                }
+                self?.onboardingViewController.setCurrentSegment(index + 1)
+            })
+            return vc
+        }
     }()
     
     override func viewDidLoad() {

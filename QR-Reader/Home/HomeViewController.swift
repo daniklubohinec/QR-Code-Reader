@@ -26,6 +26,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var contactBackView: UIView!
     @IBOutlet weak var contactButton: UIButton!
     
+    private var onboardingShown: Bool {
+        UserDefaults.standard.bool(forKey: "onboardingShown")
+    }
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {

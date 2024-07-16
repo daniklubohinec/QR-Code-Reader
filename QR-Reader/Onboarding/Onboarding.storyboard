@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="892" y="4"/>
         </scene>
-        <!--First Onboard View Controller-->
+        <!--Onboarding Content Page-->
         <scene sceneID="mHK-zI-moP">
             <objects>
-                <viewController storyboardIdentifier="FirstOnboardViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fdr-Pg-Egh" customClass="FirstOnboardViewController" customModule="QR_Reader" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstOnboardViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fdr-Pg-Egh" customClass="OnboardingContentPage" customModule="QR_Reader" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SLD-d2-BJh">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -114,11 +114,23 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wkK-Do-4Bd">
+                                                <rect key="frame" x="0.0" y="0.0" width="361" height="60"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="nextTapped" destination="fdr-Pg-Egh" eventType="touchUpInside" id="xX9-tZ-jJe"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <constraints>
+                                            <constraint firstItem="wkK-Do-4Bd" firstAttribute="leading" secondItem="W7f-N3-SKT" secondAttribute="leading" id="AaL-yX-FhO"/>
                                             <constraint firstAttribute="height" constant="60" id="Bcf-XI-NXs"/>
                                             <constraint firstAttribute="trailing" secondItem="e2E-IQ-mYP" secondAttribute="trailing" constant="20" id="EvN-ze-ZaU"/>
+                                            <constraint firstItem="wkK-Do-4Bd" firstAttribute="top" secondItem="W7f-N3-SKT" secondAttribute="top" id="KCJ-pJ-rJ9"/>
+                                            <constraint firstAttribute="trailing" secondItem="wkK-Do-4Bd" secondAttribute="trailing" id="Ovv-um-mEC"/>
+                                            <constraint firstAttribute="bottom" secondItem="wkK-Do-4Bd" secondAttribute="bottom" id="hfe-66-qQ3"/>
                                             <constraint firstItem="e2E-IQ-mYP" firstAttribute="centerY" secondItem="W7f-N3-SKT" secondAttribute="centerY" id="p7s-zJ-lxK"/>
                                             <constraint firstItem="e2E-IQ-mYP" firstAttribute="leading" secondItem="W7f-N3-SKT" secondAttribute="leading" constant="20" id="vez-27-bao"/>
                                         </constraints>
@@ -150,6 +162,12 @@
                             <constraint firstItem="WdL-Dw-at3" firstAttribute="trailing" secondItem="Jrc-jP-mN9" secondAttribute="trailing" constant="16" id="mep-ci-ImF"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="continueButton" destination="wkK-Do-4Bd" id="qBQ-RG-E4d"/>
+                        <outlet property="descriptionLabel" destination="lEv-Uz-4dl" id="OkO-Go-9mj"/>
+                        <outlet property="imageView" destination="fW6-hY-5L7" id="Da3-uQ-3Dj"/>
+                        <outlet property="titleLabel" destination="PkD-3Q-t7c" id="1Ys-L5-Ubb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zki-yt-a1x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

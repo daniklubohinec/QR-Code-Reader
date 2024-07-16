@@ -46,6 +46,7 @@
 		84FEA95F2C4552E2003ED028 /* ScannedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEA95E2C4552E2003ED028 /* ScannedTableViewCell.swift */; };
 		AE9F3E7A28911CB8B25C8498 /* Pods_QR_Reader_QR_ReaderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FC8F9FE682ED7DC8D3D8B6 /* Pods_QR_Reader_QR_ReaderUITests.framework */; };
 		B753173D66B2DDADA62D50D7 /* Pods_QR_ReaderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED00C2E8BE2924F7FD82DB6 /* Pods_QR_ReaderTests.framework */; };
+		F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,7 @@
 		98549218F65AD73193DCB10B /* Pods_QR_Reader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QR_Reader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9EE46DE5CC106D28718D51 /* Pods-QR-Reader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR-Reader.release.xcconfig"; path = "Target Support Files/Pods-QR-Reader/Pods-QR-Reader.release.xcconfig"; sourceTree = "<group>"; };
 		EDA535DEF9E51DB93F1FE5CF /* Pods-QR-ReaderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR-ReaderTests.debug.xcconfig"; path = "Target Support Files/Pods-QR-ReaderTests/Pods-QR-ReaderTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +277,7 @@
 				84DC11F82C418EF6002128D0 /* PageViewController */,
 				84DC11FB2C418F28002128D0 /* Pages */,
 				84D17AF62C4032A500CF1C36 /* Onboarding.storyboard */,
+				F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 				84BA30042C428E7600B8B232 /* UIViewController.swift in Sources */,
 				84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */,
 				84FEA95F2C4552E2003ED028 /* ScannedTableViewCell.swift in Sources */,
+				F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */,
 				84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */,
 				84DC11F72C418EF1002128D0 /* OnboardingPageViewController.swift in Sources */,
 				84FEA9552C4550E2003ED028 /* ScannedViewController.swift in Sources */,
