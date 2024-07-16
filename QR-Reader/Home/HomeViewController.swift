@@ -36,12 +36,22 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         animateButtonViews()
+        navigationItem.backButtonDisplayMode = .minimal
         
         scanButton.rx.tap
             .asDriver()
             .drive(onNext: { _ in
-                ActionSheetViewController.showActionSheet {
-                    print("Go to settings")
+                AuthorizationStatus.checkCameraAndPhotoLibraryAuthorizationStatus { [weak self] status in
+                    switch status {
+                    case .granted:
+                        guard let self, let scannerVC = R.storyboard.qrCodeScanner.qrCodeScanner.callAsFunction() else { return }
+                        scannerVC.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(scannerVC, animated: true)
+                    case .denied:
+                        ActionSheetViewController.showActionSheet {
+                            print("Go to settings")
+                        }
+                    }
                 }
             })
             .disposed(by: disposeBag)
