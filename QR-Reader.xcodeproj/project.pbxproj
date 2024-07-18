@@ -31,40 +31,34 @@
 		84D173AB2C3D6E750082C6FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AA2C3D6E750082C6FC /* Base */; };
 		84D173AD2C3D6E770082C6FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AC2C3D6E770082C6FC /* Assets.xcassets */; };
 		84D173B02C3D6E770082C6FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AF2C3D6E770082C6FC /* Base */; };
-		84D173BB2C3D6E770082C6FC /* QR_ReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173BA2C3D6E770082C6FC /* QR_ReaderTests.swift */; };
-		84D173C52C3D6E770082C6FC /* QR_ReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173C42C3D6E770082C6FC /* QR_ReaderUITests.swift */; };
-		84D173C72C3D6E770082C6FC /* QR_ReaderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D173C62C3D6E770082C6FC /* QR_ReaderUITestsLaunchTests.swift */; };
 		84D17AF72C4032A500CF1C36 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D17AF62C4032A500CF1C36 /* Onboarding.storyboard */; };
 		84DAD0EF2C419A69008278F0 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAD0EE2C419A69008278F0 /* R.generated.swift */; };
 		84DC11F32C418EC1002128D0 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC11F22C418EC1002128D0 /* OnboardingViewController.swift */; };
 		84DC11F72C418EF1002128D0 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC11F62C418EF1002128D0 /* OnboardingPageViewController.swift */; };
 		84DC11FA2C418F23002128D0 /* FirstOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC11F92C418F23002128D0 /* FirstOnboardViewController.swift */; };
 		84FEA9522C45503E003ED028 /* History.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84FEA9512C45503E003ED028 /* History.storyboard */; };
-		84FEA9552C4550E2003ED028 /* ScannedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEA9542C4550E2003ED028 /* ScannedViewController.swift */; };
-		84FEA9572C4550F2003ED028 /* CreatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEA9562C4550F2003ED028 /* CreatedViewController.swift */; };
-		84FEA95D2C4552CD003ED028 /* CreatedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEA95C2C4552CD003ED028 /* CreatedTableViewCell.swift */; };
-		84FEA95F2C4552E2003ED028 /* ScannedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FEA95E2C4552E2003ED028 /* ScannedTableViewCell.swift */; };
-		AE9F3E7A28911CB8B25C8498 /* Pods_QR_Reader_QR_ReaderUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80FC8F9FE682ED7DC8D3D8B6 /* Pods_QR_Reader_QR_ReaderUITests.framework */; };
-		B753173D66B2DDADA62D50D7 /* Pods_QR_ReaderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED00C2E8BE2924F7FD82DB6 /* Pods_QR_ReaderTests.framework */; };
 		F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */; };
+		F39EC5E12C46AB6400430030 /* QrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */; };
+		F39EC5E42C46ACF900430030 /* AuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */; };
+		F39EC5E62C46B0DC00430030 /* QrCodeScanner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */; };
+		F3F149552C48C98800AB7B61 /* QRCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149542C48C98800AB7B61 /* QRCreateViewController.swift */; };
+		F3F149582C48D63C00AB7B61 /* InputFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149572C48D63C00AB7B61 /* InputFieldView.swift */; };
+		F3F1495A2C48D64C00AB7B61 /* QRCodePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149592C48D64C00AB7B61 /* QRCodePreviewView.swift */; };
+		F3F1495C2C48DDCB00AB7B61 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1495B2C48DDCB00AB7B61 /* ColorPickerView.swift */; };
+		F3F1495F2C48E57B00AB7B61 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1495E2C48E57B00AB7B61 /* Storage.swift */; };
+		F3F149622C48E62900AB7B61 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149612C48E62900AB7B61 /* HistoryViewModel.swift */; };
+		F3F149642C48E63D00AB7B61 /* HistoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149632C48E63D00AB7B61 /* HistoryModels.swift */; };
+		F3F1496C2C48E9C400AB7B61 /* HistoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1496B2C48E9C400AB7B61 /* HistoryAssembly.swift */; };
+		F3F1496F2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1496E2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift */; };
+		F3F149712C48EB7E00AB7B61 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149702C48EB7E00AB7B61 /* HistoryViewController.swift */; };
+		F3F149732C48ED9300AB7B61 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149722C48ED9300AB7B61 /* MainTabController.swift */; };
+		F3F149772C4909B800AB7B61 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149762C4909B800AB7B61 /* HeaderView.swift */; };
+		F3F149792C49240900AB7B61 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149782C49240900AB7B61 /* Helpers.swift */; };
+		F3F1497B2C492E1E00AB7B61 /* QRGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1497A2C492E1E00AB7B61 /* QRGenerator.swift */; };
+		F3F1497D2C49372000AB7B61 /* QRDataProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1497C2C49372000AB7B61 /* QRDataProcessing.swift */; };
+		F3F149802C49539600AB7B61 /* Toast.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3F1497F2C49539600AB7B61 /* Toast.storyboard */; };
+		F3F149822C4953C800AB7B61 /* ToastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149812C4953C800AB7B61 /* ToastViewController.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		84D173B72C3D6E770082C6FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D173982C3D6E750082C6FC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84D1739F2C3D6E750082C6FC;
-			remoteInfo = "QR-Reader";
-		};
-		84D173C12C3D6E770082C6FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D173982C3D6E750082C6FC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 84D1739F2C3D6E750082C6FC;
-			remoteInfo = "QR-Reader";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0321FF61E85A6EDB1ACAB060 /* Pods-QR-ReaderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR-ReaderTests.release.xcconfig"; path = "Target Support Files/Pods-QR-ReaderTests/Pods-QR-ReaderTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -98,9 +92,7 @@
 		84D173AC2C3D6E770082C6FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84D173AF2C3D6E770082C6FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84D173B12C3D6E770082C6FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84D173B62C3D6E770082C6FC /* QR-ReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QR-ReaderTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D173BA2C3D6E770082C6FC /* QR_ReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR_ReaderTests.swift; sourceTree = "<group>"; };
-		84D173C02C3D6E770082C6FC /* QR-ReaderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QR-ReaderUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D173C42C3D6E770082C6FC /* QR_ReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR_ReaderUITests.swift; sourceTree = "<group>"; };
 		84D173C62C3D6E770082C6FC /* QR_ReaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR_ReaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		84D17AF62C4032A500CF1C36 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
@@ -109,14 +101,30 @@
 		84DC11F62C418EF1002128D0 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		84DC11F92C418F23002128D0 /* FirstOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstOnboardViewController.swift; sourceTree = "<group>"; };
 		84FEA9512C45503E003ED028 /* History.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = History.storyboard; sourceTree = "<group>"; };
-		84FEA9542C4550E2003ED028 /* ScannedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedViewController.swift; sourceTree = "<group>"; };
-		84FEA9562C4550F2003ED028 /* CreatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedViewController.swift; sourceTree = "<group>"; };
-		84FEA95C2C4552CD003ED028 /* CreatedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatedTableViewCell.swift; sourceTree = "<group>"; };
-		84FEA95E2C4552E2003ED028 /* ScannedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedTableViewCell.swift; sourceTree = "<group>"; };
 		98549218F65AD73193DCB10B /* Pods_QR_Reader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QR_Reader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9EE46DE5CC106D28718D51 /* Pods-QR-Reader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR-Reader.release.xcconfig"; path = "Target Support Files/Pods-QR-Reader/Pods-QR-Reader.release.xcconfig"; sourceTree = "<group>"; };
 		EDA535DEF9E51DB93F1FE5CF /* Pods-QR-ReaderTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR-ReaderTests.debug.xcconfig"; path = "Target Support Files/Pods-QR-ReaderTests/Pods-QR-ReaderTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingContentPage.swift; sourceTree = "<group>"; };
+		F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerViewController.swift; sourceTree = "<group>"; };
+		F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationStatus.swift; sourceTree = "<group>"; };
+		F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QrCodeScanner.storyboard; sourceTree = "<group>"; };
+		F3F149542C48C98800AB7B61 /* QRCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCreateViewController.swift; sourceTree = "<group>"; };
+		F3F149572C48D63C00AB7B61 /* InputFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFieldView.swift; sourceTree = "<group>"; };
+		F3F149592C48D64C00AB7B61 /* QRCodePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodePreviewView.swift; sourceTree = "<group>"; };
+		F3F1495B2C48DDCB00AB7B61 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		F3F1495E2C48E57B00AB7B61 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		F3F149612C48E62900AB7B61 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		F3F149632C48E63D00AB7B61 /* HistoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModels.swift; sourceTree = "<group>"; };
+		F3F1496B2C48E9C400AB7B61 /* HistoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAssembly.swift; sourceTree = "<group>"; };
+		F3F1496E2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTableViewCell.swift; sourceTree = "<group>"; };
+		F3F149702C48EB7E00AB7B61 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		F3F149722C48ED9300AB7B61 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		F3F149762C4909B800AB7B61 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		F3F149782C49240900AB7B61 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		F3F1497A2C492E1E00AB7B61 /* QRGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGenerator.swift; sourceTree = "<group>"; };
+		F3F1497C2C49372000AB7B61 /* QRDataProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRDataProcessing.swift; sourceTree = "<group>"; };
+		F3F1497F2C49539600AB7B61 /* Toast.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Toast.storyboard; sourceTree = "<group>"; };
+		F3F149812C4953C800AB7B61 /* ToastViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,22 +133,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				27B37F27FAE1601C773119E4 /* Pods_QR_Reader.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84D173B32C3D6E770082C6FC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B753173D66B2DDADA62D50D7 /* Pods_QR_ReaderTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84D173BD2C3D6E770082C6FC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AE9F3E7A28911CB8B25C8498 /* Pods_QR_Reader_QR_ReaderUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,6 +190,7 @@
 			children = (
 				84D173A72C3D6E750082C6FC /* HomeViewController.swift */,
 				84D173A92C3D6E750082C6FC /* Main.storyboard */,
+				F3F149722C48ED9300AB7B61 /* MainTabController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -227,8 +220,6 @@
 			isa = PBXGroup;
 			children = (
 				84D173A02C3D6E750082C6FC /* QR-Reader.app */,
-				84D173B62C3D6E770082C6FC /* QR-ReaderTests.xctest */,
-				84D173C02C3D6E770082C6FC /* QR-ReaderUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -243,6 +234,9 @@
 				84FEA9532C455048003ED028 /* History */,
 				84BA30022C428B5500B8B232 /* Settings */,
 				84C190BB2C429DF600F3C846 /* ActionSheet */,
+				F3F149532C48C96F00AB7B61 /* Create */,
+				F39EC5DF2C46AB4F00430030 /* Scan */,
+				F39EC5E22C46ACDA00430030 /* Utils */,
 				84D173AC2C3D6E770082C6FC /* Assets.xcassets */,
 				84D173AE2C3D6E770082C6FC /* LaunchScreen.storyboard */,
 				84D173B12C3D6E770082C6FC /* Info.plist */,
@@ -312,29 +306,13 @@
 		84FEA9532C455048003ED028 /* History */ = {
 			isa = PBXGroup;
 			children = (
-				84FEA9582C455277003ED028 /* Scanned */,
-				84FEA9592C45527D003ED028 /* Created */,
+				F3F1496A2C48E9B800AB7B61 /* Assembly */,
+				F3F149602C48E61700AB7B61 /* DataSource */,
+				F3F1496D2C48EB0700AB7B61 /* Cell */,
 				84FEA9512C45503E003ED028 /* History.storyboard */,
+				F3F149702C48EB7E00AB7B61 /* HistoryViewController.swift */,
 			);
 			path = History;
-			sourceTree = "<group>";
-		};
-		84FEA9582C455277003ED028 /* Scanned */ = {
-			isa = PBXGroup;
-			children = (
-				84FEA9542C4550E2003ED028 /* ScannedViewController.swift */,
-				84FEA95E2C4552E2003ED028 /* ScannedTableViewCell.swift */,
-			);
-			path = Scanned;
-			sourceTree = "<group>";
-		};
-		84FEA9592C45527D003ED028 /* Created */ = {
-			isa = PBXGroup;
-			children = (
-				84FEA9562C4550F2003ED028 /* CreatedViewController.swift */,
-				84FEA95C2C4552CD003ED028 /* CreatedTableViewCell.swift */,
-			);
-			path = Created;
 			sourceTree = "<group>";
 		};
 		98080A3601E65C8A1A1592BC /* Frameworks */ = {
@@ -345,6 +323,82 @@
 				7ED00C2E8BE2924F7FD82DB6 /* Pods_QR_ReaderTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F39EC5DF2C46AB4F00430030 /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */,
+				F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		F39EC5E22C46ACDA00430030 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F3F1497E2C49536500AB7B61 /* ToastView */,
+				F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */,
+				F3F1495E2C48E57B00AB7B61 /* Storage.swift */,
+				F3F149782C49240900AB7B61 /* Helpers.swift */,
+				F3F1497A2C492E1E00AB7B61 /* QRGenerator.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		F3F149532C48C96F00AB7B61 /* Create */ = {
+			isa = PBXGroup;
+			children = (
+				F3F149562C48D62F00AB7B61 /* Subviews */,
+				F3F149542C48C98800AB7B61 /* QRCreateViewController.swift */,
+				F3F1497C2C49372000AB7B61 /* QRDataProcessing.swift */,
+			);
+			path = Create;
+			sourceTree = "<group>";
+		};
+		F3F149562C48D62F00AB7B61 /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				F3F149572C48D63C00AB7B61 /* InputFieldView.swift */,
+				F3F149592C48D64C00AB7B61 /* QRCodePreviewView.swift */,
+				F3F1495B2C48DDCB00AB7B61 /* ColorPickerView.swift */,
+			);
+			path = Subviews;
+			sourceTree = "<group>";
+		};
+		F3F149602C48E61700AB7B61 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				F3F149612C48E62900AB7B61 /* HistoryViewModel.swift */,
+				F3F149632C48E63D00AB7B61 /* HistoryModels.swift */,
+				F3F1496B2C48E9C400AB7B61 /* HistoryAssembly.swift */,
+			);
+			path = DataSource;
+			sourceTree = "<group>";
+		};
+		F3F1496A2C48E9B800AB7B61 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		F3F1496D2C48EB0700AB7B61 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				F3F1496E2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift */,
+				F3F149762C4909B800AB7B61 /* HeaderView.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		F3F1497E2C49536500AB7B61 /* ToastView */ = {
+			isa = PBXGroup;
+			children = (
+				F3F1497F2C49539600AB7B61 /* Toast.storyboard */,
+				F3F149812C4953C800AB7B61 /* ToastViewController.swift */,
+			);
+			path = ToastView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -370,45 +424,6 @@
 			productReference = 84D173A02C3D6E750082C6FC /* QR-Reader.app */;
 			productType = "com.apple.product-type.application";
 		};
-		84D173B52C3D6E770082C6FC /* QR-ReaderTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84D173CD2C3D6E770082C6FC /* Build configuration list for PBXNativeTarget "QR-ReaderTests" */;
-			buildPhases = (
-				52D1D3B84D64DF1D8B9D0BA0 /* [CP] Check Pods Manifest.lock */,
-				84D173B22C3D6E770082C6FC /* Sources */,
-				84D173B32C3D6E770082C6FC /* Frameworks */,
-				84D173B42C3D6E770082C6FC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84D173B82C3D6E770082C6FC /* PBXTargetDependency */,
-			);
-			name = "QR-ReaderTests";
-			productName = "QR-ReaderTests";
-			productReference = 84D173B62C3D6E770082C6FC /* QR-ReaderTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		84D173BF2C3D6E770082C6FC /* QR-ReaderUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 84D173D02C3D6E770082C6FC /* Build configuration list for PBXNativeTarget "QR-ReaderUITests" */;
-			buildPhases = (
-				6C7AAE383C22062EC9575CAD /* [CP] Check Pods Manifest.lock */,
-				84D173BC2C3D6E770082C6FC /* Sources */,
-				84D173BD2C3D6E770082C6FC /* Frameworks */,
-				84D173BE2C3D6E770082C6FC /* Resources */,
-				C45593329A5745D5B81FF87F /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84D173C22C3D6E770082C6FC /* PBXTargetDependency */,
-			);
-			name = "QR-ReaderUITests";
-			productName = "QR-ReaderUITests";
-			productReference = 84D173C02C3D6E770082C6FC /* QR-ReaderUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -421,14 +436,6 @@
 				TargetAttributes = {
 					84D1739F2C3D6E750082C6FC = {
 						CreatedOnToolsVersion = 15.4;
-					};
-					84D173B52C3D6E770082C6FC = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = 84D1739F2C3D6E750082C6FC;
-					};
-					84D173BF2C3D6E770082C6FC = {
-						CreatedOnToolsVersion = 15.4;
-						TestTargetID = 84D1739F2C3D6E750082C6FC;
 					};
 				};
 			};
@@ -446,8 +453,6 @@
 			projectRoot = "";
 			targets = (
 				84D1739F2C3D6E750082C6FC /* QR-Reader */,
-				84D173B52C3D6E770082C6FC /* QR-ReaderTests */,
-				84D173BF2C3D6E770082C6FC /* QR-ReaderUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -464,28 +469,16 @@
 				841296B62C418A17006FB7D5 /* Inter-Bold.ttf in Resources */,
 				841296B72C418A17006FB7D5 /* Inter-SemiBold.ttf in Resources */,
 				84D17AF72C4032A500CF1C36 /* Onboarding.storyboard in Resources */,
+				F39EC5E62C46B0DC00430030 /* QrCodeScanner.storyboard in Resources */,
 				841296B52C418A17006FB7D5 /* Inter-ExtraLight.ttf in Resources */,
 				84D173B02C3D6E770082C6FC /* Base in Resources */,
 				841296BA2C418A17006FB7D5 /* Inter-Medium.ttf in Resources */,
+				F3F149802C49539600AB7B61 /* Toast.storyboard in Resources */,
 				84FEA9522C45503E003ED028 /* History.storyboard in Resources */,
 				841296B42C418A17006FB7D5 /* Inter-Light.ttf in Resources */,
 				841296B82C418A17006FB7D5 /* Inter-Thin.ttf in Resources */,
 				84D173AB2C3D6E750082C6FC /* Base in Resources */,
 				84BA300D2C42959D00B8B232 /* Inter-Black.ttf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84D173B42C3D6E770082C6FC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84D173BE2C3D6E770082C6FC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,50 +524,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		52D1D3B84D64DF1D8B9D0BA0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QR-ReaderTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6C7AAE383C22062EC9575CAD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QR-Reader-QR-ReaderUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		84DAD0ED2C419A22008278F0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -594,23 +543,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
 		};
-		C45593329A5745D5B81FF87F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QR-Reader-QR-ReaderUITests/Pods-QR-Reader-QR-ReaderUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QR-Reader-QR-ReaderUITests/Pods-QR-Reader-QR-ReaderUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QR-Reader-QR-ReaderUITests/Pods-QR-Reader-QR-ReaderUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -619,58 +551,42 @@
 			buildActionMask = 2147483647;
 			files = (
 				84DC11FA2C418F23002128D0 /* FirstOnboardViewController.swift in Sources */,
+				F3F149552C48C98800AB7B61 /* QRCreateViewController.swift in Sources */,
 				84D173A82C3D6E750082C6FC /* HomeViewController.swift in Sources */,
 				84BA30042C428E7600B8B232 /* UIViewController.swift in Sources */,
+				F3F149732C48ED9300AB7B61 /* MainTabController.swift in Sources */,
+				F39EC5E42C46ACF900430030 /* AuthorizationStatus.swift in Sources */,
+				F3F1497B2C492E1E00AB7B61 /* QRGenerator.swift in Sources */,
+				F3F149822C4953C800AB7B61 /* ToastViewController.swift in Sources */,
 				84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */,
-				84FEA95F2C4552E2003ED028 /* ScannedTableViewCell.swift in Sources */,
 				F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */,
+				F3F149582C48D63C00AB7B61 /* InputFieldView.swift in Sources */,
 				84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */,
 				84DC11F72C418EF1002128D0 /* OnboardingPageViewController.swift in Sources */,
-				84FEA9552C4550E2003ED028 /* ScannedViewController.swift in Sources */,
+				F3F1497D2C49372000AB7B61 /* QRDataProcessing.swift in Sources */,
+				F39EC5E12C46AB6400430030 /* QrCodeScannerViewController.swift in Sources */,
 				84B14E812C41930E00A7908E /* ThirdOnboardViewController.swift in Sources */,
+				F3F1495C2C48DDCB00AB7B61 /* ColorPickerView.swift in Sources */,
 				84BA300C2C4291C500B8B232 /* UIWindow.swift in Sources */,
 				84D173A62C3D6E750082C6FC /* SceneDelegate.swift in Sources */,
 				84B14E7F2C41930400A7908E /* SecondOnboardViewController.swift in Sources */,
 				84DAD0EF2C419A69008278F0 /* R.generated.swift in Sources */,
+				F3F149772C4909B800AB7B61 /* HeaderView.swift in Sources */,
+				F3F149622C48E62900AB7B61 /* HistoryViewModel.swift in Sources */,
 				84B14E832C41931800A7908E /* FourthOnboardViewController.swift in Sources */,
-				84FEA95D2C4552CD003ED028 /* CreatedTableViewCell.swift in Sources */,
-				84FEA9572C4550F2003ED028 /* CreatedViewController.swift in Sources */,
+				F3F1496C2C48E9C400AB7B61 /* HistoryAssembly.swift in Sources */,
+				F3F1495A2C48D64C00AB7B61 /* QRCodePreviewView.swift in Sources */,
+				F3F149712C48EB7E00AB7B61 /* HistoryViewController.swift in Sources */,
+				F3F149642C48E63D00AB7B61 /* HistoryModels.swift in Sources */,
+				F3F149792C49240900AB7B61 /* Helpers.swift in Sources */,
 				84BA30082C4290FF00B8B232 /* ActionSheetViewController.swift in Sources */,
+				F3F1496F2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift in Sources */,
 				84DC11F32C418EC1002128D0 /* OnboardingViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84D173B22C3D6E770082C6FC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84D173BB2C3D6E770082C6FC /* QR_ReaderTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		84D173BC2C3D6E770082C6FC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				84D173C72C3D6E770082C6FC /* QR_ReaderUITestsLaunchTests.swift in Sources */,
-				84D173C52C3D6E770082C6FC /* QR_ReaderUITests.swift in Sources */,
+				F3F1495F2C48E57B00AB7B61 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		84D173B82C3D6E770082C6FC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84D1739F2C3D6E750082C6FC /* QR-Reader */;
-			targetProxy = 84D173B72C3D6E770082C6FC /* PBXContainerItemProxy */;
-		};
-		84D173C22C3D6E770082C6FC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 84D1739F2C3D6E750082C6FC /* QR-Reader */;
-			targetProxy = 84D173C12C3D6E770082C6FC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		84D173A92C3D6E750082C6FC /* Main.storyboard */ = {
@@ -873,82 +789,6 @@
 			};
 			name = Release;
 		};
-		84D173CE2C3D6E770082C6FC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDA535DEF9E51DB93F1FE5CF /* Pods-QR-ReaderTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.QR-ReaderTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QR-Reader.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QR-Reader";
-			};
-			name = Debug;
-		};
-		84D173CF2C3D6E770082C6FC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0321FF61E85A6EDB1ACAB060 /* Pods-QR-ReaderTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.QR-ReaderTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/QR-Reader.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/QR-Reader";
-			};
-			name = Release;
-		};
-		84D173D12C3D6E770082C6FC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D5D1994FDD38AA739640938 /* Pods-QR-Reader-QR-ReaderUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.QR-ReaderUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "QR-Reader";
-			};
-			name = Debug;
-		};
-		84D173D22C3D6E770082C6FC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CA66BF975A82A7E98BE98CA /* Pods-QR-Reader-QR-ReaderUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dev.QR-ReaderUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "QR-Reader";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -966,24 +806,6 @@
 			buildConfigurations = (
 				84D173CB2C3D6E770082C6FC /* Debug */,
 				84D173CC2C3D6E770082C6FC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84D173CD2C3D6E770082C6FC /* Build configuration list for PBXNativeTarget "QR-ReaderTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84D173CE2C3D6E770082C6FC /* Debug */,
-				84D173CF2C3D6E770082C6FC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		84D173D02C3D6E770082C6FC /* Build configuration list for PBXNativeTarget "QR-ReaderUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				84D173D12C3D6E770082C6FC /* Debug */,
-				84D173D22C3D6E770082C6FC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

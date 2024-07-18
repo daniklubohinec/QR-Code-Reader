@@ -66,4 +66,32 @@ class HomeViewController: UIViewController {
         animateButtonView(urlButton, urlBackView, disposeBag)
         animateButtonView(contactButton, contactBackView, disposeBag)
     }
+    
+    @IBAction
+    private func createWifi() {
+        openCreate(for: .wifi(.empty))
+    }
+    
+    @IBAction
+    func createContact() {
+        openCreate(for: .contact(.empty))
+    }
+    
+    @IBAction
+    func createText() {
+        openCreate(for: .text(.empty))
+    }
+    
+    @IBAction
+    func createLink() {
+        openCreate(for: .url(.empty))
+    }
+    
+    
+    
+    private func openCreate(for type: QRCodeType) {
+        let vc = QRCodeCreatorViewController(type: type, item: nil)
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

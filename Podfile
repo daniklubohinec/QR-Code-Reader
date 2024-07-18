@@ -8,15 +8,8 @@ target 'QR-Reader' do
   # Pods for QR-Reader
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxDataSources'
   pod 'R.swift'
-
-  target 'QR-ReaderTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'QR-ReaderUITests' do
-    # Pods for testing
-  end
+  pod 'SnapKit', '~> 5.7.0'
 
 end

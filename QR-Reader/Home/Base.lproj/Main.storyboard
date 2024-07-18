@@ -21,37 +21,14 @@
     </customFonts>
     <scenes>
         <!--History-->
-        <scene sceneID="SDz-HT-tD4">
+        <scene sceneID="0A5-FQ-gfl">
             <objects>
-                <viewController id="PM6-yd-ys7" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mRv-SF-361">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="goU-48-n9w">
-                                <rect key="frame" x="16" y="161" width="361" height="32"/>
-                                <color key="backgroundColor" red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
-                                <segments>
-                                    <segment title="Scanned"/>
-                                    <segment title="Created"/>
-                                </segments>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </segmentedControl>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="1a4-Gp-rDg"/>
-                        <color key="backgroundColor" name="cF1F1F1"/>
-                        <constraints>
-                            <constraint firstItem="goU-48-n9w" firstAttribute="leading" secondItem="1a4-Gp-rDg" secondAttribute="leading" constant="16" id="2jZ-gU-K6T"/>
-                            <constraint firstItem="goU-48-n9w" firstAttribute="top" secondItem="1a4-Gp-rDg" secondAttribute="top" constant="6" id="PJX-Zi-6T0"/>
-                            <constraint firstItem="1a4-Gp-rDg" firstAttribute="trailing" secondItem="goU-48-n9w" secondAttribute="trailing" constant="16" id="SUL-qe-rEZ"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="History" largeTitleDisplayMode="always" id="5C2-ur-AE5"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MZZ-Lw-rDg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="History" id="RYA-Xd-pDE" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="uXx-EK-Wqo"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aPs-VX-Onn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3107.6335877862593" y="-182.3943661971831"/>
+            <point key="canvasLocation" x="2998" y="-241"/>
         </scene>
         <!--QR Code Reader-->
         <scene sceneID="in5-bS-fwt">
@@ -202,6 +179,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createWifi" destination="fGS-DW-ii7" eventType="touchUpInside" id="q4v-cY-uhV"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -280,6 +260,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.33333333333334" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createText" destination="fGS-DW-ii7" eventType="touchUpInside" id="aSh-ea-y60"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -366,6 +349,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createLink" destination="fGS-DW-ii7" eventType="touchUpInside" id="p07-8m-BzY"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -444,6 +430,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.33333333333334" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createContact" destination="fGS-DW-ii7" eventType="touchUpInside" id="qAV-JK-Lcr"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -574,16 +563,17 @@
             </objects>
             <point key="canvasLocation" x="3876" y="-861"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="Vmh-Vn-ak7">
             <objects>
-                <tabBarController id="Re2-Lx-BlH" sceneMemberID="viewController">
+                <tabBarController id="Re2-Lx-BlH" customClass="MainTabBarController" customModule="QR_Reader" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="adN-Jq-APM">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="AccentColor"/>
                         <color key="barTintColor" red="0.011764705882352941" green="0.011764705882352941" blue="0.011764705882352941" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <color key="selectedImageTintColor" name="AccentColor"/>
+                        <tabBarAppearance key="standardAppearance"/>
                     </tabBar>
                     <connections>
                         <segue destination="EXg-L1-6Fz" kind="relationship" relationship="viewControllers" id="FiA-eK-Xdf"/>
@@ -642,7 +632,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="PM6-yd-ys7" kind="relationship" relationship="rootViewController" id="rAk-Rs-bM4"/>
+                        <segue destination="RYA-Xd-pDE" kind="relationship" relationship="rootViewController" id="WWK-ad-BQ4"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TxI-n8-5UH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
