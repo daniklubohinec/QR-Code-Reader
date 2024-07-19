@@ -1,5 +1,7 @@
 import UIKit
 import SnapKit
+import RxCocoa
+import RxSwift
 
 struct Field {
     enum FieldType {
@@ -38,7 +40,7 @@ final class InputFieldView: UIView {
         return label
     }()
     
-    let textField: UITextField = {
+    lazy var textField: UITextField = {
         let field = UITextField()
         field.font = UIFont.systemFont(ofSize: 16)
         return field

@@ -7,6 +7,7 @@ enum StorageKey: String {
 }
 
 final class HistoryViewModel {
+    private let queue = DispatchQueue(label: String(describing: HistoryViewModel.self))
     var historyListRelay: BehaviorRelay<HistoryList> = .init(value: .empty)
     let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
     private let disposeBag = DisposeBag()
@@ -24,7 +25,7 @@ final class HistoryViewModel {
             Storage.shared.store(value: mocks, at: StorageKey.historyList.rawValue)
             processLoadedItems(mocks)
         } else {
-            DispatchQueue.global(qos: .background).async { [weak self] in
+            queue.async { [weak self] in
                 self?.loadData()
             }
         }
@@ -59,7 +60,7 @@ final class HistoryViewModel {
     }
     
     func addItem(_ item: HistoryItem) {
-        DispatchQueue.global(qos: .background).async { [weak self] in
+        queue.async { [weak self] in
             var items: [HistoryItem] = Storage.shared.stored(at: StorageKey.historyList.rawValue) ?? []
             items.append(item)
             Storage.shared.store(value: items, at: StorageKey.historyList.rawValue)
@@ -75,9 +76,13 @@ final class HistoryViewModel {
     }
     
     func removeAll() {
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            Storage.shared.store(value: [HistoryItem](), at: StorageKey.historyList.rawValue)
-            self?.processLoadedItems([])
+        queue.async { [weak self] in
+            guard let self else { return }
+            let selectedSegment = selectedSegmentIndex.value
+            var items: [HistoryItem] = Storage.shared.stored(at: StorageKey.historyList.rawValue) ?? []
+            items = items.filter({ $0.itemType.rawValue != selectedSegment })
+            Storage.shared.store(value: items, at: StorageKey.historyList.rawValue)
+            processLoadedItems(items)
         }
     }
 }

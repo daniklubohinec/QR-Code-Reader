@@ -47,6 +47,7 @@ class ActionSheetViewController: UIViewController {
         firstButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let strongSelf = self else { return }
+                HapticGenerator.shared.generateImpact()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     strongSelf.hide(action: strongSelf.firstActionPrivate)
                 }
@@ -57,6 +58,7 @@ class ActionSheetViewController: UIViewController {
         cancelButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let strongSelf = self else { return }
+                HapticGenerator.shared.generateImpact()
                 strongSelf.hide(action: nil)
             })
             .disposed(by: disposeBag)

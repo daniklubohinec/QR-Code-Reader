@@ -46,7 +46,7 @@ struct ContactQRModel: QRDataModel {
 }
 
 struct HistoryItem: Identifiable, Codable, Equatable, Hashable {
-    enum ItemType: Codable, Equatable {
+    enum ItemType: Int, Codable, Equatable {
         case scanned
         case created
     }
@@ -59,7 +59,7 @@ struct HistoryItem: Identifiable, Codable, Equatable, Hashable {
     
     // Генерация данных для QR-кода из qrCodeType
     var qrImageData: Data {
-        return QRGenerator.getQRDate(from: qrCodeType)
+        return QRGenerator.shared.getQRDate(from: qrCodeType)
     }
 }
 

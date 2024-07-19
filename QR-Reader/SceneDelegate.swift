@@ -22,6 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = vc
             window?.makeKeyAndVisible()
         }
+        _ = QRGenerator.shared
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

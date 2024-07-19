@@ -46,3 +46,8 @@ extension UIColor {
     }
 }
 
+func onMain(f: @escaping (() -> Void)) {
+    DispatchQueue.main.async {
+        f()
+    }
+}

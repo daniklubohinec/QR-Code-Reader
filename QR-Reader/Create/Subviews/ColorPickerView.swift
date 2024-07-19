@@ -99,6 +99,7 @@ class ColorPickerView: UIView {
     
     @objc private func colorButtonTapped(_ sender: UIButton) {
         updateSelectedColor(sender.backgroundColor ?? .clear)
+        HapticGenerator.shared.generateImpact()
     }
     
     @objc private func colorWellChanged() {

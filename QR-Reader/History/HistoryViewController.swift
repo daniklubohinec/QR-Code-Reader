@@ -1,10 +1,11 @@
 import Foundation
 import UIKit
+import Photos
 import RxSwift
 import RxCocoa
 import RxDataSources
 
-class HistoryViewController: UIViewController {
+final class HistoryViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
@@ -57,6 +58,7 @@ class HistoryViewController: UIViewController {
             .changed
             .subscribe(onNext: { [weak self] value in
                 guard let self else { return }
+                HapticGenerator.shared.generateImpact()
                 self.currentSegmentIndex = value
                 self.configureEmptyView()
             })
@@ -79,7 +81,7 @@ class HistoryViewController: UIViewController {
             .asObservable()
             .map({ $0.isEmpty })
             .subscribe(onNext: { [weak self] isEmpty in
-                DispatchQueue.main.async {
+                onMain {
                     self?.emptyView.isHidden = !isEmpty
                     self?.tableView.isHidden = isEmpty
                 }
@@ -127,11 +129,13 @@ class HistoryViewController: UIViewController {
     
     @objc
     private func trashTapped() {
-        viewModel.removeAll()
+        deleteAll()
+        HapticGenerator.shared.generateImpact()
     }
     
     @IBAction
     private func emptyAction() {
+        HapticGenerator.shared.generateImpact()
         if currentSegmentIndex == 0 {
             guard let scannerVC = R.storyboard.qrCodeScanner.qrCodeScanner.callAsFunction() else { return }
             scannerVC.hidesBottomBarWhenPushed = true
@@ -142,6 +146,7 @@ class HistoryViewController: UIViewController {
     }
     
     private func openDetail(item: HistoryItem) {
+        HapticGenerator.shared.generateImpact()
         let vc = QRCodeCreatorViewController(type: item.qrCodeType, item: item)
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
@@ -165,13 +170,13 @@ extension HistoryViewController: UITableViewDelegate {
         guard let item = (tableView.cellForRow(at: indexPath) as? HistoryItemTableViewCell)?.item else { return nil }
 
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
-            self?.viewModel.removeItem(item)
+            self?.deleteItem(item: item)
             completion(true)
         }
         deleteAction.image = UIImage(systemName: "trash.fill")
         
-        let moreAction = UIContextualAction(style: .normal, title: nil) { _, _, completion in
-            
+        let moreAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
+            self?.showMoreOptions(for: item)
             completion(true)
         }
         moreAction.image = UIImage(systemName: "ellipsis.circle.fill")
@@ -195,5 +200,77 @@ extension DateSection: SectionModelType {
     init(original: DateSection, items: [HistoryItem]) {
         self = original
         self.items = items
+    }
+}
+
+extension HistoryViewController {
+    private func showMoreOptions(for item: HistoryItem) {
+        let sheet = UIAlertController(title: item.name, message: nil, preferredStyle: .actionSheet)
+        let copyAction = UIAlertAction(title: "Copy", style: .default) { _ in
+            HapticGenerator.shared.generateImpact()
+            UIPasteboard.general.image = UIImage(data: item.qrImageData)
+            ToastViewController.showToast(with: "Copied", with: "doc.on.doc")
+        }
+        let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+            guard let qrImage = UIImage(data: item.qrImageData), let self else {
+                return
+            }
+            HapticGenerator.shared.generateImpact()
+
+            let activityViewController = UIActivityViewController(activityItems: [qrImage], applicationActivities: nil)
+            activityViewController.excludedActivityTypes = [
+                .assignToContact,
+                .addToReadingList
+            ]
+            
+            present(activityViewController, animated: true, completion: nil)
+        }
+        let saveAction = UIAlertAction(title: "Save as Image", style: .default) { _ in
+            guard let qrImage = UIImage(data: item.qrImageData) else {
+                return
+            }
+            HapticGenerator.shared.generateImpact()
+
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == .authorized {
+                    UIImageWriteToSavedPhotosAlbum(qrImage, nil, nil, nil)
+                    ToastViewController.showToast(with: "Saved to Gallery", with: "checkmark")
+                } else {
+                    ToastViewController.showToast(with: "Something went wrong", with: "exclamationmark.circle")
+                }
+            }
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            HapticGenerator.shared.generateImpact()
+            self?.deleteItem(item: item)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        [copyAction, shareAction, saveAction, deleteAction, cancel].forEach { sheet.addAction($0) }
+        present(sheet, animated: true)
+    }
+    
+    private func deleteItem(item: HistoryItem) {
+        let alert = UIAlertController(title: "Are you sure you want to delete this?", message: "This action cannot be undone.", preferredStyle: .alert)
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            HapticGenerator.shared.generateImpact()
+            self?.viewModel.removeItem(item)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        present(alert, animated: true)
+    }
+    
+    private func deleteAll() {
+        let alert = UIAlertController(title: "Are you sure you want to clear your history?", message: "This action cannot be undone.", preferredStyle: .alert)
+        let delete = UIAlertAction(title: "Clear", style: .destructive) { [weak self] _ in
+            HapticGenerator.shared.generateImpact()
+            self?.viewModel.removeAll()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        present(alert, animated: true)
     }
 }

@@ -2,9 +2,13 @@ import Foundation
 import CoreImage
 import UIKit
 
-struct QRGenerator {
+final class QRGenerator {
+    static let shared = QRGenerator()
+    private let ciContext = CIContext()
+
     private init() { }
-    static func getQRDate(from qrCodeType: QRCodeType) -> Data {
+
+    func getQRDate(from qrCodeType: QRCodeType) -> Data {
         let text: String
         let backgroundColorHex: String?
         let foregroundColorHex: String?
@@ -23,26 +27,26 @@ struct QRGenerator {
             backgroundColorHex = model?.backgroundHexColor
             foregroundColorHex = model?.foregroundHexColor
         case .contact(let model):
-            text = """
-            BEGIN:VCARD
-            VERSION:3.0
-            N:\(model?.name ?? "")
-            TEL:\(model?.phone ?? "")
-            EMAIL:\(model?.mail ?? "")
-            URL:\(model?.url ?? "")
-            END:VCARD
-            """
-            
+            let vCardComponents = [
+                "BEGIN:VCARD",
+                "VERSION:3.0",
+                "N:\(model?.name ?? "")",
+                "TEL:\(model?.phone ?? "")",
+                "EMAIL:\(model?.mail ?? "")",
+                "URL:\(model?.url ?? "")",
+                "END:VCARD"
+            ]
+            text = vCardComponents.joined(separator: "\n")
             backgroundColorHex = model?.backgroundHexColor
             foregroundColorHex = model?.foregroundHexColor
         }
-        let backgroundColor: UIColor = {
+        lazy var backgroundColor: UIColor = {
             if let backgroundColorHex {
                 return UIColor.colorWithHexString(hexString: backgroundColorHex)
             }
             return .white
         }()
-        let foregroundColor: UIColor = {
+        lazy var foregroundColor: UIColor = {
             if let foregroundColorHex {
                 return UIColor.colorWithHexString(hexString: foregroundColorHex)
             }
@@ -52,27 +56,34 @@ struct QRGenerator {
         return generateQRCode(from: text, backgroundColor: backgroundColor, foregroundColor: foregroundColor) ?? Data()
     }
     
-    static func generateQRCode(from string: String, backgroundColor: UIColor, foregroundColor: UIColor) -> Data? {
+    func generateQRCode(from string: String, backgroundColor: UIColor, foregroundColor: UIColor) -> Data? {
         guard let data = string.data(using: .ascii) else { return nil }
         
-        if let filter = CIFilter(name: "CIQRCodeGenerator") {
-            filter.setValue(data, forKey: "inputMessage")
-
-            if let outputImage = filter.outputImage {
-                let colorFilter = CIFilter(name: "CIFalseColor")
-                colorFilter?.setValue(outputImage, forKey: "inputImage")
-                colorFilter?.setValue(CIColor(color: foregroundColor), forKey: "inputColor0")
-                colorFilter?.setValue(CIColor(color: backgroundColor), forKey: "inputColor1")
-                
-                if let coloredImage = colorFilter?.outputImage {
-                    let transform = CGAffineTransform(scaleX: 10, y: 10)
-                    let scaledImage = coloredImage.transformed(by: transform)
-                    
-                    return UIImage(ciImage: scaledImage).pngData()
-                }
-            }
-        }
+        guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
         
-        return nil
+        qrFilter.setValue(data, forKey: "inputMessage")
+        qrFilter.setValue("H", forKey: "inputCorrectionLevel")
+        
+        guard let qrImage = qrFilter.outputImage else { return nil }
+        
+        let padding: CGFloat = 3
+        let extent = qrImage.extent.insetBy(dx: -padding, dy: -padding)
+        
+        let backgroundImage = CIImage(color: CIColor(color: backgroundColor))
+            .cropped(to: extent)
+        
+        let coloredQR = qrImage.applyingFilter("CIFalseColor", parameters: [
+            "inputColor0": CIColor(color: foregroundColor),
+            "inputColor1": CIColor(color: .clear)
+        ])
+        
+        let finalImage = coloredQR.composited(over: backgroundImage)
+        
+        let scale: CGFloat = 10
+        let scaledImage = finalImage.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+        
+        guard let cgImage = ciContext.createCGImage(scaledImage, from: scaledImage.extent) else { return nil }
+        
+        return UIImage(cgImage: cgImage).pngData()
     }
 }

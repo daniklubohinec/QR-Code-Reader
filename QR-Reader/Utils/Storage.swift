@@ -6,6 +6,7 @@ final public class Storage {
     static let shared = Storage(userDefaults: .standard, encoder: JSONEncoder(), decoder: JSONDecoder())
     
     // MARK: - Private properties
+    private let queue = DispatchQueue(label: String(describing: Storage.self), qos: .utility)
     private let userDefaults: UserDefaults
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
@@ -29,7 +30,7 @@ final public class Storage {
     
     /// Store value in user defaults for specific user. Returns the same value (convenience for Signal)
     public func store<T: Codable>(value: T, at key: String) {
-        DispatchQueue.global(qos: .utility).async { [weak self] in
+        queue.async { [weak self] in
             guard let self else { return }
             if let encoded = try? self.encoder.encode(value) {
                 self.userDefaults.set(encoded, forKey: key)
@@ -40,7 +41,7 @@ final public class Storage {
     
     /// Removes any value for specified key at specified scope
     public func remove(at key: String) {
-        DispatchQueue.global(qos: .utility).async { [weak self] in
+        queue.async { [weak self] in
             self?.userDefaults.set(nil, forKey: key)
         }
     }
@@ -52,7 +53,7 @@ final public class Storage {
     
     /// Returns an Observable for the specified key
     public func observable<T: Codable>(for key: String) -> Observable<T?> {
-        defer { let something: T? = stored(at: key) }
+        defer { let _: T? = stored(at: key) }
         return getSubject(for: key).asObservable()
     }
     

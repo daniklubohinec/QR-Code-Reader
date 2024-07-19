@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 
 struct QRDataProcessor {
+    private let queue = DispatchQueue(label: String(describing: QRDataProcessor.self))
     private let qrCodeType: QRCodeType
     var wifiModel: WifiQRModel?
     var textModel: TextQRModel?
@@ -69,7 +70,7 @@ struct QRDataProcessor {
         }()
         guard let name else { return }
         let item = HistoryItem(qrCodeType: updatedType, name: name, itemType: .created, date: Date())
-        DispatchQueue.global(qos: .background).async {
+        queue.async {
             var currentItems: [HistoryItem] = Storage.shared.stored(at: StorageKey.historyList.rawValue) ?? []
             currentItems.append(item)
             Storage.shared.store(value: currentItems, at: StorageKey.historyList.rawValue)
@@ -108,7 +109,7 @@ struct QRDataProcessor {
 
         let item = HistoryItem(id: item.id, qrCodeType: updatedType, name: name, itemType: .created, date: Date())
 
-        DispatchQueue.global(qos: .background).async {
+        queue.async {
             var currentItems: [HistoryItem] = Storage.shared.stored(at: StorageKey.historyList.rawValue) ?? []
             currentItems.removeAll(where: { $0.id == item.id })
             currentItems.append(item)
@@ -147,7 +148,7 @@ struct QRDataProcessor {
         guard let name else { return }
         let item = HistoryItem(qrCodeType: updatedType, name: name, itemType: .created, date: Date())
 
-        DispatchQueue.global(qos: .background).async {
+        queue.async {
             var currentItems: [HistoryItem] = Storage.shared.stored(at: StorageKey.historyList.rawValue) ?? []
             currentItems.append(item)
             Storage.shared.store(value: currentItems, at: StorageKey.historyList.rawValue)

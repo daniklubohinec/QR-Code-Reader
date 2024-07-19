@@ -1,9 +1,10 @@
 import UIKit
 
-final class MainTabBarController: UITabBarController {
+final class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewControllers()
+        delegate = self
     }
     
     private func setupViewControllers() {
@@ -21,5 +22,9 @@ final class MainTabBarController: UITabBarController {
         
         let historyViewModel = HistoryViewModel()
         historyVC.viewModel = historyViewModel
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        HapticGenerator.shared.generateImpact()
     }
 }

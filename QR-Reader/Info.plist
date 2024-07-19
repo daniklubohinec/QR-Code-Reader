@@ -39,5 +39,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>NSContactsUsageDescription</key>
+	<string>To generate QR code from your contacts.</string>
 </dict>
 </plist>

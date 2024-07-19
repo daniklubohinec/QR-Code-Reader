@@ -7,6 +7,8 @@ final class QRCodePreviewView: UIView {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15.0
+        imageView.startAnimating()
+        imageView.image = R.image.qrCodePlacholder()
         return imageView
     }()
     
@@ -101,11 +103,13 @@ final class QRCodePreviewView: UIView {
     
     @objc
     private func downloadTapped() {
+        HapticGenerator.shared.generateImpact()
         download?()
     }
     
     @objc
     private func shareTapped() {
+        HapticGenerator.shared.generateImpact()
         share?()
     }
     

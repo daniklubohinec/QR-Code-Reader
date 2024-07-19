@@ -3,7 +3,6 @@ import CoreImage
 import CoreTelephony
 import Photos
 import RxSwift
-import RxCocoa
 
 enum QRCodeType: Codable, Hashable, Equatable {
     case text(TextQRModel?)
@@ -159,10 +158,14 @@ final class QRCodeCreatorViewController: UIViewController {
 
             saveQRCodeToGallery(completion: { saved, error in
                 guard saved else {
-                    ToastViewController.showToast(with: error?.localizedDescription ?? "", with: "exclamationmark.circle")
+                    onMain {
+                        ToastViewController.showToast(with: error?.localizedDescription ?? "", with: "exclamationmark.circle")
+                    }
                     return
                 }
-                ToastViewController.showToast(with: "Saved to Gallery!", with: "checkmark")
+                onMain {
+                    ToastViewController.showToast(with: "Saved to Gallery!", with: "checkmark")
+                }
             })
         }
         view.share = { [weak self] in
@@ -229,6 +232,10 @@ final class QRCodeCreatorViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        super.loadView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -237,9 +244,7 @@ final class QRCodeCreatorViewController: UIViewController {
         setupKeyboardObservers()
         configureWithItem()
         bindModel()
-        if item == nil {
-            updateQRCode()
-        }
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
     }
     
     private func setupUI() {
@@ -284,10 +289,63 @@ final class QRCodeCreatorViewController: UIViewController {
             }
         }
         wifiTypeSegment.isUserInteractionEnabled = item == nil || editingItem
+        wifiTypeSegment.rx.selectedSegmentIndex
+            .changed
+            .subscribe(onNext: { _ in
+                HapticGenerator.shared.generateImpact()
+            })
+            .disposed(by: disposeBag)
+        setupTextFields()
+    }
+    
+    private func setupTextFields() {
+        for (index, textField) in inputTextFields.enumerated() {
+            textField.input.textField.returnKeyType = .done
+            textField.input.textField.tag = index
+            
+            let toolbar = UIToolbar()
+            toolbar.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44)
+
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let previousButton = UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(previousButtonTapped))
+            let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonTapped))
+            let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+            
+            if index == 0 {
+                toolbar.items = [flexSpace, nextButton, doneButton]
+            } else if index == inputTextFields.count - 1 {
+                toolbar.items = [previousButton, flexSpace, doneButton]
+            } else {
+                toolbar.items = [previousButton, flexSpace, nextButton, doneButton]
+            }
+            
+            textField.input.textField.inputAccessoryView = toolbar
+        }
+    }
+    
+    @objc private func previousButtonTapped() {
+        guard let currentTextField = self.view.findFirstResponder() as? UITextField,
+              let currentIndex = inputTextFields.firstIndex(where: { $0.input.textField === currentTextField }),
+              currentIndex > 0 else { return }
+        
+        inputTextFields[currentIndex - 1].input.textField.becomeFirstResponder()
+    }
+    
+    @objc private func nextButtonTapped() {
+        guard let currentTextField = self.view.findFirstResponder() as? UITextField,
+              let currentIndex = inputTextFields.firstIndex(where: { $0.input.textField === currentTextField }),
+              currentIndex < inputTextFields.count - 1 else { return }
+        
+        inputTextFields[currentIndex + 1].input.textField.becomeFirstResponder()
+    }
+    
+    @objc private func doneButtonTapped() {
+        view.endEditing(true)
     }
     
     @objc
     private func editCode() {
+        HapticGenerator.shared.generateImpact()
         let vc = QRCodeCreatorViewController(type: qrCodeType, item: item, editingItem: true)
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
@@ -299,6 +357,7 @@ final class QRCodeCreatorViewController: UIViewController {
             image: UIImage(systemName: "doc"),
             handler: { [weak self] _ in
                 guard let self, let item = self.item else { return }
+                HapticGenerator.shared.generateImpact()
                 qrDataProcessor.saveChanges(item: item)
                 navigationController?.popToRootViewController(animated: true)
             }
@@ -308,6 +367,7 @@ final class QRCodeCreatorViewController: UIViewController {
             image: UIImage(systemName: "doc.on.doc"),
             handler: { [weak self] _ in
                 guard let self, let item = self.item else { return }
+                HapticGenerator.shared.generateImpact()
                 qrDataProcessor.saveAsCopy(item: item)
                 navigationController?.popToRootViewController(animated: true)
             }
@@ -399,27 +459,59 @@ final class QRCodeCreatorViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    private var keyboardShowed = false
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             keyboardHeight = keyboardSize.height
-            scrollView.contentInset.bottom = keyboardHeight
-            scrollView.verticalScrollIndicatorInsets.bottom = keyboardHeight
-            
-            if let activeTextField = inputTextFields.first(where: { $0.input.textField.isFirstResponder })?.input {
-                scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
-            }
+            adjustScrollViewForKeyboard()
+            keyboardShowed = true
         }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        scrollView.contentInset.bottom = 0
-        scrollView.verticalScrollIndicatorInsets.bottom = 0
+        keyboardHeight = 0
+        adjustScrollViewForKeyboard()
+        keyboardShowed = false
     }
     
     private func setupActions() {
-        inputTextFields.forEach { $0.input.textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged) }
+        let editingChanged = Observable.merge(inputTextFields.map {
+            $0.input.textField.rx.controlEvent([.editingChanged]).map { _ in }
+        })
+        
+        let editingDidBegin = Observable.merge(inputTextFields.map {
+            $0.input.textField.rx.controlEvent([.editingDidBegin]).map { _ in }
+        })
+        
+        editingChanged
+            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] in
+                self?.textFieldDidChange()
+            })
+            .disposed(by: disposeBag)
+        
+        editingDidBegin
+            .subscribe(onNext: { [weak self] in
+                HapticGenerator.shared.generateImpact()
+                guard let self, keyboardShowed else { return }
+                adjustScrollViewForKeyboard()
+            })
+            .disposed(by: disposeBag)
     }
-    
+
+    private func adjustScrollViewForKeyboard() {
+        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        if let activeField = inputTextFields.first(where: { $0.input.textField.isFirstResponder })?.input {
+            let activeFieldFrame = activeField.convert(activeField.bounds, to: scrollView)
+            let desiredYOffset = activeFieldFrame.maxY + contentInsets.bottom - scrollView.frame.height
+            
+            scrollView.setContentOffset(CGPoint(x: 0, y: max(desiredYOffset, 0)), animated: true)
+        }
+    }
+
     @objc private func textFieldDidChange() {
         updateQRCode()
     }
@@ -428,10 +520,16 @@ final class QRCodeCreatorViewController: UIViewController {
         updateQRCode()
     }
     
+    private let queue = DispatchQueue(label: String(describing: QRCodeCreatorViewController.self))
     private func updateQRCode() {
         let content = generateContent()
-        if let qrCodeData = QRGenerator.generateQRCode(from: content, backgroundColor: selectedBackgroundColor ?? .white, foregroundColor: selectedForegroundColor ?? .black), let image = UIImage(data: qrCodeData) {
-            qrCodePreview.setQRImage(image)
+        queue.async { [weak self] in
+            guard let self else { return }
+            if let qrCodeData = QRGenerator.shared.generateQRCode(from: content, backgroundColor: selectedBackgroundColor ?? .white, foregroundColor: selectedForegroundColor ?? .black), let image = UIImage(data: qrCodeData) {
+                onMain { [weak self] in
+                    self?.qrCodePreview.setQRImage(image)
+                }
+            }
         }
     }
     
@@ -463,14 +561,19 @@ final class QRCodeCreatorViewController: UIViewController {
     }
     
     private func configureWithItem() {
-        guard let item else { return }
-        item.qrCodeType.inputFields.forEach { field in
+        let qrCodeType: QRCodeType = {
+            if let item {
+                return item.qrCodeType
+            }
+            return self.qrCodeType
+        }()
+        qrCodeType.inputFields.forEach { field in
             inputTextFields.first(where: { $0.field == field.fieldType })?.input.setText(field.value)
         }
-        if let qrImage = UIImage(data: item.qrImageData) {
+        if let item, let qrImage = UIImage(data: item.qrImageData) {
             qrCodePreview.setQRImage(qrImage)
         }
-        if item.qrCodeType.isWifi, let wifiType = item.qrCodeType.wifiType {
+        if let item, item.qrCodeType.isWifi, let wifiType = item.qrCodeType.wifiType {
             wifiTypeSegment.selectedSegmentIndex = WifiQRModel.WifiType.allCases.firstIndex(of: wifiType) ?? 0
         }
         switch qrCodeType {
@@ -534,83 +637,34 @@ final class QRCodeCreatorViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        inputTextFields.forEach { item in
-            switch item.field {
-            case .text:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.textModel?.text = text
-                    })
-                    .disposed(by: disposeBag)
-            case .networkName:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.wifiModel?.name = text
-                    })
-                    .disposed(by: disposeBag)
-
-            case .networkPassword:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.wifiModel?.password = text
-                    })
-                    .disposed(by: disposeBag)
-            case .url:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.urlModel?.url = text
-                    })
-                    .disposed(by: disposeBag)
-            case .contactName:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.contactModel?.name = text
-                    })
-                    .disposed(by: disposeBag)
-            case .contactNumber:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.contactModel?.phone = text
-                    })
-                    .disposed(by: disposeBag)
-            case .contactMail:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.contactModel?.mail = text
-                    })
-                    .disposed(by: disposeBag)
-            case .contactURL:
-                item.input.textField
-                    .rx
-                    .text
-                    .subscribe(onNext: { [weak self] text in
-                        guard let text else { return }
-                        self?.qrDataProcessor.contactModel?.url = text
-                    })
-                    .disposed(by: disposeBag)
-            }
-        }
+        let allTextFields = Observable.merge(inputTextFields.map { item in
+            item.input.textField.rx.text.map { (item.field, $0 ?? "") }
+        })
+        
+        allTextFields
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] field, text in
+                guard let self else { return }
+                switch field {
+                case .text:
+                    qrDataProcessor.textModel?.text = text
+                case .networkName:
+                    qrDataProcessor.wifiModel?.name = text
+                case .networkPassword:
+                    qrDataProcessor.wifiModel?.password = text
+                case .url:
+                    qrDataProcessor.urlModel?.url = text
+                case .contactName:
+                    qrDataProcessor.contactModel?.name = text
+                case .contactNumber:
+                    qrDataProcessor.contactModel?.phone = text
+                case .contactMail:
+                    qrDataProcessor.contactModel?.mail = text
+                case .contactURL:
+                    qrDataProcessor.contactModel?.url = text
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -643,5 +697,18 @@ extension QRCodeCreatorViewController {
                 completion(false, NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Access to photo library is not authorized."]))
             }
         }
+    }
+}
+extension UIView {
+    func findFirstResponder() -> UIView? {
+        if isFirstResponder {
+            return self
+        }
+        for subview in subviews {
+            if let firstResponder = subview.findFirstResponder() {
+                return firstResponder
+            }
+        }
+        return nil
     }
 }
