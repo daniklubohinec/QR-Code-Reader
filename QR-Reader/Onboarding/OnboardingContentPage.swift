@@ -1,6 +1,6 @@
 import UIKit
 
-enum OnboardingPage: CaseIterable {
+enum OnboardingPage: Int, CaseIterable {
     case reader
     case compatibility
     case create
@@ -40,7 +40,7 @@ enum OnboardingPage: CaseIterable {
         case .create:
             return "Easily generate and share your custom QR codes with friends."
         case .buy:
-            return ""
+            return "Enjoy unlimited QR code scanning and generating with a 3-day free trial, then $6.99 per week."
         }
     }
     var showPriceOptions: Bool {

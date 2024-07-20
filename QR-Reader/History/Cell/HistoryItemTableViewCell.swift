@@ -126,23 +126,12 @@ final class HistoryItemTableViewCell: UITableViewCell {
         self.item = item
         nameLabel.text = item.name
         typeLabel.text = "QR"
-        typeNameLabel.text = item.qrCodeType.name
+        typeNameLabel.text = item.typeName
         
-        if let image = UIImage(data: item.qrImageData) {
+        if let image = UIImage(data: item.qrCodeImageData) {
             qrImageView.image = image
         } else {
             qrImageView.image = UIImage(systemName: "qrcode")
-        }
-        
-        switch item.qrCodeType {
-        case .contact:
-            qrImageView.backgroundColor = .systemBlue
-        case .url:
-            qrImageView.backgroundColor = .systemGreen
-        case .wifi:
-            qrImageView.backgroundColor = .systemOrange
-        case .text:
-            qrImageView.backgroundColor = .systemPink
         }
     }
 }

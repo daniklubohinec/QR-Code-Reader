@@ -11,5 +11,8 @@ target 'QR-Reader' do
   pod 'RxDataSources'
   pod 'R.swift'
   pod 'SnapKit', '~> 5.7.0'
+  pod 'PhoneNumberKit'
+  pod 'IQKeyboardManagerSwift'
+  pod 'Adapty', '~> 2.10.4'
 
 end

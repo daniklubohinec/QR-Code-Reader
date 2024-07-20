@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import RxSwift
 
 final class QRCodePreviewView: UIView {
     private let qrImageView: UIImageView = {
@@ -118,3 +119,96 @@ final class QRCodePreviewView: UIView {
     }
 }
 
+final class QRCodePreviewCell: UICollectionViewCell {
+    static let reuseIdentifier = "QRCodePreviewCell"
+    
+    private let qrCodePreview: QRCodePreviewView = {
+        let view = QRCodePreviewView()
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 15
+        return view
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        contentView.addSubview(qrCodePreview)
+        qrCodePreview.snp.makeConstraints { make in
+            make.height.equalTo(147)
+            make.edges.equalToSuperview()
+        }
+
+    }
+    
+    func configure(with image: UIImage?, download: @escaping (() -> Void), share: @escaping (() -> Void)) {
+        qrCodePreview.download = {
+            download()
+        }
+        qrCodePreview.share = {
+            share()
+        }
+        guard let image else { return }
+        qrCodePreview.setQRImage(image)
+    }
+    
+    func updateImage(_ image: UIImage) {
+        qrCodePreview.setQRImage(image)
+    }
+}
+
+
+final class QRCodeWifiTypeCell: UICollectionViewCell {
+    static let reuseIdentifier = "QRCodeWifiTypeCell"
+    
+    private lazy var wifiTypeSegment: UISegmentedControl = {
+        let items: [String] = {
+            return WifiType.allCases.compactMap { item in
+                return item.rawValue
+            }
+        }()
+        let control = UISegmentedControl(items: items)
+        control.selectedSegmentIndex = 0
+        return control
+    }()
+    private let disposeBag: DisposeBag = DisposeBag()
+    private var onChanged: ((Int) -> Void)?
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        contentView.addSubview(wifiTypeSegment)
+        wifiTypeSegment.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(20)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        wifiTypeSegment.rx
+            .selectedSegmentIndex
+            .subscribe(onNext: { [weak self] value in
+                self?.onChanged?(value)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func configure(selected: String, onChanged: @escaping ((Int) -> Void)) {
+        self.onChanged = onChanged
+        
+        if let index = WifiType.allCases.firstIndex(where: { $0.rawValue == selected }) {
+            wifiTypeSegment.selectedSegmentIndex = index
+        }
+    }
+}

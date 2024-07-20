@@ -8,7 +8,7 @@ enum StorageKey: String {
 
 final class HistoryViewModel {
     private let queue = DispatchQueue(label: String(describing: HistoryViewModel.self))
-    var historyListRelay: BehaviorRelay<HistoryList> = .init(value: .empty)
+    var historyListRelay: BehaviorRelay<HistoryList> = .init(value: .init(scanned: .init(entries: []), created: .init(entries: [])))
     let selectedSegmentIndex = BehaviorRelay<Int>(value: 0)
     private let disposeBag = DisposeBag()
     
@@ -19,15 +19,9 @@ final class HistoryViewModel {
             }
     }
 
-    init(useMocks: Bool = false) {
-        if useMocks {
-            let mocks = HistoryViewModel.generateMockData()
-            Storage.shared.store(value: mocks, at: StorageKey.historyList.rawValue)
-            processLoadedItems(mocks)
-        } else {
-            queue.async { [weak self] in
-                self?.loadData()
-            }
+    init() {
+        queue.async { [weak self] in
+            self?.loadData()
         }
     }
     
@@ -35,8 +29,7 @@ final class HistoryViewModel {
         Storage.shared.observable(for: StorageKey.historyList.rawValue)
             .subscribe(onNext: { [weak self] (items: [HistoryItem]?) in
                 guard let items = items else { return }
-                let set = Set<HistoryItem>(items)
-                self?.processLoadedItems(Array(set))
+                self?.processLoadedItems(items)
             })
             .disposed(by: disposeBag)
     }
@@ -84,27 +77,5 @@ final class HistoryViewModel {
             Storage.shared.store(value: items, at: StorageKey.historyList.rawValue)
             processLoadedItems(items)
         }
-    }
-}
-
-extension HistoryViewModel {
-    static func generateMockData() -> [HistoryItem] {
-        let currentDate = Date()
-        let calendar = Calendar.current
-        
-        let mockItems: [HistoryItem] = [
-            HistoryItem(id: UUID(), qrCodeType: .contact(ContactQRModel(name: "John Doe", phone: "123456789", mail: "john.doe@example.com", url: "https://example.com", backgroundHexColor: nil, foregroundHexColor: nil)), name: "John Doe", itemType: .scanned, date: calendar.date(byAdding: .day, value: -1, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .url(URLQRModel(url: "https://www.example.com", backgroundHexColor: nil, foregroundHexColor: nil)), name: "https://www.example.com", itemType: .created, date: calendar.date(byAdding: .day, value: -1, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .wifi(WifiQRModel(type: .wep, name: "Home WiFi", password: "password123", backgroundHexColor: nil, foregroundHexColor: nil)), name: "Home WiFi", itemType: .scanned, date: calendar.date(byAdding: .day, value: -2, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .text(TextQRModel(text: "Remember to buy milk", backgroundHexColor: "#007AFF", foregroundHexColor: "#0F0E13")), name: "Remember to buy milk", itemType: .created, date: calendar.date(byAdding: .day, value: -2, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .contact(ContactQRModel(name: "Jane Smith", phone: "987654321", mail: "jane.smith@example.com", url: "https://example.com", backgroundHexColor: nil, foregroundHexColor: nil)), name: "Jane Smith", itemType: .scanned, date: calendar.date(byAdding: .day, value: -3, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .url(URLQRModel(url: "https://www.github.com", backgroundHexColor: nil, foregroundHexColor: nil)), name: "https://www.github.com", itemType: .created, date: calendar.date(byAdding: .day, value: -4, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .wifi(WifiQRModel(type: .wpa, name: "Office WiFi", password: "officepassword", backgroundHexColor: nil, foregroundHexColor: nil)), name: "Office WiFi", itemType: .scanned, date: calendar.date(byAdding: .day, value: -5, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .text(TextQRModel(text: "Meeting at 3 PM", backgroundHexColor: "#FFCC00", foregroundHexColor: "#FF3B30")), name: "Meeting at 3 PM", itemType: .created, date: calendar.date(byAdding: .day, value: -5, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .contact(ContactQRModel(name: "Alice Johnson", phone: "555666777", mail: "alice.johnson@example.com", url: "https://example.com", backgroundHexColor: nil, foregroundHexColor: nil)), name: "Alice Johnson", itemType: .scanned, date: calendar.date(byAdding: .day, value: -6, to: currentDate)!),
-            HistoryItem(id: UUID(), qrCodeType: .url(URLQRModel(url: "https://www.apple.com", backgroundHexColor: nil, foregroundHexColor: nil)), name: "https://www.apple.com", itemType: .created, date: calendar.date(byAdding: .day, value: -7, to: currentDate)!)
-        ]
-        
-        return mockItems
     }
 }

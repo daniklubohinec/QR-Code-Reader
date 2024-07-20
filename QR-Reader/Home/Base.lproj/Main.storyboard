@@ -711,6 +711,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="rateUs" destination="MKe-a0-yQM" eventType="touchUpInside" id="Of0-3M-RbM"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -764,6 +767,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="shareApp" destination="MKe-a0-yQM" eventType="touchUpOutside" id="JxU-9J-Vbd"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -811,6 +817,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="contactUs" destination="MKe-a0-yQM" eventType="touchUpInside" id="bEZ-5U-uVf"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -876,6 +885,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="restoreTapped" destination="MKe-a0-yQM" eventType="touchUpInside" id="DdW-3J-HGg"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -929,6 +941,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="privacyTapped" destination="MKe-a0-yQM" eventType="touchUpInside" id="1Q1-pi-aKR"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -976,6 +991,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="termsOfUseTapped" destination="MKe-a0-yQM" eventType="touchUpOutside" id="Pt5-k2-4TE"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

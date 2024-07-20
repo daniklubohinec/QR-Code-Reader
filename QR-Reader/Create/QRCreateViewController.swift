@@ -1,230 +1,53 @@
 import UIKit
 import CoreImage
-import CoreTelephony
 import Photos
 import RxSwift
 
-enum QRCodeType: Codable, Hashable, Equatable {
-    case text(TextQRModel?)
-    case wifi(WifiQRModel?)
-    case url(URLQRModel?)
-    case contact(ContactQRModel?)
-    
-    var name: String {
-        switch self {
-        case .text:
-            return "Text"
-        case .wifi:
-            return "WiFi"
-        case .url:
-            return "URL"
-        case .contact:
-            return "Contact"
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .text: return "Create Text"
-        case .wifi: return "Create WiFi"
-        case .url: return "Create URL"
-        case .contact: return "Create Contact"
-        }
-    }
-    var isWifi: Bool {
-        switch self {
-        case .wifi:
-            return true
-        default:
-            return false
-        }
-    }
-    var wifiType: WifiQRModel.WifiType? {
-        switch self {
-        case .wifi(let model):
-            return model?.type
-        default:
-            return nil
-        }
-    }
-    
-    var inputFields: [Field] {
-        switch self {
-        case .text(let model): 
-            return [
-                Field(
-                    fieldType: .text,
-                    title: "Text",
-                    placeholder: "Enter text",
-                    value: model?.text
-                )
-            ]
-        case .wifi(let model): return [
-            Field(
-                fieldType: .networkName,
-                title: "WiFi Name",
-                placeholder: "Enter network name",
-                value: model?.name
-            ),
-            Field(
-                fieldType: .networkPassword,
-                title: "Password",
-                placeholder: "Enter password",
-                value: model?.password
-            )
-        ]
-        case .url(let model):
-            return [
-                Field(
-                    fieldType: .url,
-                    title: "URL",
-                    placeholder: "Enter link",
-                    value: model?.url
-                )
-            ]
-        case .contact(let model):
-            return [
-                Field(
-                    fieldType: .contactName,
-                    title: "Contact Name",
-                    placeholder: "Enter contact name",
-                    value: model?.name
-                ),
-                Field(
-                    fieldType: .contactNumber,
-                    title: "Phone Number",
-                    placeholder: "Enter phone number",
-                    value: model?.phone
-                ),
-                Field(
-                    fieldType: .contactMail,
-                    title: "Mail",
-                    placeholder: "Enter contact mail",
-                    value: model?.mail
-                ),
-                Field(
-                    fieldType: .contactURL,
-                    title: "URL",
-                    placeholder: "Enter contact URL",
-                    value: model?.url
-                )
-            ]
-        }
-    }
-    
-    static func ==(lhs: QRCodeType, rhs: QRCodeType) -> Bool {
-        switch lhs {
-        case .wifi(let lhsValue):
-            if case .wifi(let rhsValue) = rhs {
-                return lhsValue == rhsValue
-            }
-            return false
-        case .url(let lhsValue):
-            if case .url(let rhsValue) = rhs {
-                return lhsValue == rhsValue
-            }
-            return false
-        case .text(let lhsValue):
-            if case .text(let rhsValue) = rhs {
-                return lhsValue == rhsValue
-            }
-            return false
-
-        case .contact(let lhsValue):
-            if case .contact(let rhsValue) = rhs {
-                return lhsValue == rhsValue
-            }
-            return false
-        }
-    }
-}
-
 final class QRCodeCreatorViewController: UIViewController {
-    struct InputItem {
-        let field: Field.FieldType
-        let input: InputFieldView
+    private enum Section: Int, CaseIterable {
+        case preview, wifiType, data, colors
     }
-    private let qrCodeType: QRCodeType
+    enum State {
+        case preview
+        case editing
+        case creating
+    }
     
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
-    private lazy var qrCodePreview: QRCodePreviewView = {
-        let view = QRCodePreviewView()
-        view.download = { [weak self] in
-            guard let self else { return }
-            if self.item == nil {
-                qrDataProcessor.save()
-            }
-
-            saveQRCodeToGallery(completion: { saved, error in
-                guard saved else {
-                    onMain {
-                        ToastViewController.showToast(with: error?.localizedDescription ?? "", with: "exclamationmark.circle")
-                    }
-                    return
-                }
-                onMain {
-                    ToastViewController.showToast(with: "Saved to Gallery!", with: "checkmark")
-                }
-            })
-        }
-        view.share = { [weak self] in
-            guard let self else { return }
-            
-            if self.item == nil {
-                qrDataProcessor.save()
-            }
-            shareQRCode()
-        }
-        return view
+    private var qrCodeData: QRCodeData
+    private var qrCodeImage: UIImage?
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = createLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = R.color.cF1F1F1()
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(QRCodePreviewCell.self, forCellWithReuseIdentifier: QRCodePreviewCell.reuseIdentifier)
+        collectionView.register(QRCodeWifiTypeCell.self, forCellWithReuseIdentifier: QRCodeWifiTypeCell.reuseIdentifier)
+        collectionView.register(InputFieldCell.self, forCellWithReuseIdentifier: InputFieldCell.reuseIdentifier)
+        collectionView.register(ColorPickerCell.self, forCellWithReuseIdentifier: ColorPickerCell.reuseIdentifier)
+        return collectionView
     }()
-    private lazy var wifiTypeSegment: UISegmentedControl = {
-        let items: [String] = {
-            return WifiQRModel.WifiType.allCases.compactMap { item in
-                if item == .free {
-                    return "FREE"
-                }
-                return item.rawValue
-            }
-        }()
-        let control = UISegmentedControl(items: items)
-        control.selectedSegmentIndex = 0
-        return control
-    }()
-    private var inputTextFields: [InputItem] = []
-    private lazy var colorPickerBackground: ColorPickerView = {
-        let view = ColorPickerView(title: "Background color")
-        view.setOnColorSelected(completion: { [weak self] selectedColor in
-            self?.selectedBackgroundColor = selectedColor
-            self?.qrDataProcessor.backgroundColor = selectedColor
-            self?.updateQRCode()
-        })
-        return view
-    }()
-    private lazy var colorPickerForeground: ColorPickerView = {
-        let view = ColorPickerView(title: "Body color")
-        view.setOnColorSelected(completion: { [weak self] selectedColor in
-            self?.selectedForegroundColor = selectedColor
-            self?.qrDataProcessor.foregroundColor = selectedColor
-            self?.updateQRCode()
-        })
-        return view
+    private lazy var qrCodeProcessor: QRDataProcessor = {
+        return QRDataProcessor()
     }()
     private var selectedBackgroundColor: UIColor?
     private var selectedForegroundColor: UIColor?
     
-    private var keyboardHeight: CGFloat = 0
+    private let disposeBag = DisposeBag()
+    private var appeared = false
+    private let state: State
     private let item: HistoryItem?
-    private let editingItem: Bool
-    private lazy var qrDataProcessor: QRDataProcessor = {
-        return QRDataProcessor(from: item?.qrCodeType ?? qrCodeType)
-    }()
     
-    init(type: QRCodeType, item: HistoryItem?, editingItem: Bool = false) {
-        self.qrCodeType = type
+    init(type: QRCodeData.QRCodeType, data: QRCodeData? = nil, item: HistoryItem? = nil, state: State) {
+        self.state = state
+        if let item = item, let qrCodedata = item.qrCodeData {
+            self.qrCodeData = qrCodedata
+        } else {
+            let data = data?.data ?? [:]
+            self.qrCodeData = QRCodeData(type: type, data: data, backgroundHexColor: "#FFFFFF", foregroundHexColor: "#000000")
+        }
         self.item = item
-        self.editingItem = editingItem
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -232,121 +55,94 @@ final class QRCodeCreatorViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func loadView() {
-        super.loadView()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupConstraints()
-        setupActions()
-        setupKeyboardObservers()
-        configureWithItem()
-        bindModel()
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+        if state == .preview || state == .editing {
+            updateQRCode()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        appeared = true
     }
     
     private func setupUI() {
         view.backgroundColor = R.color.cF1F1F1()
-        title = qrCodeType.title
-        if item != nil, !editingItem {
-            title = qrCodeType.name
-        } else if item != nil, editingItem {
-            title = "Edit"
-        }
+        navigationItem.title = qrCodeData.type.createTitle
         navigationItem.largeTitleDisplayMode = .never
-        
-        // Добавляем scrollView в иерархию view
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        
-        contentView.addSubview(qrCodePreview)
-        if (item?.qrCodeType.isWifi ?? false) || qrCodeType.isWifi {
-            contentView.addSubview(wifiTypeSegment)
-        }
-        if item == nil || editingItem {
-            contentView.addSubview(colorPickerBackground)
-            contentView.addSubview(colorPickerForeground)
+        switch state {
+        case .preview:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editCode))
+        case .editing:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", menu: createMenu())
+        case .creating:
+            break
         }
         
-        // Создаем текстовые поля
-        for field in qrCodeType.inputFields {
-            let textField = InputFieldView(field: field)
-            textField.isUserInteractionEnabled = item == nil || editingItem
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            let section = Section(rawValue: sectionIndex)!
             
-            inputTextFields.append(InputItem(field: field.fieldType, input: textField))
-            contentView.addSubview(textField)
-        }
-        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        contentView.addGestureRecognizer(tap)
-        
-        if item != nil {
-            if editingItem {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", menu: createMenu())
-            } else {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editCode))
+            switch section {
+            case .preview:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(147))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(157))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 0)
+                return section
+            case .wifiType:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(52))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(52))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 8
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+                return section
+            case .data:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(76))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(76))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 8
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+                return section
+            case .colors:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(76))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(76))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 8
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+                return section
             }
         }
-        wifiTypeSegment.isUserInteractionEnabled = item == nil || editingItem
-        wifiTypeSegment.rx.selectedSegmentIndex
-            .changed
-            .subscribe(onNext: { _ in
-                HapticGenerator.shared.generateImpact()
-            })
-            .disposed(by: disposeBag)
-        setupTextFields()
+        return layout
     }
     
-    private func setupTextFields() {
-        for (index, textField) in inputTextFields.enumerated() {
-            textField.input.textField.returnKeyType = .done
-            textField.input.textField.tag = index
-            
-            let toolbar = UIToolbar()
-            toolbar.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 44)
-
-            let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-            let previousButton = UIBarButtonItem(title: "Previous", style: .plain, target: self, action: #selector(previousButtonTapped))
-            let nextButton = UIBarButtonItem(title: "Next", style: .plain, target: self, action: #selector(nextButtonTapped))
-            let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
-            
-            if index == 0 {
-                toolbar.items = [flexSpace, nextButton, doneButton]
-            } else if index == inputTextFields.count - 1 {
-                toolbar.items = [previousButton, flexSpace, doneButton]
-            } else {
-                toolbar.items = [previousButton, flexSpace, nextButton, doneButton]
-            }
-            
-            textField.input.textField.inputAccessoryView = toolbar
+    private func updateCollectionViewLayout() {
+        UIView.animate(withDuration: 0.3) {
+            self.collectionView.collectionViewLayout.invalidateLayout()
+            self.collectionView.layoutIfNeeded()
         }
-    }
-    
-    @objc private func previousButtonTapped() {
-        guard let currentTextField = self.view.findFirstResponder() as? UITextField,
-              let currentIndex = inputTextFields.firstIndex(where: { $0.input.textField === currentTextField }),
-              currentIndex > 0 else { return }
-        
-        inputTextFields[currentIndex - 1].input.textField.becomeFirstResponder()
-    }
-    
-    @objc private func nextButtonTapped() {
-        guard let currentTextField = self.view.findFirstResponder() as? UITextField,
-              let currentIndex = inputTextFields.firstIndex(where: { $0.input.textField === currentTextField }),
-              currentIndex < inputTextFields.count - 1 else { return }
-        
-        inputTextFields[currentIndex + 1].input.textField.becomeFirstResponder()
-    }
-    
-    @objc private func doneButtonTapped() {
-        view.endEditing(true)
     }
     
     @objc
     private func editCode() {
         HapticGenerator.shared.generateImpact()
-        let vc = QRCodeCreatorViewController(type: qrCodeType, item: item, editingItem: true)
+        let vc = QRCodeCreatorViewController(type: qrCodeData.type, data: nil, item: item, state: .editing)
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -358,7 +154,7 @@ final class QRCodeCreatorViewController: UIViewController {
             handler: { [weak self] _ in
                 guard let self, let item = self.item else { return }
                 HapticGenerator.shared.generateImpact()
-                qrDataProcessor.saveChanges(item: item)
+                qrCodeProcessor.saveChanges(item: item, modifiedData: qrCodeData)
                 navigationController?.popToRootViewController(animated: true)
             }
         )
@@ -368,186 +164,57 @@ final class QRCodeCreatorViewController: UIViewController {
             handler: { [weak self] _ in
                 guard let self, let item = self.item else { return }
                 HapticGenerator.shared.generateImpact()
-                qrDataProcessor.saveAsCopy(item: item)
+                qrCodeProcessor.saveAsCopy(item: item, modifiedData: qrCodeData)
                 navigationController?.popToRootViewController(animated: true)
             }
         )
         return UIMenu(children: [saveChanges, saveAsNew])
     }
     
-    private func setupConstraints() {
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide).inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-        }
-        
-        contentView.snp.makeConstraints { make in
-            make.edges.equalTo(scrollView)
-            make.width.equalTo(scrollView)
-        }
-        
-        qrCodePreview.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(16)
-            make.leadingMargin.equalToSuperview().offset(16)
-            make.trailingMargin.equalToSuperview().offset(-16)
-            make.height.equalTo(147)
-        }
-        var lastView: UIView = qrCodePreview
-
-        if wifiTypeSegment.superview != nil {
-            wifiTypeSegment.snp.makeConstraints { make in
-                make.top.equalTo(lastView.snp.bottom).offset(20)
-                make.leading.equalTo(contentView).offset(16)
-                make.trailing.equalTo(contentView).offset(-16)
-            }
-            lastView = wifiTypeSegment
-        }
-        
-        
-        for (index, item) in inputTextFields.enumerated() {
-            let textField = item.input
-            contentView.addSubview(textField)
-            var topOffset = lastView is InputFieldView ? 8 : 20
-            if lastView === wifiTypeSegment {
-                topOffset = 15
-            }
-            
-            textField.snp.makeConstraints { make in
-                make.top.equalTo(lastView.snp.bottom).offset(topOffset)
-                make.leading.equalTo(contentView).offset(16)
-                make.trailing.equalTo(contentView).offset(-16)
-                
-                if case .text = qrCodeType, index == 0 {
-                    make.height.lessThanOrEqualTo(200)
-                } else {
-                    make.height.equalTo(76)
-                }
-            }
-            
-            lastView = textField
-        }
-        if colorPickerBackground.superview != nil {
-            colorPickerBackground.snp.makeConstraints { make in
-                make.top.equalTo(lastView.snp.bottom).offset(20)
-                make.leading.equalTo(contentView).offset(16)
-                make.trailing.equalTo(contentView).offset(-16)
-            }
-            lastView = colorPickerBackground
-        }
-        if colorPickerForeground.superview != nil {
-            colorPickerForeground.snp.makeConstraints { make in
-                make.top.equalTo(lastView.snp.bottom).offset(20)
-                make.leading.equalTo(contentView).offset(16)
-                make.trailing.equalTo(contentView).offset(-16)
-            }
-            contentView.snp.makeConstraints { make in
-                make.bottom.equalTo(colorPickerForeground.snp.bottom).offset(20)
-            }
-        } else {
-            contentView.snp.makeConstraints { make in
-                make.bottom.equalTo(lastView.snp.bottom).offset(20)
-            }
-        }
-    }
-    
-    @objc
-    private func hideKeyboard() {
-        view.endEditing(true)
-    }
-    
-    private func setupKeyboardObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    private var keyboardShowed = false
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            keyboardHeight = keyboardSize.height
-            adjustScrollViewForKeyboard()
-            keyboardShowed = true
-        }
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        keyboardHeight = 0
-        adjustScrollViewForKeyboard()
-        keyboardShowed = false
-    }
-    
-    private func setupActions() {
-        let editingChanged = Observable.merge(inputTextFields.map {
-            $0.input.textField.rx.controlEvent([.editingChanged]).map { _ in }
-        })
-        
-        let editingDidBegin = Observable.merge(inputTextFields.map {
-            $0.input.textField.rx.controlEvent([.editingDidBegin]).map { _ in }
-        })
-        
-        editingChanged
-            .debounce(.milliseconds(500), scheduler: MainScheduler.asyncInstance)
-            .subscribe(onNext: { [weak self] in
-                self?.textFieldDidChange()
-            })
-            .disposed(by: disposeBag)
-        
-        editingDidBegin
-            .subscribe(onNext: { [weak self] in
-                HapticGenerator.shared.generateImpact()
-                guard let self, keyboardShowed else { return }
-                adjustScrollViewForKeyboard()
-            })
-            .disposed(by: disposeBag)
-    }
-
-    private func adjustScrollViewForKeyboard() {
-        let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-        
-        if let activeField = inputTextFields.first(where: { $0.input.textField.isFirstResponder })?.input {
-            let activeFieldFrame = activeField.convert(activeField.bounds, to: scrollView)
-            let desiredYOffset = activeFieldFrame.maxY + contentInsets.bottom - scrollView.frame.height
-            
-            scrollView.setContentOffset(CGPoint(x: 0, y: max(desiredYOffset, 0)), animated: true)
-        }
-    }
-
-    @objc private func textFieldDidChange() {
-        updateQRCode()
-    }
-    
-    @objc private func colorChanged() {
-        updateQRCode()
-    }
-    
-    private let queue = DispatchQueue(label: String(describing: QRCodeCreatorViewController.self))
-    private func updateQRCode() {
+    private func updateQRCode(initial: Bool = false) {
+        guard appeared || state == .preview || state == .editing else { return }
         let content = generateContent()
-        queue.async { [weak self] in
-            guard let self else { return }
-            if let qrCodeData = QRGenerator.shared.generateQRCode(from: content, backgroundColor: selectedBackgroundColor ?? .white, foregroundColor: selectedForegroundColor ?? .black), let image = UIImage(data: qrCodeData) {
-                onMain { [weak self] in
-                    self?.qrCodePreview.setQRImage(image)
-                }
+        let backgroundColor: UIColor = {
+            if let hex = qrCodeData.backgroundHexColor {
+                return UIColor.colorWithHexString(hexString: hex)
+            }
+            return selectedBackgroundColor ?? .white
+        }()
+        let foregroundColor: UIColor = {
+            if let hex = qrCodeData.foregroundHexColor {
+                return UIColor.colorWithHexString(hexString: hex)
+            }
+            return selectedForegroundColor ?? .black
+        }()
+        if let qrCodeData = QRGenerator.shared.generateQRCode(
+            from: content,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor
+        ),
+           let image = UIImage(data: qrCodeData) {
+            qrCodeImage = image
+            if !initial {
+                (collectionView.cellForItem(at: IndexPath(row: 0, section: Section.preview.rawValue)) as? QRCodePreviewCell)?.updateImage(image)
             }
         }
     }
     
     private func generateContent() -> String {
-        switch qrCodeType {
+        switch qrCodeData.type {
         case .text:
-            return inputTextFields.first(where: { $0.field == .text })?.input.text ?? ""
+            return qrCodeData.data["text"] ?? ""
         case .wifi:
-            let ssid = inputTextFields.first(where: { $0.field == .networkName })?.input.text ?? ""
-            let password = inputTextFields.first(where: { $0.field == .networkPassword })?.input.text ?? ""
-            return "WIFI:T:WPA;S:\(ssid);P:\(password);;"
+            let ssid = qrCodeData.data["name"] ?? ""
+            let password = qrCodeData.data["password"] ?? ""
+            let type = qrCodeData.data["type"] ?? "WPA"
+            return "WIFI:T:\(type);S:\(ssid);P:\(password);;"
         case .url:
-            return inputTextFields.first(where: { $0.field == .url })?.input.text ?? ""
+            return qrCodeData.data["url"] ?? ""
         case .contact:
-            let name = inputTextFields.first(where: { $0.field == .contactName })?.input.text ?? ""
-            let phone = inputTextFields.first(where: { $0.field == .contactNumber })?.input.text ?? ""
-            let email = inputTextFields.first(where: { $0.field == .contactMail })?.input.text ?? ""
-            let url = inputTextFields.first(where: { $0.field == .contactURL })?.input.text ?? ""
+            let name = qrCodeData.data["name"] ?? ""
+            let phone = qrCodeData.data["phone"] ?? ""
+            let email = qrCodeData.data["email"] ?? ""
+            let url = qrCodeData.data["url"] ?? ""
             return """
             BEGIN:VCARD
             VERSION:3.0
@@ -559,156 +226,142 @@ final class QRCodeCreatorViewController: UIViewController {
             """
         }
     }
-    
-    private func configureWithItem() {
-        let qrCodeType: QRCodeType = {
-            if let item {
-                return item.qrCodeType
-            }
-            return self.qrCodeType
-        }()
-        qrCodeType.inputFields.forEach { field in
-            inputTextFields.first(where: { $0.field == field.fieldType })?.input.setText(field.value)
-        }
-        if let item, let qrImage = UIImage(data: item.qrImageData) {
-            qrCodePreview.setQRImage(qrImage)
-        }
-        if let item, item.qrCodeType.isWifi, let wifiType = item.qrCodeType.wifiType {
-            wifiTypeSegment.selectedSegmentIndex = WifiQRModel.WifiType.allCases.firstIndex(of: wifiType) ?? 0
-        }
-        switch qrCodeType {
-        case .text(let model):
-            if let backgroundHexColor = model?.backgroundHexColor {
-                selectedBackgroundColor = UIColor.colorWithHexString(hexString: backgroundHexColor)
-            }
-            if let foregroundHexColor = model?.foregroundHexColor {
-                selectedForegroundColor = UIColor.colorWithHexString(hexString: foregroundHexColor)
-            }
-        case .wifi(let model):
-            if let backgroundHexColor = model?.backgroundHexColor {
-                selectedBackgroundColor = UIColor.colorWithHexString(hexString: backgroundHexColor)
-            }
-            if let foregroundHexColor = model?.foregroundHexColor {
-                selectedForegroundColor = UIColor.colorWithHexString(hexString: foregroundHexColor)
-            }
-        case .url(let model):
-            if let backgroundHexColor = model?.backgroundHexColor {
-                selectedBackgroundColor = UIColor.colorWithHexString(hexString: backgroundHexColor)
-            }
-            if let foregroundHexColor = model?.foregroundHexColor {
-                selectedForegroundColor = UIColor.colorWithHexString(hexString: foregroundHexColor)
-            }
-        case .contact(let model):
-            if let backgroundHexColor = model?.backgroundHexColor {
-                selectedBackgroundColor = UIColor.colorWithHexString(hexString: backgroundHexColor)
-            }
-            if let foregroundHexColor = model?.foregroundHexColor {
-                selectedForegroundColor = UIColor.colorWithHexString(hexString: foregroundHexColor)
-            }
-        }
-        
-        if editingItem {
-            if let selectedBackgroundColor {
-                colorPickerBackground.updateSelectedColor(selectedBackgroundColor)
-            }
-            if let selectedForegroundColor {
-                colorPickerForeground.updateSelectedColor(selectedForegroundColor)
-            }
-        } else {
-            updateQRCode()
-        }
-    }
-    
-    
-    private let disposeBag = DisposeBag()
-    private func bindModel() {
-        wifiTypeSegment.rx.selectedSegmentIndex
-            .subscribe(onNext: { [weak self] index in
-                guard let self, let name = wifiTypeSegment.titleForSegment(at: index) else { return }
-                
-                var currentType: WifiQRModel.WifiType?
-                if name == "FREE" {
-                    currentType = .free
-                } else if let value = WifiQRModel.WifiType(rawValue: name) {
-                    currentType = value
-                }
-                if let currentType {
-                    qrDataProcessor.wifiModel?.type = currentType
-                }
-            })
-            .disposed(by: disposeBag)
-        let allTextFields = Observable.merge(inputTextFields.map { item in
-            item.input.textField.rx.text.map { (item.field, $0 ?? "") }
-        })
-        
-        allTextFields
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] field, text in
-                guard let self else { return }
-                switch field {
-                case .text:
-                    qrDataProcessor.textModel?.text = text
-                case .networkName:
-                    qrDataProcessor.wifiModel?.name = text
-                case .networkPassword:
-                    qrDataProcessor.wifiModel?.password = text
-                case .url:
-                    qrDataProcessor.urlModel?.url = text
-                case .contactName:
-                    qrDataProcessor.contactModel?.name = text
-                case .contactNumber:
-                    qrDataProcessor.contactModel?.phone = text
-                case .contactMail:
-                    qrDataProcessor.contactModel?.mail = text
-                case .contactURL:
-                    qrDataProcessor.contactModel?.url = text
-                }
-            })
-            .disposed(by: disposeBag)
-    }
 }
 
-extension QRCodeCreatorViewController {
-    func shareQRCode() {
-        guard let qrImage = qrCodePreview.getQRCodeImage() else {
-            return
-        }
-        
-        let activityViewController = UIActivityViewController(activityItems: [qrImage], applicationActivities: nil)
-        activityViewController.excludedActivityTypes = [
-            .assignToContact,
-            .addToReadingList
-        ]
-        
-        present(activityViewController, animated: true, completion: nil)
+extension QRCodeCreatorViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return Section.allCases.count
     }
     
-    func saveQRCodeToGallery(completion: @escaping (Bool, Error?) -> Void) {
-        guard let qrImage = qrCodePreview.getQRCodeImage() else {
-            completion(false, nil)
-            return
-        }
-        
-        PHPhotoLibrary.requestAuthorization { status in
-            if status == .authorized {
-                UIImageWriteToSavedPhotosAlbum(qrImage, nil, nil, nil)
-                completion(true, nil)
-            } else {
-                completion(false, NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Access to photo library is not authorized."]))
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let section = Section(rawValue: section) else { return 0 }
+        switch section {
+        case .preview:
+            return 1
+        case .wifiType:
+            if qrCodeData.type != .wifi {
+                return 0
             }
+            return 1
+        case .data:
+            return qrCodeData.inputFields.count
+        case .colors:
+            if state == .preview {
+                return 0
+            }
+            return 2
         }
     }
-}
-extension UIView {
-    func findFirstResponder() -> UIView? {
-        if isFirstResponder {
-            return self
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Unknown section")
         }
-        for subview in subviews {
-            if let firstResponder = subview.findFirstResponder() {
-                return firstResponder
+        
+        switch section {
+        case .preview:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QRCodePreviewCell.reuseIdentifier, for: indexPath) as! QRCodePreviewCell
+            cell.configure(
+                with: qrCodeImage,
+                download: { [weak self] in
+                    self?.saveQRCodeToGallery()
+                },
+                share: { [weak self] in
+                    self?.shareQRCode()
+                }
+            )
+            return cell
+        case .wifiType:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: QRCodeWifiTypeCell.reuseIdentifier, for: indexPath) as! QRCodeWifiTypeCell
+            cell.configure(
+                selected: qrCodeData.data["Type"] ?? "WPA",
+                onChanged: { [weak self] value in
+                    let type: WifiType? = {
+                        switch value {
+                        case 0:
+                            return .wpa
+                        case 1:
+                            return .wep
+                        case 2:
+                            return .free
+                        default:
+                            return nil
+                        }
+                    }()
+                    guard let type else { return }
+                    self?.updateQRCodeData(key: "Type", value: type.rawValue)
+                })
+            cell.isUserInteractionEnabled = state == .editing || state == .creating
+            return cell
+        case .data:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InputFieldCell.reuseIdentifier, for: indexPath) as! InputFieldCell
+            let fields = qrCodeData.inputFields
+            let field = fields[indexPath.item]
+            cell.configure(with: field)
+            cell.onValueChanged = { [weak self] newValue in
+                self?.updateQRCodeData(key: field.key, value: newValue)
+            }
+            cell.onBeginEditing = { [weak self] in
+                self?.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+            }
+            cell.isUserInteractionEnabled = state == .editing || state == .creating
+            return cell
+        case .colors:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorPickerCell.reuseIdentifier, for: indexPath) as! ColorPickerCell
+            
+            let backgroundColor: UIColor = {
+                if let hex = qrCodeData.backgroundHexColor {
+                    return UIColor.colorWithHexString(hexString: hex)
+                }
+                return selectedBackgroundColor ?? .white
+            }()
+            let foregroundColor: UIColor = {
+                if let hex = qrCodeData.foregroundHexColor {
+                    return UIColor.colorWithHexString(hexString: hex)
+                }
+                return selectedForegroundColor ?? .black
+            }()
+
+            cell.configure(
+                title: indexPath.item == 0 ? "Background color" : "Body color",
+                selectedColor: indexPath.item == 0 ? backgroundColor : foregroundColor,
+                onColorSelected: { [weak self] color in
+                    if indexPath.item == 0 {
+                        self?.qrCodeData.backgroundHexColor = color.hexStringFromColor()
+                    } else {
+                        self?.qrCodeData.foregroundHexColor = color.hexStringFromColor()
+                    }
+                    self?.updateQRCode()
+                }
+            )
+            cell.isUserInteractionEnabled = state == .editing || state == .creating
+            return cell
+        }
+    }
+    
+    private func updateQRCodeData(key: String, value: String) {
+        qrCodeData.data[key] = value
+        updateQRCode()
+        updateCollectionViewLayout()
+    }
+    
+    private func saveQRCodeToGallery() {
+        guard let qrImage = qrCodeImage else { return }
+        saveToGallery(qrImage: qrImage) { saved, error in
+            onMain {
+                if saved {
+                    ToastViewController.showToast(with: "Saved to Gallery!", with: "checkmark")
+                } else {
+                    ToastViewController.showToast(with: error?.localizedDescription ?? "Failed to save", with: "exclamationmark.circle")
+                }
             }
         }
-        return nil
+        qrCodeProcessor.save(qrCodeData: qrCodeData)
+    }
+    
+    private func shareQRCode() {
+        guard let qrImage = qrCodeImage else { return }
+        share(qrImage: qrImage, onViewController: self)
+        qrCodeProcessor.save(qrCodeData: qrCodeData)
     }
 }

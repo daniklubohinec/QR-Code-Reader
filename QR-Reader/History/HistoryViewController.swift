@@ -32,6 +32,8 @@ final class HistoryViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var dataSource: RxTableViewSectionedReloadDataSource<DateSection>!
     private var currentSegmentIndex = 0
+    private var scannedEmpty = false
+    private var createdEmpty = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +61,16 @@ final class HistoryViewController: UIViewController {
             .subscribe(onNext: { [weak self] value in
                 guard let self else { return }
                 HapticGenerator.shared.generateImpact()
-                self.currentSegmentIndex = value
-                self.configureEmptyView()
+                currentSegmentIndex = value
+                configureEmptyView()
+                if value == 0 {
+                    tableView.isHidden = scannedEmpty
+                    emptyView.isHidden = !scannedEmpty
+                } else {
+                    tableView.isHidden = createdEmpty
+                    emptyView.isHidden = !createdEmpty
+                }
+                
             })
             .disposed(by: disposeBag)
         
@@ -79,11 +89,14 @@ final class HistoryViewController: UIViewController {
         
         viewModel.historyListRelay
             .asObservable()
-            .map({ $0.isEmpty })
-            .subscribe(onNext: { [weak self] isEmpty in
+            .subscribe(onNext: { [weak self] list in
+                self?.scannedEmpty = list.scanned.entries.isEmpty
+                self?.createdEmpty = list.created.entries.isEmpty
                 onMain {
-                    self?.emptyView.isHidden = !isEmpty
-                    self?.tableView.isHidden = isEmpty
+                    if self?.segmentedControl.selectedSegmentIndex == 0 {
+                        self?.tableView.isHidden = list.scanned.entries.isEmpty
+                        self?.emptyView.isHidden = !list.scanned.entries.isEmpty
+                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -147,9 +160,17 @@ final class HistoryViewController: UIViewController {
     
     private func openDetail(item: HistoryItem) {
         HapticGenerator.shared.generateImpact()
-        let vc = QRCodeCreatorViewController(type: item.qrCodeType, item: item)
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        if segmentedControl.selectedSegmentIndex == 0 {
+            guard let image = UIImage(data: item.qrCodeImageData), let result = item.scanResult else { return }
+            let vc = QRCodeResultViewController(scanResult: result, image: image)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            guard let type = item.qrCodeData?.type else { return }
+            let vc = QRCodeCreatorViewController(type: type, data: nil, item: item, state: .preview)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
@@ -208,37 +229,22 @@ extension HistoryViewController {
         let sheet = UIAlertController(title: item.name, message: nil, preferredStyle: .actionSheet)
         let copyAction = UIAlertAction(title: "Copy", style: .default) { _ in
             HapticGenerator.shared.generateImpact()
-            UIPasteboard.general.image = UIImage(data: item.qrImageData)
+            UIPasteboard.general.image = UIImage(data: item.qrCodeImageData)
             ToastViewController.showToast(with: "Copied", with: "doc.on.doc")
         }
         let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
-            guard let qrImage = UIImage(data: item.qrImageData), let self else {
+            guard let qrImage = UIImage(data: item.qrCodeImageData), let self else {
                 return
             }
             HapticGenerator.shared.generateImpact()
-
-            let activityViewController = UIActivityViewController(activityItems: [qrImage], applicationActivities: nil)
-            activityViewController.excludedActivityTypes = [
-                .assignToContact,
-                .addToReadingList
-            ]
-            
-            present(activityViewController, animated: true, completion: nil)
+            share(qrImage: qrImage, onViewController: self)
         }
         let saveAction = UIAlertAction(title: "Save as Image", style: .default) { _ in
-            guard let qrImage = UIImage(data: item.qrImageData) else {
+            guard let qrImage = UIImage(data: item.qrCodeImageData) else {
                 return
             }
             HapticGenerator.shared.generateImpact()
-
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    UIImageWriteToSavedPhotosAlbum(qrImage, nil, nil, nil)
-                    ToastViewController.showToast(with: "Saved to Gallery", with: "checkmark")
-                } else {
-                    ToastViewController.showToast(with: "Something went wrong", with: "exclamationmark.circle")
-                }
-            }
+            saveToGallery(qrImage: qrImage)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
             HapticGenerator.shared.generateImpact()

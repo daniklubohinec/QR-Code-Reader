@@ -1,6 +1,8 @@
 import UIKit
 
-class ColorPickerView: UIView {
+final class ColorPickerCell: UICollectionViewCell {
+    static let reuseIdentifier = "QRColorPickerCell"
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
@@ -34,9 +36,8 @@ class ColorPickerView: UIView {
         R.color.c34C759()!
     ]
     
-    init(title: String) {
-        super.init(frame: .zero)
-        titleLabel.text = title
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
     }
     
@@ -108,7 +109,7 @@ class ColorPickerView: UIView {
     
     func updateSelectedColor(_ color: UIColor) {
         selectedColorButton?.layer.borderColor = UIColor.black.withAlphaComponent(0.08).cgColor
-        if let button = colorStackView.arrangedSubviews.first(where: { $0.backgroundColor == color }) as? UIButton {
+        if let button = colorStackView.arrangedSubviews.first(where: { ($0 as? UIButton)?.backgroundColor == color }) as? UIButton {
             button.layer.borderWidth = 1
             button.layer.borderColor = R.color.accentColor()!.cgColor
             selectedColorButton = button
@@ -120,5 +121,13 @@ class ColorPickerView: UIView {
     
     func setOnColorSelected(completion: @escaping (UIColor) -> Void) {
         onColorSelected = completion
+    }
+    
+    func configure(title: String, selectedColor: UIColor?, onColorSelected: @escaping (UIColor) -> Void) {
+        titleLabel.text = title
+        setOnColorSelected(completion: onColorSelected)
+        if let selectedColor = selectedColor {
+            updateSelectedColor(selectedColor)
+        }
     }
 }

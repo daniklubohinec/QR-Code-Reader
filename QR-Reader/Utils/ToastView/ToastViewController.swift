@@ -19,7 +19,13 @@ final class ToastViewController: UIViewController {
         label.font = R.font.interMedium(size: 15)
         label.text = text
         assert(imagename != nil)
-        icon.image = UIImage(systemName: imagename!)
+        var image: UIImage?
+        if let symbol = UIImage(systemName: imagename!) {
+            image = symbol
+        } else {
+            image = UIImage(named: imagename!)
+        }
+        icon.image = image
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.dismiss(animated: true)
         }

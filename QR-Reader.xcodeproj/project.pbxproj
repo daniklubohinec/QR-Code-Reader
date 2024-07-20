@@ -16,9 +16,6 @@
 		841296B82C418A17006FB7D5 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296AF2C418A17006FB7D5 /* Inter-Thin.ttf */; };
 		841296B92C418A17006FB7D5 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296B02C418A17006FB7D5 /* Inter-ExtraBold.ttf */; };
 		841296BA2C418A17006FB7D5 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296B12C418A17006FB7D5 /* Inter-Medium.ttf */; };
-		84B14E7F2C41930400A7908E /* SecondOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B14E7E2C41930400A7908E /* SecondOnboardViewController.swift */; };
-		84B14E812C41930E00A7908E /* ThirdOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B14E802C41930E00A7908E /* ThirdOnboardViewController.swift */; };
-		84B14E832C41931800A7908E /* FourthOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B14E822C41931800A7908E /* FourthOnboardViewController.swift */; };
 		84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA30002C428B4F00B8B232 /* SettingsViewController.swift */; };
 		84BA30042C428E7600B8B232 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA30032C428E7600B8B232 /* UIViewController.swift */; };
 		84BA30082C4290FF00B8B232 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84BA30072C4290FF00B8B232 /* ActionSheetViewController.swift */; };
@@ -31,17 +28,16 @@
 		84D173AB2C3D6E750082C6FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AA2C3D6E750082C6FC /* Base */; };
 		84D173AD2C3D6E770082C6FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AC2C3D6E770082C6FC /* Assets.xcassets */; };
 		84D173B02C3D6E770082C6FC /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 84D173AF2C3D6E770082C6FC /* Base */; };
-		84D17AF72C4032A500CF1C36 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D17AF62C4032A500CF1C36 /* Onboarding.storyboard */; };
 		84DAD0EF2C419A69008278F0 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DAD0EE2C419A69008278F0 /* R.generated.swift */; };
-		84DC11F32C418EC1002128D0 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC11F22C418EC1002128D0 /* OnboardingViewController.swift */; };
-		84DC11F72C418EF1002128D0 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC11F62C418EF1002128D0 /* OnboardingPageViewController.swift */; };
-		84DC11FA2C418F23002128D0 /* FirstOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC11F92C418F23002128D0 /* FirstOnboardViewController.swift */; };
 		84FEA9522C45503E003ED028 /* History.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84FEA9512C45503E003ED028 /* History.storyboard */; };
 		F38EA6F02C4A37F0004D6303 /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38EA6EF2C4A37F0004D6303 /* Haptic.swift */; };
 		F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */; };
 		F39EC5E12C46AB6400430030 /* QrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */; };
 		F39EC5E42C46ACF900430030 /* AuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */; };
 		F39EC5E62C46B0DC00430030 /* QrCodeScanner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */; };
+		F3D788FD2C4B925900D919C4 /* QRScanResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D788FC2C4B925900D919C4 /* QRScanResultViewController.swift */; };
+		F3D788FF2C4BB42F00D919C4 /* QRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D788FE2C4BB42F00D919C4 /* QRParser.swift */; };
+		F3D789022C4BEB6D00D919C4 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D789012C4BEB6D00D919C4 /* OnboardingViewController.swift */; };
 		F3F149552C48C98800AB7B61 /* QRCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149542C48C98800AB7B61 /* QRCreateViewController.swift */; };
 		F3F149582C48D63C00AB7B61 /* InputFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149572C48D63C00AB7B61 /* InputFieldView.swift */; };
 		F3F1495A2C48D64C00AB7B61 /* QRCodePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149592C48D64C00AB7B61 /* QRCodePreviewView.swift */; };
@@ -49,7 +45,6 @@
 		F3F1495F2C48E57B00AB7B61 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1495E2C48E57B00AB7B61 /* Storage.swift */; };
 		F3F149622C48E62900AB7B61 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149612C48E62900AB7B61 /* HistoryViewModel.swift */; };
 		F3F149642C48E63D00AB7B61 /* HistoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149632C48E63D00AB7B61 /* HistoryModels.swift */; };
-		F3F1496C2C48E9C400AB7B61 /* HistoryAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1496B2C48E9C400AB7B61 /* HistoryAssembly.swift */; };
 		F3F1496F2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1496E2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift */; };
 		F3F149712C48EB7E00AB7B61 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149702C48EB7E00AB7B61 /* HistoryViewController.swift */; };
 		F3F149732C48ED9300AB7B61 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F149722C48ED9300AB7B61 /* MainTabController.swift */; };
@@ -77,9 +72,6 @@
 		841296B02C418A17006FB7D5 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		841296B12C418A17006FB7D5 /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		841296B22C418A17006FB7D5 /* Inter-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Black.ttf"; sourceTree = "<group>"; };
-		84B14E7E2C41930400A7908E /* SecondOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondOnboardViewController.swift; sourceTree = "<group>"; };
-		84B14E802C41930E00A7908E /* ThirdOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdOnboardViewController.swift; sourceTree = "<group>"; };
-		84B14E822C41931800A7908E /* FourthOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthOnboardViewController.swift; sourceTree = "<group>"; };
 		84BA30002C428B4F00B8B232 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		84BA30032C428E7600B8B232 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		84BA30072C4290FF00B8B232 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -96,11 +88,7 @@
 		84D173BA2C3D6E770082C6FC /* QR_ReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR_ReaderTests.swift; sourceTree = "<group>"; };
 		84D173C42C3D6E770082C6FC /* QR_ReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR_ReaderUITests.swift; sourceTree = "<group>"; };
 		84D173C62C3D6E770082C6FC /* QR_ReaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QR_ReaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		84D17AF62C4032A500CF1C36 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		84DAD0EE2C419A69008278F0 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
-		84DC11F22C418EC1002128D0 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		84DC11F62C418EF1002128D0 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
-		84DC11F92C418F23002128D0 /* FirstOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstOnboardViewController.swift; sourceTree = "<group>"; };
 		84FEA9512C45503E003ED028 /* History.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = History.storyboard; sourceTree = "<group>"; };
 		98549218F65AD73193DCB10B /* Pods_QR_Reader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QR_Reader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9EE46DE5CC106D28718D51 /* Pods-QR-Reader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR-Reader.release.xcconfig"; path = "Target Support Files/Pods-QR-Reader/Pods-QR-Reader.release.xcconfig"; sourceTree = "<group>"; };
@@ -110,6 +98,9 @@
 		F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerViewController.swift; sourceTree = "<group>"; };
 		F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationStatus.swift; sourceTree = "<group>"; };
 		F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QrCodeScanner.storyboard; sourceTree = "<group>"; };
+		F3D788FC2C4B925900D919C4 /* QRScanResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanResultViewController.swift; sourceTree = "<group>"; };
+		F3D788FE2C4BB42F00D919C4 /* QRParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRParser.swift; sourceTree = "<group>"; };
+		F3D789012C4BEB6D00D919C4 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		F3F149542C48C98800AB7B61 /* QRCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCreateViewController.swift; sourceTree = "<group>"; };
 		F3F149572C48D63C00AB7B61 /* InputFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputFieldView.swift; sourceTree = "<group>"; };
 		F3F149592C48D64C00AB7B61 /* QRCodePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodePreviewView.swift; sourceTree = "<group>"; };
@@ -117,7 +108,6 @@
 		F3F1495E2C48E57B00AB7B61 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		F3F149612C48E62900AB7B61 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		F3F149632C48E63D00AB7B61 /* HistoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModels.swift; sourceTree = "<group>"; };
-		F3F1496B2C48E9C400AB7B61 /* HistoryAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryAssembly.swift; sourceTree = "<group>"; };
 		F3F1496E2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTableViewCell.swift; sourceTree = "<group>"; };
 		F3F149702C48EB7E00AB7B61 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		F3F149722C48ED9300AB7B61 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
@@ -238,6 +228,7 @@
 				84C190BB2C429DF600F3C846 /* ActionSheet */,
 				F3F149532C48C96F00AB7B61 /* Create */,
 				F39EC5DF2C46AB4F00430030 /* Scan */,
+				F3D788FB2C4B924000D919C4 /* ScanResult */,
 				F39EC5E22C46ACDA00430030 /* Utils */,
 				84D173AC2C3D6E770082C6FC /* Assets.xcassets */,
 				84D173AE2C3D6E770082C6FC /* LaunchScreen.storyboard */,
@@ -269,40 +260,10 @@
 		84DC11F42C418EC8002128D0 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				84DC11F52C418ED5002128D0 /* ViewController */,
-				84DC11F82C418EF6002128D0 /* PageViewController */,
-				84DC11FB2C418F28002128D0 /* Pages */,
-				84D17AF62C4032A500CF1C36 /* Onboarding.storyboard */,
 				F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */,
+				F3D789012C4BEB6D00D919C4 /* OnboardingViewController.swift */,
 			);
 			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		84DC11F52C418ED5002128D0 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				84DC11F22C418EC1002128D0 /* OnboardingViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		84DC11F82C418EF6002128D0 /* PageViewController */ = {
-			isa = PBXGroup;
-			children = (
-				84DC11F62C418EF1002128D0 /* OnboardingPageViewController.swift */,
-			);
-			path = PageViewController;
-			sourceTree = "<group>";
-		};
-		84DC11FB2C418F28002128D0 /* Pages */ = {
-			isa = PBXGroup;
-			children = (
-				84DC11F92C418F23002128D0 /* FirstOnboardViewController.swift */,
-				84B14E7E2C41930400A7908E /* SecondOnboardViewController.swift */,
-				84B14E802C41930E00A7908E /* ThirdOnboardViewController.swift */,
-				84B14E822C41931800A7908E /* FourthOnboardViewController.swift */,
-			);
-			path = Pages;
 			sourceTree = "<group>";
 		};
 		84FEA9532C455048003ED028 /* History */ = {
@@ -344,8 +305,17 @@
 				F3F1495E2C48E57B00AB7B61 /* Storage.swift */,
 				F3F149782C49240900AB7B61 /* Helpers.swift */,
 				F3F1497A2C492E1E00AB7B61 /* QRGenerator.swift */,
+				F3D788FE2C4BB42F00D919C4 /* QRParser.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		F3D788FB2C4B924000D919C4 /* ScanResult */ = {
+			isa = PBXGroup;
+			children = (
+				F3D788FC2C4B925900D919C4 /* QRScanResultViewController.swift */,
+			);
+			path = ScanResult;
 			sourceTree = "<group>";
 		};
 		F3F149532C48C96F00AB7B61 /* Create */ = {
@@ -373,7 +343,6 @@
 			children = (
 				F3F149612C48E62900AB7B61 /* HistoryViewModel.swift */,
 				F3F149632C48E63D00AB7B61 /* HistoryModels.swift */,
-				F3F1496B2C48E9C400AB7B61 /* HistoryAssembly.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -471,7 +440,6 @@
 				841296B32C418A17006FB7D5 /* Inter-Regular.ttf in Resources */,
 				841296B62C418A17006FB7D5 /* Inter-Bold.ttf in Resources */,
 				841296B72C418A17006FB7D5 /* Inter-SemiBold.ttf in Resources */,
-				84D17AF72C4032A500CF1C36 /* Onboarding.storyboard in Resources */,
 				F39EC5E62C46B0DC00430030 /* QrCodeScanner.storyboard in Resources */,
 				841296B52C418A17006FB7D5 /* Inter-ExtraLight.ttf in Resources */,
 				84D173B02C3D6E770082C6FC /* Base in Resources */,
@@ -553,7 +521,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84DC11FA2C418F23002128D0 /* FirstOnboardViewController.swift in Sources */,
 				F3F149552C48C98800AB7B61 /* QRCreateViewController.swift in Sources */,
 				84D173A82C3D6E750082C6FC /* HomeViewController.swift in Sources */,
 				84BA30042C428E7600B8B232 /* UIViewController.swift in Sources */,
@@ -565,26 +532,23 @@
 				F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */,
 				F3F149582C48D63C00AB7B61 /* InputFieldView.swift in Sources */,
 				84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */,
-				84DC11F72C418EF1002128D0 /* OnboardingPageViewController.swift in Sources */,
+				F3D788FF2C4BB42F00D919C4 /* QRParser.swift in Sources */,
 				F3F1497D2C49372000AB7B61 /* QRDataProcessing.swift in Sources */,
 				F39EC5E12C46AB6400430030 /* QrCodeScannerViewController.swift in Sources */,
-				84B14E812C41930E00A7908E /* ThirdOnboardViewController.swift in Sources */,
 				F3F1495C2C48DDCB00AB7B61 /* ColorPickerView.swift in Sources */,
 				84BA300C2C4291C500B8B232 /* UIWindow.swift in Sources */,
 				84D173A62C3D6E750082C6FC /* SceneDelegate.swift in Sources */,
-				84B14E7F2C41930400A7908E /* SecondOnboardViewController.swift in Sources */,
 				84DAD0EF2C419A69008278F0 /* R.generated.swift in Sources */,
 				F3F149772C4909B800AB7B61 /* HeaderView.swift in Sources */,
 				F3F149622C48E62900AB7B61 /* HistoryViewModel.swift in Sources */,
-				84B14E832C41931800A7908E /* FourthOnboardViewController.swift in Sources */,
-				F3F1496C2C48E9C400AB7B61 /* HistoryAssembly.swift in Sources */,
 				F3F1495A2C48D64C00AB7B61 /* QRCodePreviewView.swift in Sources */,
 				F3F149712C48EB7E00AB7B61 /* HistoryViewController.swift in Sources */,
 				F3F149642C48E63D00AB7B61 /* HistoryModels.swift in Sources */,
 				F3F149792C49240900AB7B61 /* Helpers.swift in Sources */,
+				F3D788FD2C4B925900D919C4 /* QRScanResultViewController.swift in Sources */,
 				84BA30082C4290FF00B8B232 /* ActionSheetViewController.swift in Sources */,
 				F3F1496F2C48EB1B00AB7B61 /* HistoryItemTableViewCell.swift in Sources */,
-				84DC11F32C418EC1002128D0 /* OnboardingViewController.swift in Sources */,
+				F3D789022C4BEB6D00D919C4 /* OnboardingViewController.swift in Sources */,
 				F38EA6F02C4A37F0004D6303 /* Haptic.swift in Sources */,
 				F3F1495F2C48E57B00AB7B61 /* Storage.swift in Sources */,
 			);
@@ -744,11 +708,15 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "QR-Reader/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To scan QR codes, please enable access to your Camera.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "To generate QR code from your contacts.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To organize and save your QR codes, the app needs access to your Photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -775,11 +743,15 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "QR-Reader/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To scan QR codes, please enable access to your Camera.";
+				INFOPLIST_KEY_NSContactsUsageDescription = "To generate QR code from your contacts.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "To organize and save your QR codes, the app needs access to your Photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -46,5 +46,37 @@ class SettingsViewController: UIViewController {
         animateButtonView(privacyButton, privacyBackView, disposeBag)
         animateButtonView(termsButton, termsBackView, disposeBag)
     }
+    
+    @IBAction
+    func rateUs() {
+        // TODO: Redirect to store
+    }
+    
+    @IBAction
+    func shareApp() {
+        // TODO: Share app
+    }
+    
+    @IBAction
+    func contactUs() {
+        // TODO: Contact us
+    }
+    
+    
+    /// On Onboarding same things
+    @IBAction
+    private func termsOfUseTapped() {
+        // TODO
+    }
+    
+    @IBAction
+    private func restoreTapped() {
+        // TODO
+    }
+
+    @IBAction
+    private func privacyTapped() {
+        // TODO
+    }
 }
 

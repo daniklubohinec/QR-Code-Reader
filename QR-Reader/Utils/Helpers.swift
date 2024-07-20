@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import Photos
 
 extension UIColor {
     func hexStringFromColor() -> String? {
@@ -50,4 +51,57 @@ func onMain(f: @escaping (() -> Void)) {
     DispatchQueue.main.async {
         f()
     }
+}
+
+extension UIView {
+    func applyGradientMask() {
+        clipsToBounds = true
+        if let mask = self.layer.mask {
+            mask.frame = self.bounds
+        } else {
+            let gradientLayer = CAGradientLayer()
+            gradientLayer.frame = self.bounds
+
+            // Настройка цветов градиента
+            gradientLayer.colors = [R.color.cF1F1F1()!.cgColor, UIColor.clear.cgColor]
+            gradientLayer.locations = [0.0, 0.4] // Начало и конец градиента
+
+            // Настройка направления градиента
+            gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+            gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+
+            // Создание маски из градиентного слоя
+            self.layer.mask = gradientLayer
+        }
+    }
+}
+
+func saveToGallery(qrImage: UIImage, completion: ((Bool, Error?) -> Void)? = nil) {
+    PHPhotoLibrary.requestAuthorization { status in
+        if status == .authorized {
+            UIImageWriteToSavedPhotosAlbum(qrImage, nil, nil, nil)
+            onMain {
+                ToastViewController.showToast(with: "Saved to Gallery", with: "checkmark")
+            }
+            completion?(true, nil)
+        } else {
+            onMain {
+                ToastViewController.showToast(with: "Something went wrong", with: "exclamationmark.circle")
+            }
+            completion?(false, NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Access to photo library is not authorized."]))
+        }
+    }
+}
+
+func share(
+    qrImage: UIImage,
+    onViewController: UIViewController? = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController
+) {
+    let activityViewController = UIActivityViewController(activityItems: [qrImage], applicationActivities: nil)
+    activityViewController.excludedActivityTypes = [
+        .assignToContact,
+        .addToReadingList
+    ]
+    
+    onViewController?.present(activityViewController, animated: true, completion: nil)
 }

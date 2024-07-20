@@ -8,46 +8,36 @@ final class QRGenerator {
 
     private init() { }
 
-    func getQRDate(from qrCodeType: QRCodeType) -> Data {
+    func getQRDate(from qrCodeData: QRCodeData) -> Data {
         let text: String
-        let backgroundColorHex: String?
-        let foregroundColorHex: String?
         
-        switch qrCodeType {
-        case .wifi(let model):
-            text = "WIFI:T:\(model?.type.rawValue ?? "WPA");S:\(model?.name ?? "");P:\(model?.password ?? "");;"
-            backgroundColorHex = model?.backgroundHexColor
-            foregroundColorHex = model?.foregroundHexColor
-        case .url(let model):
-            text = model?.url ?? ""
-            backgroundColorHex = model?.backgroundHexColor
-            foregroundColorHex = model?.foregroundHexColor
-        case .text(let model):
-            text = model?.text ?? ""
-            backgroundColorHex = model?.backgroundHexColor
-            foregroundColorHex = model?.foregroundHexColor
-        case .contact(let model):
+        switch qrCodeData.type {
+        case .wifi:
+            text = "WIFI:T:\(qrCodeData.data["Type"] ?? "WPA");S:\(qrCodeData.data["WiFi Name"] ?? "");P:\(qrCodeData.data["Password"] ?? "");;"
+        case .url:
+            text = qrCodeData.data["URL"] ?? ""
+        case .text:
+            text = qrCodeData.data["Text"] ?? ""
+        case .contact:
             let vCardComponents = [
                 "BEGIN:VCARD",
                 "VERSION:3.0",
-                "N:\(model?.name ?? "")",
-                "TEL:\(model?.phone ?? "")",
-                "EMAIL:\(model?.mail ?? "")",
-                "URL:\(model?.url ?? "")",
+                "N:\(qrCodeData.data["Contact Name"] ?? "")",
+                "TEL:\(qrCodeData.data["Phone Number"] ?? "")",
+                "EMAIL:\(qrCodeData.data["Mail"] ?? "")",
+                "URL:\(qrCodeData.data["URL"] ?? "")",
                 "END:VCARD"
             ]
             text = vCardComponents.joined(separator: "\n")
-            backgroundColorHex = model?.backgroundHexColor
-            foregroundColorHex = model?.foregroundHexColor
         }
         lazy var backgroundColor: UIColor = {
-            if let backgroundColorHex {
+            if let backgroundColorHex = qrCodeData.backgroundHexColor {
                 return UIColor.colorWithHexString(hexString: backgroundColorHex)
             }
             return .white
         }()
         lazy var foregroundColor: UIColor = {
-            if let foregroundColorHex {
+            if let foregroundColorHex = qrCodeData.foregroundHexColor {
                 return UIColor.colorWithHexString(hexString: foregroundColorHex)
             }
             return .black
@@ -56,8 +46,8 @@ final class QRGenerator {
         return generateQRCode(from: text, backgroundColor: backgroundColor, foregroundColor: foregroundColor) ?? Data()
     }
     
-    func generateQRCode(from string: String, backgroundColor: UIColor, foregroundColor: UIColor) -> Data? {
-        guard let data = string.data(using: .ascii) else { return nil }
+    func generateQRCode(from string: String, backgroundColor: UIColor, foregroundColor: UIColor, padding: CGFloat = 3) -> Data? {
+        guard let data = string.data(using: .utf8) else { return nil }
         
         guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
         
@@ -66,7 +56,6 @@ final class QRGenerator {
         
         guard let qrImage = qrFilter.outputImage else { return nil }
         
-        let padding: CGFloat = 3
         let extent = qrImage.extent.insetBy(dx: -padding, dy: -padding)
         
         let backgroundImage = CIImage(color: CIColor(color: backgroundColor))

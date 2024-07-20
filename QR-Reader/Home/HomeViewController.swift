@@ -59,13 +59,18 @@ final class HomeViewController: UIViewController {
                         scannerVC.hidesBottomBarWhenPushed = true
                         navigationController?.pushViewController(scannerVC, animated: true)
                     case .denied:
-                        ActionSheetViewController.showActionSheet {
-                            print("Go to settings")
+                        ActionSheetViewController.showActionSheet { [weak self] in
+                            self?.openAppSettings()
                         }
                     }
                 }
             })
             .disposed(by: disposeBag)
+        if UserDefaults.standard.bool(forKey: "onboardingShown") {
+            let vc = OnboardingViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: false)
+        }
     }
     
     func animateButtonViews() {
@@ -81,7 +86,7 @@ final class HomeViewController: UIViewController {
     @IBAction
     private func createWifi() {
         HapticGenerator.shared.generateImpact()
-        openCreate(for: .wifi(.empty))
+        openCreate(for: .wifi)
     }
     
     @IBAction
@@ -93,19 +98,25 @@ final class HomeViewController: UIViewController {
     @IBAction
     func createText() {
         HapticGenerator.shared.generateImpact()
-        openCreate(for: .text(.empty))
+        openCreate(for: .text)
     }
     
     @IBAction
     func createLink() {
         HapticGenerator.shared.generateImpact()
-        openCreate(for: .url(.empty))
+        openCreate(for: .url)
     }
     
-    private func openCreate(for type: QRCodeType) {
-        let vc = QRCodeCreatorViewController(type: type, item: nil)
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+    private func openCreate(for type: QRCodeData.QRCodeType, data: QRCodeData? = nil) {
+        if hasSubscription {
+            let vc = QRCodeCreatorViewController(type: type, state: .creating)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = OnboardingViewController(pages: [.buy])
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        }
     }
     
     private func showContactOptions() {
@@ -116,7 +127,7 @@ final class HomeViewController: UIViewController {
         }
         let manual = UIAlertAction(title: "Enter Manually", style: .default) { [weak self] _ in
             HapticGenerator.shared.generateImpact()
-            self?.openCreate(for: .contact(.empty))
+            self?.openCreate(for: .contact)
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         [importContact, manual, cancel].forEach { sheet.addAction($0) }
@@ -124,7 +135,15 @@ final class HomeViewController: UIViewController {
     }
     
     private func openCreateFrom(contact: CNContact) {
-        openCreate(for: .contact(contact.contactQRModel))
+        openCreate(for: .contact, data: contact.contactQRModel)
+    }
+    
+    func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
     }
 }
 
@@ -172,16 +191,19 @@ final class ContactSelectFeature: NSObject, CNContactPickerDelegate {
     }
 }
 extension CNContact {
-    var contactQRModel: ContactQRModel {
+    var contactQRModel: QRCodeData {
         let phone = phoneNumbers.first?.value.stringValue ?? ""
         let mail = emailAddresses.first?.value as String?
         let url = urlAddresses.first?.value as String?
         
-        return ContactQRModel(
-            name: "\(familyName) \(givenName)",
-            phone: phone,
-            mail: mail ?? "",
-            url: url ?? ""
+        return QRCodeData(
+            type: .contact,
+            data: [
+                "Contact Name": "\(familyName) \(givenName)",
+                "Phone Number": phone,
+                "Mail": mail ?? "",
+                "URL": url ?? ""
+            ]
         )
     }
 }
