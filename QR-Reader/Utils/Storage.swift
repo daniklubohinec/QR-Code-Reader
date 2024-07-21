@@ -68,3 +68,15 @@ final public class Storage {
         return subject
     }
 }
+
+extension Storage {
+    var onboardingShown: Bool {
+        get {
+            let shown: Bool = Storage.shared.stored(at: "onboardingShown") ?? false
+            return shown
+        }
+        set {
+            Storage.shared.store(value: newValue, at: "onboardingShown")
+        }
+    }
+}

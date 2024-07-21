@@ -28,9 +28,6 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var contactBackView: UIView!
     @IBOutlet weak var contactButton: UIButton!
     
-    private var onboardingShown: Bool {
-        UserDefaults.standard.bool(forKey: "onboardingShown")
-    }
     private lazy var contactFlow: ContactSelectFeature = {
         return ContactSelectFeature(
             presenting: self,
@@ -66,7 +63,7 @@ final class HomeViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        if UserDefaults.standard.bool(forKey: "onboardingShown") {
+        if !Storage.shared.onboardingShown {
             let vc = OnboardingViewController()
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: false)

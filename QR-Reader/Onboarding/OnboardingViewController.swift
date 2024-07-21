@@ -267,7 +267,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             scrollView.setContentOffset(nextPage, animated: true)
             pageControl.currentPage = currentPage + 1
         } else {
-            UserDefaults.standard.bool(forKey: "onboardingShown")
+            Storage.shared.onboardingShown = true
             // TODO: BUY SUBSCRIPTION
         }
     }
