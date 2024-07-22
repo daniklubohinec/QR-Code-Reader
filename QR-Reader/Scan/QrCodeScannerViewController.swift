@@ -1,4 +1,5 @@
 import UIKit
+import Photos
 import AVFoundation
 
 final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -37,6 +38,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         setupCamera()
         self.title = "Scan Code"
+        loadLastImage()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -138,9 +140,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
             let resultVC = QRCodeResultViewController(scanResult: result, image: codeImage)
             navigationController?.pushViewController(resultVC, animated: true)
         } else {
-            let vc = OnboardingViewController(pages: [.buy])
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
+            showPaywall(presenting: self)
         }
     }
 
@@ -258,11 +258,42 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
             print("Torch is not available")
         }
     }
+    
+    private func loadLastImage() {
+        guard PHPhotoLibrary.authorizationStatus() == .authorized else { return }
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.fetchLimit = 1
+        
+        let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        if let lastAsset = fetchResult.firstObject {
+            PHImageManager.default().requestImage(for: lastAsset,
+                                                  targetSize: galleryButton.bounds.size,
+                                                  contentMode: .default,
+                                                  options: nil) { (image, _) in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.galleryButton.setImage(image, for: .normal)
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
+            if !hasSubscription {
+                picker.dismiss(animated: true) { [weak self] in
+                    guard let self else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                        showPaywall(presenting: self)
+                    }
+                }
+                return
+            }
             guard let code = detectQRCode(in: selectedImage) else {
                 return
             }

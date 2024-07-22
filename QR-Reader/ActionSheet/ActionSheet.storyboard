@@ -103,6 +103,9 @@
                                                         <integer key="value" value="15"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="settingsTapped" destination="Vov-g6-dxb" eventType="touchUpInside" id="Nie-8B-6oh"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZwW-M7-ftJ">
                                                 <rect key="frame" x="0.0" y="68" width="361" height="60"/>

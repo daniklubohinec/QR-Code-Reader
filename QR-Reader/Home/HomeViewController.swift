@@ -63,6 +63,7 @@ final class HomeViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+
         if !Storage.shared.onboardingShown {
             let vc = OnboardingViewController()
             vc.modalPresentationStyle = .fullScreen
@@ -110,9 +111,7 @@ final class HomeViewController: UIViewController {
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = OnboardingViewController(pages: [.buy])
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true)
+            showPaywall(presenting: self)
         }
     }
     

@@ -105,3 +105,9 @@ func share(
     
     onViewController?.present(activityViewController, animated: true, completion: nil)
 }
+
+func showPaywall(presenting: UIViewController) {
+    let vc = OnboardingViewController(pages: [.buy])
+    vc.modalPresentationStyle = .fullScreen
+    presenting.present(vc, animated: true)
+}

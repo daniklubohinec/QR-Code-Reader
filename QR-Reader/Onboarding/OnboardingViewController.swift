@@ -260,24 +260,37 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
     }
 
+    private var scrolledByButton = false
     @objc private func continueButtonTapped() {
         let currentPage = pageControl.currentPage
         if currentPage < pages.count - 1 {
+            scrolledByButton = true
             let nextPage = CGPoint(x: scrollView.bounds.width * CGFloat(currentPage + 1), y: 0)
             scrollView.setContentOffset(nextPage, animated: true)
             pageControl.currentPage = currentPage + 1
+            updateLabels(page: currentPage + 1)
         } else {
             Storage.shared.onboardingShown = true
             // TODO: BUY SUBSCRIPTION
+            dismiss(animated: true)
         }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !scrolledByButton else {
+            return
+        }
         let pageIndex = round(scrollView.contentOffset.x / view.bounds.width)
         if pageControl.currentPage != Int(pageIndex) {
             updateLabels(page: Int(pageIndex))
         }
         pageControl.currentPage = Int(pageIndex)
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if scrolledByButton {
+            scrolledByButton = false
+        }
     }
     
     private func updateLabels(page: Int) {

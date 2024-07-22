@@ -43,10 +43,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
         if enteredInBackground {
-            let vc = OnboardingViewController(pages: [.buy])
-            vc.modalPresentationStyle = .fullScreen
-            UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController?.present(vc, animated: true)
-            enteredInBackground = false
+            defer { enteredInBackground = false }
+            guard !hasSubscription else {
+                return
+            }
+            if let root = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                showPaywall(presenting: root)
+            }
         }
     }
 

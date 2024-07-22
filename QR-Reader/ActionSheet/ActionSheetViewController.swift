@@ -17,16 +17,6 @@ class ActionSheetViewController: UIViewController {
     @IBOutlet weak var firstButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
-    @IBAction
-    private func closeCross(_ sender: Any) {
-        hide(action: nil)
-    }
-    
-    @IBAction
-    private func close(_ sender: Any) {
-        hide(action: nil)
-    }
-    
     // public
     public var firstAction: (() -> Void) = ({})
     
@@ -73,6 +63,21 @@ class ActionSheetViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    
+    @IBAction
+    private func settingsTapped() {
+        firstAction()
+    }
+    
+    @IBAction
+    private func closeCross(_ sender: Any) {
+        hide(action: nil)
+    }
+    
+    @IBAction
+    private func close(_ sender: Any) {
+        hide(action: nil)
     }
     
     static func showActionSheet(
