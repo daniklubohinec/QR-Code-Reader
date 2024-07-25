@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import Adapty
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -20,6 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         IQKeyboardManager.shared.enable = true
         _ = QRGenerator.shared
+        Adapty.activate("public_live_RDGSxgLt.70DlBWL7k4UmzL8xb7c7")
+        _ = SubscriptionManager.shared
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -211,8 +211,6 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
     
     private func detectQRCode(in image: UIImage) -> String? {
         if hasSubscription {
-            return nil
-        } else {
             guard let ciImage = CIImage(image: image) else { return nil }
             
             let context = CIContext()
@@ -220,6 +218,8 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
             let features = detector?.features(in: ciImage) as? [CIQRCodeFeature]
             
             return features?.first?.messageString
+        } else {
+            return nil
         }
     }
     
@@ -297,10 +297,10 @@ extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINaviga
             guard let code = detectQRCode(in: selectedImage) else {
                 return
             }
+            picker.dismiss(animated: true, completion: nil)
             let scanResult = found(code: code)
             showResult(scanResult)
         }
-        dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

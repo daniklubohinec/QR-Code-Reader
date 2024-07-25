@@ -1,5 +1,25 @@
 import UIKit
 import SnapKit
+import RxSwift
+
+enum SwipeAction {
+    case delete
+    case more
+    
+    var backgroundColor: UIColor {
+        switch self {
+        case .delete: return UIColor.colorWithHexString(hexString: "#FE4848")
+        case .more: return UIColor.colorWithHexString(hexString: "#AEAEB2")
+        }
+    }
+    
+    var image: UIImage? {
+        switch self {
+        case .delete: return UIImage(systemName: "trash.fill")
+        case .more: return UIImage(systemName: "ellipsis.circle.fill")
+        }
+    }
+}
 
 final class HistoryItemTableViewCell: UITableViewCell {
     static let reuseIdentifier: String = "HistoryItemTableViewCell"
@@ -52,12 +72,22 @@ final class HistoryItemTableViewCell: UITableViewCell {
         imageView.tintColor = R.color.c030303()?.withAlphaComponent(0.3)
         return imageView
     }()
+    private let contentContainer = UIView()
+    private let actionsStackView = UIStackView()
+    
+    private var actions: [SwipeAction] = []
+    private let actionButtonWidth: CGFloat = 70
+    private var leadingConstraint: Constraint?
+    var onSwipeAction: ((SwipeAction) -> Void)?
+
     private let spacer = UIView()
+    private let disposeBag = DisposeBag()
     var item: HistoryItem?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        setupSwipeGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -77,6 +107,30 @@ final class HistoryItemTableViewCell: UITableViewCell {
         contentView.addSubview(containerView)
         contentView.addSubview(spacer)
         
+        contentView.addSubview(actionsStackView)
+        contentView.addSubview(contentContainer)
+        contentView.sendSubviewToBack(actionsStackView)
+
+        contentContainer.addSubview(containerView)
+        
+        actionsStackView.axis = .horizontal
+        actionsStackView.distribution = .fillEqually
+        actionsStackView.alignment = .fill
+        actionsStackView.layer.cornerRadius = 15
+        actionsStackView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        actionsStackView.clipsToBounds = true
+
+        actionsStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalTo(spacer.snp.top)
+            make.width.equalTo(actionButtonWidth * 2)
+        }
+        
+        contentContainer.snp.makeConstraints { make in
+            make.top.bottom.width.equalToSuperview()
+            leadingConstraint = make.leading.equalToSuperview().constraint
+        }
         contentView.backgroundColor = .clear
         backgroundColor = .clear
         
@@ -122,6 +176,11 @@ final class HistoryItemTableViewCell: UITableViewCell {
         }
     }
     
+    private func setupSwipeGesture() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        contentContainer.addGestureRecognizer(panGesture)
+    }
+    
     func configure(with item: HistoryItem) {
         self.item = item
         nameLabel.text = item.name
@@ -133,5 +192,82 @@ final class HistoryItemTableViewCell: UITableViewCell {
         } else {
             qrImageView.image = UIImage(systemName: "qrcode")
         }
+        configureSwipeActions([.more, .delete])
+    }
+    
+    
+    private func configureSwipeActions(_ actions: [SwipeAction]) {
+        self.actions = actions
+        setupActionButtons()
+    }
+    
+    private func setupActionButtons() {
+        actionsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        for action in actions {
+            let button = UIButton()
+            button.backgroundColor = action.backgroundColor
+            button.setImage(action.image, for: .normal)
+            button.tintColor = .white
+            button.rx.tap
+                .asDriver()
+                .drive(onNext: { [weak self] in
+                    self?.onSwipeAction?(action)
+                })
+                .disposed(by: disposeBag)
+            actionsStackView.addArrangedSubview(button)
+        }
+    }
+    
+    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: contentContainer)
+        let totalActionWidth = CGFloat(actions.count) * actionButtonWidth
+        
+        switch gesture.state {
+        case .began, .changed:
+            if translation.x < 0 {
+                leadingConstraint?.update(offset: max(-totalActionWidth, translation.x))
+            } else if contentContainer.frame.minX < 0 {
+                leadingConstraint?.update(offset: min(0, translation.x - totalActionWidth))
+            }
+            
+        case .ended:
+            if translation.x < -actionButtonWidth {
+                showActions()
+            } else {
+                hideActions()
+            }
+            
+        default:
+            break
+        }
+        
+        UIView.animate(withDuration: 0.1) {
+            self.layoutIfNeeded()
+        }
+    }
+    
+    private func showActions() {
+        leadingConstraint?.update(offset: -CGFloat(actions.count) * actionButtonWidth)
+        animateLayoutChanges()
+    }
+    
+    func hideActions() {
+        leadingConstraint?.update(offset: 0)
+        animateLayoutChanges()
+    }
+    
+    private func animateLayoutChanges() {
+        UIView.animate(withDuration: 0.2) {
+            self.layoutIfNeeded()
+        }
+    }
+}
+extension UIView {
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
     }
 }
