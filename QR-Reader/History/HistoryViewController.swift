@@ -77,9 +77,17 @@ final class HistoryViewController: UIViewController {
         
         // Bind table view data
         dataSource = RxTableViewSectionedReloadDataSource<DateSection>(
-            configureCell: { (_, tableView, indexPath, item) -> UITableViewCell in
+            configureCell: { [weak self] (_, tableView, indexPath, item) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(withIdentifier: HistoryItemTableViewCell.reuseIdentifier, for: indexPath) as! HistoryItemTableViewCell
                 cell.configure(with: item)
+                cell.onSwipeAction = {
+                    switch $0 {
+                    case .delete:
+                        self?.deleteItem(item: item)
+                    case .more:
+                        self?.showMoreOptions(for: item)
+                    }
+                }
                 return cell
             }
         )
@@ -107,6 +115,7 @@ final class HistoryViewController: UIViewController {
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self else { return }
                 tableView.deselectRow(at: indexPath, animated: true)
+                (tableView.cellForRow(at: indexPath) as? HistoryItemTableViewCell)?.hideActions()
                 let item = dataSource[indexPath]
                 openDetail(item: item)
             })
@@ -189,25 +198,11 @@ extension HistoryViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let item = (tableView.cellForRow(at: indexPath) as? HistoryItemTableViewCell)?.item else { return nil }
-
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
-            self?.deleteItem(item: item)
-            completion(true)
-        }
-        deleteAction.image = UIImage(systemName: "trash.fill")
-        
-        let moreAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
-            self?.showMoreOptions(for: item)
-            completion(true)
-        }
-        moreAction.image = UIImage(systemName: "ellipsis.circle.fill")
-        
-        return UISwipeActionsConfiguration(actions: [moreAction, deleteAction])
+        return nil
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70.0
+        return 78.0
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -274,6 +269,8 @@ extension HistoryViewController {
         let delete = UIAlertAction(title: "Clear", style: .destructive) { [weak self] _ in
             HapticGenerator.shared.generateImpact()
             self?.viewModel.removeAll()
+            self?.tableView.isHidden = true
+            self?.emptyView.isHidden = false
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(cancel)

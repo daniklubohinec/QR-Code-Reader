@@ -76,6 +76,7 @@ final class InputFieldCell: UICollectionViewCell {
         text.font = R.font.interMedium(size: 14)
         text.textColor = R.color.c030303()
         text.text = ""
+        text.returnKeyType = .done
         return text
     }()
     private lazy var _textField: UITextField = {
@@ -85,6 +86,7 @@ final class InputFieldCell: UICollectionViewCell {
         field.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         field.autocorrectionType = .no
         field.delegate = self
+        field.returnKeyType = .done
         return field
     }()
     private var textViewHeightConstraint: Constraint?
@@ -256,6 +258,11 @@ final class InputFieldCell: UICollectionViewCell {
             self?.onValueChanged?(newValue)
         }
     }
+    
+    func setActiveField(active: Bool) {
+        layer.borderColor = active ? UIColor.black.cgColor : nil
+        layer.borderWidth = active ? 1 : 0
+    }
 }
 
 extension InputFieldCell: UITextViewDelegate {
@@ -265,12 +272,26 @@ extension InputFieldCell: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
+        setActiveField(active: true)
         onBeginEditing?()
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        setActiveField(active: false)
     }
 }
 
 extension InputFieldCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        setActiveField(active: true)
         onBeginEditing?()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        setActiveField(active: false)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textField.resignFirstResponder()
     }
 }

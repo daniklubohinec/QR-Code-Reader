@@ -35,6 +35,9 @@
 		F39EC5E12C46AB6400430030 /* QrCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */; };
 		F39EC5E42C46ACF900430030 /* AuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */; };
 		F39EC5E62C46B0DC00430030 /* QrCodeScanner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */; };
+		F3C7ED0D2C52481300491803 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C7ED0C2C52481300491803 /* SubscriptionManager.swift */; };
+		F3C7ED0F2C5250AC00491803 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3C7ED0E2C5250AC00491803 /* SplashScreen.storyboard */; };
+		F3C7ED112C5250BE00491803 /* SplashScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C7ED102C5250BE00491803 /* SplashScreenController.swift */; };
 		F3D788FD2C4B925900D919C4 /* QRScanResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D788FC2C4B925900D919C4 /* QRScanResultViewController.swift */; };
 		F3D788FF2C4BB42F00D919C4 /* QRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D788FE2C4BB42F00D919C4 /* QRParser.swift */; };
 		F3D789022C4BEB6D00D919C4 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D789012C4BEB6D00D919C4 /* OnboardingViewController.swift */; };
@@ -98,6 +101,9 @@
 		F39EC5E02C46AB6400430030 /* QrCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeScannerViewController.swift; sourceTree = "<group>"; };
 		F39EC5E32C46ACF900430030 /* AuthorizationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationStatus.swift; sourceTree = "<group>"; };
 		F39EC5E52C46B0DC00430030 /* QrCodeScanner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = QrCodeScanner.storyboard; sourceTree = "<group>"; };
+		F3C7ED0C2C52481300491803 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		F3C7ED0E2C5250AC00491803 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
+		F3C7ED102C5250BE00491803 /* SplashScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenController.swift; sourceTree = "<group>"; };
 		F3D788FC2C4B925900D919C4 /* QRScanResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanResultViewController.swift; sourceTree = "<group>"; };
 		F3D788FE2C4BB42F00D919C4 /* QRParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRParser.swift; sourceTree = "<group>"; };
 		F3D789012C4BEB6D00D919C4 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +238,8 @@
 				F39EC5E22C46ACDA00430030 /* Utils */,
 				84D173AC2C3D6E770082C6FC /* Assets.xcassets */,
 				84D173AE2C3D6E770082C6FC /* LaunchScreen.storyboard */,
+				F3C7ED0E2C5250AC00491803 /* SplashScreen.storyboard */,
+				F3C7ED102C5250BE00491803 /* SplashScreenController.swift */,
 				84D173B12C3D6E770082C6FC /* Info.plist */,
 				84DAD0EE2C419A69008278F0 /* R.generated.swift */,
 				84BA30052C428E7A00B8B232 /* Extension */,
@@ -305,6 +313,7 @@
 				F3F149782C49240900AB7B61 /* Helpers.swift */,
 				F3F1497A2C492E1E00AB7B61 /* QRGenerator.swift */,
 				F3D788FE2C4BB42F00D919C4 /* QRParser.swift */,
+				F3C7ED0C2C52481300491803 /* SubscriptionManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -427,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D173AD2C3D6E770082C6FC /* Assets.xcassets in Resources */,
+				F3C7ED0F2C5250AC00491803 /* SplashScreen.storyboard in Resources */,
 				84BA300A2C42915800B8B232 /* ActionSheet.storyboard in Resources */,
 				841296B92C418A17006FB7D5 /* Inter-ExtraBold.ttf in Resources */,
 				841296B32C418A17006FB7D5 /* Inter-Regular.ttf in Resources */,
@@ -522,6 +532,7 @@
 				F3F149822C4953C800AB7B61 /* ToastViewController.swift in Sources */,
 				84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */,
 				F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */,
+				F3C7ED0D2C52481300491803 /* SubscriptionManager.swift in Sources */,
 				F3F149582C48D63C00AB7B61 /* InputFieldView.swift in Sources */,
 				84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */,
 				F3D788FF2C4BB42F00D919C4 /* QRParser.swift in Sources */,

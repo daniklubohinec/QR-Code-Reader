@@ -72,6 +72,7 @@ final class QRCodeCreatorViewController: UIViewController {
         view.backgroundColor = R.color.cF1F1F1()
         navigationItem.title = qrCodeData.type.createTitle
         navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         switch state {
         case .preview:
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editCode))
@@ -85,6 +86,13 @@ final class QRCodeCreatorViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cancelEditing))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc
+    private func cancelEditing() {
+        view.endEditing(true)
     }
     
     private func createLayout() -> UICollectionViewLayout {
