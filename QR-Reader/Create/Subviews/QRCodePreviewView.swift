@@ -46,7 +46,7 @@ final class QRCodePreviewView: UIView {
 
         var config = UIButton.Configuration.filled()
         config.baseForegroundColor = R.color.accentColor()
-        config.baseBackgroundColor = R.color.c1C72F2o10()
+        config.baseBackgroundColor = R.color.c000000o8()
         config.imagePlacement = .leading
         config.imagePadding = 8
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer({ container in

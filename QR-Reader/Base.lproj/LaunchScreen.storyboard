@@ -17,28 +17,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="05h-9e-les">
-                                <rect key="frame" x="146.66666666666666" y="376" width="100" height="100"/>
+                                <rect key="frame" x="144.66666666666666" y="374" width="104" height="104"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="BCL-Bn-fdP"/>
-                                    <constraint firstAttribute="height" constant="100" id="D7y-8Z-wvT"/>
+                                    <constraint firstAttribute="width" constant="104" id="BCL-Bn-fdP"/>
+                                    <constraint firstAttribute="height" constant="104" id="D7y-8Z-wvT"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR Code Reader" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ffp-1U-qEz">
-                                <rect key="frame" x="124.00000000000001" y="769" width="145.33333333333337" height="23"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="cF1F1F1"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ffp-1U-qEz" secondAttribute="trailing" constant="100" id="06k-3d-s3Q"/>
                             <constraint firstItem="05h-9e-les" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="4CY-2V-qvQ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Ffp-1U-qEz" secondAttribute="bottom" constant="26" id="TEc-dR-DfQ"/>
                             <constraint firstItem="05h-9e-les" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="UnP-Ct-PFw"/>
-                            <constraint firstItem="Ffp-1U-qEz" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="qSS-U0-gu5"/>
-                            <constraint firstItem="Ffp-1U-qEz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="rXK-dB-eoB"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -48,7 +38,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="100" height="100"/>
+        <image name="Logo" width="104" height="104"/>
         <namedColor name="cF1F1F1">
             <color red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

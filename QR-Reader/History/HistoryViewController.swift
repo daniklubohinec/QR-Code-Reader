@@ -43,7 +43,8 @@ final class HistoryViewController: UIViewController {
     
     private func setupUI() {
         title = "History"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: R.image.trash(), style: .plain, target: self, action: #selector(trashTapped))
+        navigationItem.rightBarButtonItem?.tintColor = R.color.fe4848()
         
         tableView.delegate = self
         tableView.register(CustomHeaderView.self, forHeaderFooterViewReuseIdentifier: CustomHeaderView.reuseIdentifier)

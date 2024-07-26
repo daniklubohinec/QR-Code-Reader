@@ -8,12 +8,16 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
         didSet {
             galleryButton.clipsToBounds = true
             galleryButton.layer.cornerRadius = 15
+            flashButton.layer.borderWidth = 1
+            flashButton.layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
         }
     }
     @IBOutlet private var flashButton: UIButton! {
         didSet {
             flashButton.clipsToBounds = true
             flashButton.layer.cornerRadius = 32
+            flashButton.layer.borderWidth = 1
+            flashButton.layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
         }
     }
     
@@ -33,7 +37,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
         prevTintColor = navigationController?.navigationBar.tintColor
         navigationItem.largeTitleDisplayMode = .never
         navigationItem.backButtonDisplayMode = .minimal
-
+        
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         setupCamera()
@@ -65,43 +69,43 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
         navigationController?.navigationBar.tintColor = prevTintColor
         dissappeared = true
     }
-
+    
     private func setupCamera() {
         captureSession = AVCaptureSession()
-
+        
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
         let videoInput: AVCaptureDeviceInput
-
+        
         do {
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
             return
         }
-
+        
         if (captureSession.canAddInput(videoInput)) {
             captureSession.addInput(videoInput)
         } else {
             failed()
             return
         }
-
+        
         let metadataOutput = AVCaptureMetadataOutput()
-
+        
         if (captureSession.canAddOutput(metadataOutput)) {
             captureSession.addOutput(metadataOutput)
-
+            
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
             metadataOutput.metadataObjectTypes = [.qr, .ean13]
         } else {
             failed()
             return
         }
-
+        
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.frame = view.layer.bounds
         previewLayer.videoGravity = .resizeAspectFill
         containerView.layer.insertSublayer(previewLayer, at: 0)
-
+        
         DispatchQueue.global(qos: .background).async {
             self.captureSession.startRunning()
         }
@@ -113,15 +117,15 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
         present(alertController, animated: true)
         captureSession = nil
     }
-
+    
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         captureSession.stopRunning()
-
+        
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-
+            
             let scanResult = found(code: stringValue)
             showResult(scanResult)
         } else {
@@ -143,14 +147,14 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
             showPaywall(presenting: self)
         }
     }
-
+    
     func found(code: String) -> QRCodeScanResult {
         print(code)
         let parsedInfo = QRCodeParser.parseQRCode(code)
         
         return QRCodeScanResult(type: parsedInfo.type, data: parsedInfo.parsedData, rawCode: parsedInfo.rawString, displayOrder: parsedInfo.type.defaultDisplayOrder)
     }
-
+    
     private func generateCode(from string: String, codeType: QRCodeResultType, size: CGSize) -> UIImage? {
         guard let data = string.data(using: .utf8) else {
             return nil
@@ -191,7 +195,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
                     
                     transformedImage = outputImage.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
                 }
-
+                
                 let context = CIContext()
                 if let cgImage = context.createCGImage(transformedImage, from: transformedImage.extent) {
                     return UIImage(cgImage: cgImage)

@@ -5,8 +5,8 @@ import RxCocoa
 
 
 // MARK: - FLAGS
-var ninjamode = false
-var hasSubscription = false
+var ninjamode = true
+var hasSubscription = true
 //
 
 final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
@@ -322,7 +322,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             continueButton.updateConfiguration()
         }
         
-        pageControl.isHidden = page == .buy
+        // pageControl.isHidden = page == .buy
         footer.isHidden = page != .buy
         if ninjamode, pageControl.numberOfPages == 1 || page == .buy {
             subView.isHidden = true

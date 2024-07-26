@@ -22,25 +22,25 @@ enum OnboardingPage: Int, CaseIterable {
     var title: String {
         switch self {
         case .reader:
-            return "Instant QR Code Reader"
+            return "Qr Code & Barcode Scanner"
         case .compatibility:
-            return "Wide Barcode Compatibility"
+            return "Broad Barcode Support"
         case .create:
-            return "Create and Share QR Codes"
+            return "Create & Customize your own QR Codes"
         case .buy:
-            return "QR Code Scanning and Generating"
+            return "Scan & Create QR Codes"
         }
     }
     var subtitle: String {
         switch self {
         case .reader:
-            return "Quickly scan QR codes with a single tap using your phone's camera."
+            return "Use your phone's camera to scan QR codes quickly with a single tap."
         case .compatibility:
-            return "Compatible with various barcode types including Data Matrix, EAN, Code128, UPC, and more."
+            return "Supports a variety of barcode types, including Data Matrix, EAN, Code39, EAN, and more."
         case .create:
-            return "Easily generate and share your custom QR codes with friends."
+            return "Seamlessly design and share your unique QR codes with friends."
         case .buy:
-            return "Enjoy unlimited QR code scanning and generating with a 3-day free trial, then $6.99 per week."
+            return "Scan and create QR codes as much as you want with a 3-day free trial, then $6.99 per week."
         }
     }
     var showPriceOptions: Bool {

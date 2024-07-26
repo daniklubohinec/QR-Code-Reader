@@ -181,8 +181,8 @@
 			isa = PBXGroup;
 			children = (
 				84D173A72C3D6E750082C6FC /* HomeViewController.swift */,
-				84D173A92C3D6E750082C6FC /* Main.storyboard */,
 				F3F149722C48ED9300AB7B61 /* MainTabController.swift */,
+				84D173A92C3D6E750082C6FC /* Main.storyboard */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -269,11 +269,10 @@
 		84FEA9532C455048003ED028 /* History */ = {
 			isa = PBXGroup;
 			children = (
-				F3F1496A2C48E9B800AB7B61 /* Assembly */,
 				F3F149602C48E61700AB7B61 /* DataSource */,
 				F3F1496D2C48EB0700AB7B61 /* Cell */,
-				84FEA9512C45503E003ED028 /* History.storyboard */,
 				F3F149702C48EB7E00AB7B61 /* HistoryViewController.swift */,
+				84FEA9512C45503E003ED028 /* History.storyboard */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -345,13 +344,6 @@
 				F3F149632C48E63D00AB7B61 /* HistoryModels.swift */,
 			);
 			path = DataSource;
-			sourceTree = "<group>";
-		};
-		F3F1496A2C48E9B800AB7B61 /* Assembly */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Assembly;
 			sourceTree = "<group>";
 		};
 		F3F1496D2C48EB0700AB7B61 /* Cell */ = {

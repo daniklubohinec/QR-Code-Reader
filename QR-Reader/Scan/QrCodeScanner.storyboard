@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -78,7 +79,7 @@
                                                         </constraints>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="gray" image="photo" catalog="system"/>
+                                                        <buttonConfiguration key="configuration" style="gray" image="photo.fill" catalog="system"/>
                                                         <connections>
                                                             <action selector="openPhotoLibrary" destination="Y6W-OH-hqX" eventType="touchUpInside" id="RjH-ec-85K"/>
                                                         </connections>
@@ -109,6 +110,7 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="iVd-dU-vXS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="TFF-Vk-U9U" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="1fI-wd-jCE"/>
@@ -130,7 +132,7 @@
     </scenes>
     <resources>
         <image name="bolt.slash.fill" catalog="system" width="98" height="128"/>
-        <image name="photo" catalog="system" width="128" height="93"/>
+        <image name="photo.fill" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
