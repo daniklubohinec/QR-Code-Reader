@@ -7,8 +7,9 @@
 
 import UIKit
 import RxSwift
+import MessageUI
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var rateUsBackView: UIView!
     @IBOutlet weak var rateUsButton: UIButton!
@@ -37,6 +38,11 @@ class SettingsViewController: UIViewController {
         animateButtonViews()
     }
     
+    //MARK: MFMail Compose ViewController Delegate method
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
     func animateButtonViews() {
         animateButtonView(rateUsButton, rateUsBackView, disposeBag)
         animateButtonView(shareAppButton, shareAppBackView, disposeBag)
@@ -49,34 +55,45 @@ class SettingsViewController: UIViewController {
     
     @IBAction
     func rateUs() {
-        // TODO: Redirect to store
+        AppReview().requestImmediately()
     }
     
     @IBAction
     func shareApp() {
-        // TODO: Share app
+        let linkToShare = ["https://itunes.apple.com/app/App ID"]
+        let activityController = UIActivityViewController(activityItems: linkToShare, applicationActivities: nil)
+        self.present(activityController, animated: true, completion: nil)
     }
     
     @IBAction
     func contactUs() {
-        // TODO: Contact us
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["gytdGraBlais45@hotmail.com"])
+            present(mail, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Error", message: "Device is not able to send an email", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Close", style: .cancel)
+            alert.addAction(cancel)
+            present(alert, animated: true)
+        }
     }
     
     
     /// On Onboarding same things
     @IBAction
-    private func termsOfUseTapped() {
+    private func restoreTapped() {
         // TODO
     }
     
     @IBAction
-    private func restoreTapped() {
-        // TODO
-    }
-
-    @IBAction
     private func privacyTapped() {
-        // TODO
+        loadURLString("https://docs.google.com/document/d/1fMjSzysmWVI2q7reiGkCYcdrf2BlfvYj5isq0_T7X4E/edit?usp=sharing")
+    }
+    
+    @IBAction
+    private func termsOfUseTapped() {
+        loadURLString("https://docs.google.com/document/d/1YOAWrkDnrbQ8CL7emMMg51z8RHlG8ix-8-sDWYNiDug/edit?usp=sharing")
     }
 }
-

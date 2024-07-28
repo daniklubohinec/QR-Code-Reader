@@ -700,7 +700,7 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
                                                 <connections>
-                                                    <action selector="shareApp" destination="MKe-a0-yQM" eventType="touchUpOutside" id="JxU-9J-Vbd"/>
+                                                    <action selector="shareApp" destination="MKe-a0-yQM" eventType="touchUpInside" id="9Pf-Ts-L8U"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -924,7 +924,7 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
                                                 <connections>
-                                                    <action selector="termsOfUseTapped" destination="MKe-a0-yQM" eventType="touchUpOutside" id="Pt5-k2-4TE"/>
+                                                    <action selector="termsOfUseTapped" destination="MKe-a0-yQM" eventType="touchUpInside" id="fXG-Fx-GmH"/>
                                                 </connections>
                                             </button>
                                         </subviews>

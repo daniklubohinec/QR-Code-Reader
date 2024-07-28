@@ -1,6 +1,14 @@
+//
+//  SplashScreenViewController.swift
+//  QR-Reader
+//
+//  Created by Danik Lubohinec on 26.07.24.
+//
+
 import UIKit
 
-final class SplashScreenViewController: UIViewController {
+class SplashScreenViewController: UIViewController {
+    
     @IBOutlet private var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
