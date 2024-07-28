@@ -65,10 +65,16 @@ enum QRCodeResultType: Codable, Equatable {
 }
 
 struct QRCodeScanResult: Codable, Equatable {
+    enum ViewMode: Codable {
+        case view
+        case scan
+    }
     let type: QRCodeResultType
+    let viewMode: ViewMode
     let data: [String: String]
     let rawCode: String
     let displayOrder: [String]
+    
     var name: String {
         switch type {
         case .barcode, .text:
@@ -90,11 +96,8 @@ struct QRCodeScanResult: Codable, Equatable {
         }
     }
     
-    init(type: QRCodeResultType, data: [String: String], rawCode: String, displayOrder: [String]) {
-        self.type = type
-        self.data = data
-        self.rawCode = rawCode
-        self.displayOrder = displayOrder
+    func withUpdatedViewMode(_ value: ViewMode) -> Self {
+        return Self(type: type, viewMode: value, data: data, rawCode: rawCode, displayOrder: displayOrder)
     }
 }
 
@@ -242,7 +245,9 @@ final class QRCodeResultViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        qrProcessor.saveScanResult(result: scanResult)
+        if scanResult.viewMode == .scan {
+            qrProcessor.saveScanResult(result: scanResult)
+        }
     }
     
     @objc 

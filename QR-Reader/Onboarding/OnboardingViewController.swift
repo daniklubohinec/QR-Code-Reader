@@ -3,14 +3,9 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-
-// MARK: - FLAGS
-var ninjamode = false
-var hasSubscription = false
-//
-
 final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
-
+    private let review = PurchaseService.shared.review
+    
     private let scrollView = UIScrollView()
 
     private lazy var pageControl: UIPageControl = {
@@ -43,7 +38,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = R.font.interRegular(size: 14)
-        label.textColor = ninjamode ? R.color.c030303()?.withAlphaComponent(0.3) : R.color.c030303()
+        label.textColor = !review ? R.color.c030303()?.withAlphaComponent(0.3) : R.color.c030303()
         label.textAlignment = .center
         return label
     }()
@@ -91,12 +86,12 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         let image: UIImage? = {
-            if ninjamode {
+            if !review {
                 return UIImage(named: "NinjaCross")
             }
             return UIImage(named: "Cross")
         }()
-        button.isHidden = ninjamode
+        button.isHidden = !review
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(closeScreen), for: .touchUpInside)
         button.isHidden = true
@@ -186,19 +181,20 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         
         pageControl.isHidden = pages.count == 1
         footer.isHidden = !(pages.count == 1)
-        if !ninjamode, pages.count == 1 {
+        if review, pages.count == 1 {
             footer.isHidden = false
             subView.isHidden = false
             descriptionLabel.isHidden = true
             continueButtonTopLabelConstraint?.isActive = false
             closeButton.isHidden = false
             continueButtonTopViewConstraint?.isActive = true
+            updateContinueButton(page: .buy)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if ninjamode, pageControl.numberOfPages == 1  {
+        if !review, pageControl.numberOfPages == 1  {
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
                 self.closeButton.isHidden = false
             }
@@ -256,7 +252,6 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }
 
     private func setupContinueButton() {
-        continueButton.setTitle("Continue", for: .normal)
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
     }
 
@@ -272,6 +267,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         } else {
             Storage.shared.onboardingShown = true
             // TODO: BUY SUBSCRIPTION
+            
             dismiss(animated: true)
         }
     }
@@ -293,18 +289,12 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
-    private func updateLabels(page: Int) {
-        guard let page = OnboardingPage(rawValue: page) else { return }
-        animateTextChange(for: titleLabel, newText: page.title)
-        animateTextChange(for: descriptionLabel, newText: page.subtitle)
-        descriptionLabel.isHidden = page == .buy
-        subView.isHidden = page != .buy
-        continueButtonTopLabelConstraint?.isActive = page != .buy
-        continueButtonTopViewConstraint?.isActive = page == .buy
-        if page == .buy, !ninjamode {
+    private func updateContinueButton(page: OnboardingPage) {
+        if page == .buy, review {
             var configuration = continueButton.configuration
-            configuration?.title = "Try my FREE TRIAL, then $6.99/week"
-            configuration?.subtitle = "Auto renewable. Cancel anytime"
+            guard let paywall = PurchaseService.shared.inAppPaywall else { return }
+            configuration?.title = "\(paywall.config.purchaseTitle) \(paywall.config.priceDescription) \(paywall.products.first?.localizedPrice ?? "")"
+            configuration?.subtitle = paywall.config.priceSubtitle
             configuration?.titleAlignment = .center
             configuration?.subtitleTextAttributesTransformer = UIConfigurationTextAttributesTransformer({ container in
                 var container = container
@@ -321,12 +311,23 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             continueButton.configuration = configuration
             continueButton.updateConfiguration()
         }
+    }
+    
+    private func updateLabels(page: Int) {
+        guard let page = OnboardingPage(rawValue: page) else { return }
+        animateTextChange(for: titleLabel, newText: page.title)
+        animateTextChange(for: descriptionLabel, newText: page.subtitle)
+        descriptionLabel.isHidden = page == .buy
+        subView.isHidden = page != .buy
+        continueButtonTopLabelConstraint?.isActive = page != .buy
+        continueButtonTopViewConstraint?.isActive = page == .buy
         
         pageControl.isHidden = page == .buy
         footer.isHidden = page != .buy
-        if ninjamode, pageControl.numberOfPages == 1 || page == .buy {
+        if !review, pageControl.numberOfPages == 1 || page == .buy {
             subView.isHidden = true
             descriptionLabel.isHidden = false
+            updateContinueButton(page: page)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
                 self.closeButton.isHidden = false
             }
@@ -348,6 +349,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     
     @objc
     private func closeScreen() {
+        Storage.shared.onboardingShown = true
         dismiss(animated: true)
     }
     
@@ -400,7 +402,9 @@ final class SubscriptionOptionView: UIView {
 
     private let freeTrialLabel: UILabel = {
         let label = UILabel()
-        label.text = "3 Days for Free"
+        if let paywall = PurchaseService.shared.inAppPaywall {
+            label.text = paywall.config.trial
+        }
         label.font = .systemFont(ofSize: 16)
         label.textColor = R.color.accentColor()
         return label
@@ -408,7 +412,9 @@ final class SubscriptionOptionView: UIView {
 
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.text = "then $6.99/week"
+        if let paywall = PurchaseService.shared.inAppPaywall {
+            label.text = "\(paywall.config.priceDescription) \(paywall.products.first?.localizedPrice ?? "")"
+        }
         label.font = .systemFont(ofSize: 16)
         label.textColor = .black
         label.textAlignment = .right

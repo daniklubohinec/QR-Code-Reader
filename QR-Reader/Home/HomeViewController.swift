@@ -56,8 +56,8 @@ final class HomeViewController: UIViewController {
                         scannerVC.hidesBottomBarWhenPushed = true
                         navigationController?.pushViewController(scannerVC, animated: true)
                     case .denied:
-                        ActionSheetViewController.showActionSheet { [weak self] in
-                            self?.openAppSettings()
+                        ActionSheetViewController.showActionSheet {
+                            openAppSettings()
                         }
                     }
                 }
@@ -106,7 +106,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func openCreate(for type: QRCodeData.QRCodeType, data: QRCodeData? = nil) {
-        if hasSubscription {
+        if PurchaseService.shared.hasPremium {
             let vc = QRCodeCreatorViewController(type: type, state: .creating)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
@@ -132,14 +132,6 @@ final class HomeViewController: UIViewController {
     
     private func openCreateFrom(contact: CNContact) {
         openCreate(for: .contact, data: contact.contactQRModel)
-    }
-    
-    func openAppSettings() {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
     }
 }
 
