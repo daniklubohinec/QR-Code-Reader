@@ -27,8 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         IQKeyboardManager.shared.enable = true
         _ = QRGenerator.shared
-        Adapty.activate("public_live_RDGSxgLt.70DlBWL7k4UmzL8xb7c7")
-        _ = SubscriptionManager.shared
+        PurchaseService.shared.configure()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,11 +52,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to undo the changes made on entering the background.
         if enteredInBackground {
             defer { enteredInBackground = false }
-            guard !hasSubscription else {
+            guard !PurchaseService.shared.hasPremium else {
                 return
             }
             if let root = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController {
-                showPaywall(presenting: root)
+                let presentOn: UIViewController?
+                if root is SplashScreenViewController {
+                    presentOn = root.presentedViewController
+                } else {
+                    presentOn = root
+                }
+                guard let presentOn else { return }
+                showPaywall(presenting: presentOn)
             }
         }
     }

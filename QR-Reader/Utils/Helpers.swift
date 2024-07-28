@@ -111,3 +111,26 @@ func showPaywall(presenting: UIViewController) {
     vc.modalPresentationStyle = .fullScreen
     presenting.present(vc, animated: true)
 }
+
+func openAppSettings() {
+    if let url = URL(string: UIApplication.openSettingsURLString) {
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+}
+
+extension UIViewController {
+    func presentWithFade(_ viewControllerToPresent: UIViewController, duration: TimeInterval = 0.5, completion: (() -> Void)? = nil) {
+        viewControllerToPresent.modalPresentationStyle = .overFullScreen
+        viewControllerToPresent.view.alpha = 0.0
+        
+        self.present(viewControllerToPresent, animated: false) {
+            UIView.animate(withDuration: duration, animations: {
+                viewControllerToPresent.view.alpha = 1.0
+            }, completion: { finished in
+                completion?()
+            })
+        }
+    }
+}

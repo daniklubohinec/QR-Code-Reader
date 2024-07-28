@@ -160,9 +160,18 @@ final class HistoryViewController: UIViewController {
     private func emptyAction() {
         HapticGenerator.shared.generateImpact()
         if currentSegmentIndex == 0 {
-            guard let scannerVC = R.storyboard.qrCodeScanner.qrCodeScanner.callAsFunction() else { return }
-            scannerVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(scannerVC, animated: true)
+            AuthorizationStatus.checkCameraAndPhotoLibraryAuthorizationStatus { [weak self] status in
+                switch status {
+                case .granted:
+                    guard let self, let scannerVC = R.storyboard.qrCodeScanner.qrCodeScanner.callAsFunction() else { return }
+                    scannerVC.hidesBottomBarWhenPushed = true
+                    navigationController?.pushViewController(scannerVC, animated: true)
+                case .denied:
+                    ActionSheetViewController.showActionSheet {
+                        openAppSettings()
+                    }
+                }
+            }
         } else {
             tabBarController?.selectedIndex = 0
         }
@@ -171,7 +180,8 @@ final class HistoryViewController: UIViewController {
     private func openDetail(item: HistoryItem) {
         HapticGenerator.shared.generateImpact()
         if segmentedControl.selectedSegmentIndex == 0 {
-            guard let image = UIImage(data: item.qrCodeImageData), let result = item.scanResult else { return }
+            guard let image = UIImage(data: item.qrCodeImageData), var result = item.scanResult else { return }
+            result = result.withUpdatedViewMode(.view)
             let vc = QRCodeResultViewController(scanResult: result, image: image)
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)

@@ -6,18 +6,27 @@
 //
 
 import UIKit
+import Combine
 
 class SplashScreenViewController: UIViewController {
     
     @IBOutlet private var indicator: UIActivityIndicatorView!
+    private var cancelable = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         indicator.startAnimating()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.showMainViewController()
-        }
+        PurchaseService.shared.$inAppPaywall
+            .sink { [weak self] paywall in
+                guard paywall != nil, let self else {
+                    return
+                }
+                onMain {
+                    self.showMainViewController()
+                }
+            }
+            .store(in: &cancelable)
     }
     
     private func showMainViewController() {

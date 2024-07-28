@@ -137,7 +137,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
     }
     
     func showResult(_ result: QRCodeScanResult) {
-        if hasSubscription {
+        if PurchaseService.shared.hasPremium {
             let desiredSize = CGSize(width: result.type == .barcode ? 216 : 147, height: 147)
             let codeImage = generateCode(from: result.rawCode, codeType: result.type, size: desiredSize) ?? UIImage()
             
@@ -152,7 +152,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
         print(code)
         let parsedInfo = QRCodeParser.parseQRCode(code)
         
-        return QRCodeScanResult(type: parsedInfo.type, data: parsedInfo.parsedData, rawCode: parsedInfo.rawString, displayOrder: parsedInfo.type.defaultDisplayOrder)
+        return QRCodeScanResult(type: parsedInfo.type, viewMode: .scan, data: parsedInfo.parsedData, rawCode: parsedInfo.rawString, displayOrder: parsedInfo.type.defaultDisplayOrder)
     }
     
     private func generateCode(from string: String, codeType: QRCodeResultType, size: CGSize) -> UIImage? {
@@ -214,7 +214,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
     }
     
     private func detectQRCode(in image: UIImage) -> String? {
-        if hasSubscription {
+        if PurchaseService.shared.hasPremium {
             guard let ciImage = CIImage(image: image) else { return nil }
             
             let context = CIContext()
@@ -289,7 +289,7 @@ final class QRCodeScannerViewController: UIViewController, AVCaptureMetadataOutp
 extension QRCodeScannerViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
-            if !hasSubscription {
+            if !PurchaseService.shared.hasPremium {
                 picker.dismiss(animated: true) { [weak self] in
                     guard let self else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {

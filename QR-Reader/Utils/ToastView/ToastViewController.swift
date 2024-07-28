@@ -36,11 +36,19 @@ final class ToastViewController: UIViewController {
         with imagename: String,
         onViewController: UIViewController? = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController
     ) {
+        let presentOn: UIViewController?
+        if onViewController is SplashScreenViewController {
+            presentOn = onViewController?.presentedViewController
+        } else {
+            presentOn = onViewController
+        }
         guard let toast = R.storyboard.toast.toastVC.callAsFunction() else { return }
         toast.text = message
         toast.imagename = imagename
         toast.modalPresentationStyle = .overCurrentContext
+        toast.modalTransitionStyle = .crossDissolve
 
-        onViewController?.present(toast, animated: true)
+        HapticGenerator.shared.generateImpact()
+        presentOn?.presentWithFade(toast)
     }
 }
