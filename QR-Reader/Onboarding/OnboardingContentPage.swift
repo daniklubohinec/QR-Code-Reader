@@ -34,9 +34,9 @@ enum OnboardingPage: Int, CaseIterable {
     var subtitle: String {
         switch self {
         case .reader:
-            return "Use your phone's camera to scan QR codes quickly with a single tap."
+            return PurchaseService.shared.review ? "Quickly scan QR codes with a single tap using your phone's camera." : "Use your phone's camera to scan QR codes quickly with a single tap."
         case .compatibility:
-            return "Supports a variety of barcode types, including Data Matrix, EAN, Code39, EAN, and more."
+            return PurchaseService.shared.review ? "Supports a variety of barcode types, including Data Matrix, EAN, Code39, EAN, and more." : "Supports a variety of barcode types, including Data Matrix, EAN, Code39, EAN, and more."
         case .create:
             return "Seamlessly design and share your unique QR codes with friends."
         case .buy:
@@ -50,29 +50,5 @@ enum OnboardingPage: Int, CaseIterable {
         case .buy:
             return true
         }
-    }
-}
-
-final class OnboardingContentPage: UIViewController {
-    
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var titleLabel: UILabel!
-    @IBOutlet private var descriptionLabel: UILabel!
-    @IBOutlet private var continueButton: UIButton!
-    private var page: OnboardingPage?
-    private var nextTappedImpl: ((OnboardingPage) -> Void)?
-    
-    func setupView(page: OnboardingPage, nextTapped: @escaping ((OnboardingPage) -> Void)) {
-        imageView.image = page.image
-        titleLabel.text = page.title
-        descriptionLabel.text = page.subtitle
-        self.page = page
-        self.nextTappedImpl = nextTapped
-    }
-    
-    @IBAction
-    private func nextTapped() {
-        guard let page else { return }
-        nextTappedImpl?(page)
     }
 }

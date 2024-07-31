@@ -10,7 +10,6 @@
 		27B37F27FAE1601C773119E4 /* Pods_QR_Reader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98549218F65AD73193DCB10B /* Pods_QR_Reader.framework */; };
 		840888FB2C53D6E400A7E04C /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840888FA2C53D6E400A7E04C /* R.generated.swift */; };
 		840888FD2C53D70F00A7E04C /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840888FC2C53D70F00A7E04C /* SplashScreenViewController.swift */; };
-		840889002C53E7B900A7E04C /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 840888FF2C53E7B900A7E04C /* Onboarding.storyboard */; };
 		840889022C55646900A7E04C /* AppReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840889012C55646900A7E04C /* AppReview.swift */; };
 		841296B32C418A17006FB7D5 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296AA2C418A17006FB7D5 /* Inter-Regular.ttf */; };
 		841296B42C418A17006FB7D5 /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 841296AB2C418A17006FB7D5 /* Inter-Light.ttf */; };
@@ -70,7 +69,6 @@
 		80FC8F9FE682ED7DC8D3D8B6 /* Pods_QR_Reader_QR_ReaderUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QR_Reader_QR_ReaderUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		840888FA2C53D6E400A7E04C /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		840888FC2C53D70F00A7E04C /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
-		840888FF2C53E7B900A7E04C /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		840889012C55646900A7E04C /* AppReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReview.swift; sourceTree = "<group>"; };
 		841296AA2C418A17006FB7D5 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		841296AB2C418A17006FB7D5 /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
@@ -283,7 +281,6 @@
 			children = (
 				F39EC5DD2C469DD100430030 /* OnboardingContentPage.swift */,
 				F3D789012C4BEB6D00D919C4 /* OnboardingViewController.swift */,
-				840888FF2C53E7B900A7E04C /* Onboarding.storyboard */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -464,7 +461,6 @@
 				84FEA9522C45503E003ED028 /* History.storyboard in Resources */,
 				841296B42C418A17006FB7D5 /* Inter-Light.ttf in Resources */,
 				841296B82C418A17006FB7D5 /* Inter-Thin.ttf in Resources */,
-				840889002C53E7B900A7E04C /* Onboarding.storyboard in Resources */,
 				84D173AB2C3D6E750082C6FC /* Base in Resources */,
 				84BA300D2C42959D00B8B232 /* Inter-Black.ttf in Resources */,
 			);
@@ -545,12 +541,11 @@
 				F3F149732C48ED9300AB7B61 /* MainTabController.swift in Sources */,
 				F39EC5E42C46ACF900430030 /* AuthorizationStatus.swift in Sources */,
 				F3F1497B2C492E1E00AB7B61 /* QRGenerator.swift in Sources */,
-				F3C7ED112C5250BE00491803 /* SplashScreenController.swift in Sources */,
 				F3F149822C4953C800AB7B61 /* ToastViewController.swift in Sources */,
 				84BA30012C428B4F00B8B232 /* SettingsViewController.swift in Sources */,
 				F39EC5DE2C469DD100430030 /* OnboardingContentPage.swift in Sources */,
 				840888FD2C53D70F00A7E04C /* SplashScreenViewController.swift in Sources */,
-				F3C7ED0D2C52481300491803 /* SubscriptionManager.swift in Sources */,
+				F3C7ED0D2C52481300491803 /* PurchaseService.swift in Sources */,
 				F3C7ED0D2C52481300491803 /* PurchaseService.swift in Sources */,
 				F3F149582C48D63C00AB7B61 /* InputFieldView.swift in Sources */,
 				84D173A42C3D6E750082C6FC /* AppDelegate.swift in Sources */,

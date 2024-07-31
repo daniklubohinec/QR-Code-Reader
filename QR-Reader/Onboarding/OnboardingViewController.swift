@@ -3,12 +3,6 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-
-// MARK: - FLAGS
-var ninjamode = true
-var hasSubscription = true
-//
-
 final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     private let review = PurchaseService.shared.review
     
@@ -34,7 +28,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }()
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.font = R.font.interBold(size: 32)
         label.textColor = R.color.c030303()
         label.textAlignment = .center
@@ -42,15 +36,15 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }()
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.font = R.font.interRegular(size: 14)
-        label.textColor = !review ? R.color.c030303()?.withAlphaComponent(0.3) : R.color.c030303()
+        label.textColor = !review ? R.color.c080809o30() : R.color.c030303()
         label.textAlignment = .center
         return label
     }()
     private lazy var subView: SubscriptionOptionView = {
         let view = SubscriptionOptionView()
-        view.backgroundColor = R.color.accentColor()?.withAlphaComponent(0.1)
+        view.backgroundColor = R.color.c000000o8()
         view.isHidden = true
         return view
     }()
@@ -60,22 +54,22 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         
         let termOfUse = UIButton()
         termOfUse.setAttributedTitle(NSAttributedString(string: "Terms Of use", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]), for: .normal)
-        termOfUse.setTitleColor(R.color.c030303()!.withAlphaComponent(0.1), for: .normal)
+        termOfUse.setTitleColor(R.color.c080809o30(), for: .normal)
         termOfUse.titleLabel?.font = R.font.interRegular(size: 14)
         termOfUse.addTarget(self, action: #selector(termsOfUseTapped), for: .touchUpInside)
         
         let restore = UIButton()
         restore.setAttributedTitle(NSAttributedString(string: "Restore", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]), for: .normal)
-        restore.setTitleColor(R.color.c030303()!.withAlphaComponent(0.1), for: .normal)
+        restore.setTitleColor(R.color.c080809o30(), for: .normal)
         restore.titleLabel?.font = R.font.interRegular(size: 14)
         restore.addTarget(self, action: #selector(restoreTapped), for: .touchUpInside)
-
+        
         let privacy = UIButton()
         privacy.setAttributedTitle(NSAttributedString(string: "Privacy policy", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue]), for: .normal)
-        privacy.setTitleColor(R.color.c030303()!.withAlphaComponent(0.1), for: .normal)
+        privacy.setTitleColor(R.color.c080809o30(), for: .normal)
         privacy.titleLabel?.font = R.font.interRegular(size: 14)
         privacy.addTarget(self, action: #selector(privacyTapped), for: .touchUpInside)
-
+        
         let stackView = UIStackView(arrangedSubviews: [termOfUse, restore, privacy])
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -86,7 +80,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
+        
         return view
     }()
     private lazy var closeButton: UIButton = {
@@ -121,15 +115,16 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(20)
+            make.top.equalTo(view.snp.top).offset(12)
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(26)
+            make.top.equalTo(pageControl.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
         }
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
         }
@@ -148,11 +143,12 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(60)
         }
+        
         footer.snp.makeConstraints { make in
             make.top.equalTo(continueButton.snp.bottom).offset(10)
             make.leading.equalToSuperview().offset(48)
             make.trailing.equalToSuperview().offset(-48)
-            make.bottom.equalToSuperview()
+            // make.bottom.equalToSuperview().offset(-34)
         }
         continueButtonTopViewConstraint?.isActive = false
         
@@ -185,8 +181,21 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         titleLabel.text = OnboardingPage.reader.title
         descriptionLabel.text = OnboardingPage.reader.subtitle
         
-        pageControl.isHidden = pages.count == 1
+        continueButton.titleLabel?.font = R.font.interMedium(size: 16)
+        
+        // pageControl.isHidden = pages.count == 1
         footer.isHidden = !(pages.count == 1)
+        
+        // Paywall setup
+        if pages.count == 1 {
+            pageControl.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.width.equalToSuperview()
+                make.height.equalTo(20)
+                make.top.equalTo(bottomContainerView.snp.top).offset(-18)
+            }
+        }
+        
         if review, pages.count == 1 {
             footer.isHidden = false
             subView.isHidden = false
@@ -195,6 +204,12 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             closeButton.isHidden = false
             continueButtonTopViewConstraint?.isActive = true
             updateContinueButton(page: .buy)
+            titleLabel.text = OnboardingPage.buy.title
+        } else if !review, pages.count == 1 {
+            titleLabel.text = OnboardingPage.buy.title
+            descriptionLabel.text = OnboardingPage.buy.subtitle
+            
+            pageControl.isHidden = true
         }
     }
     
@@ -205,8 +220,19 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
                 self.closeButton.isHidden = false
             }
         }
+        pulseAnimation()
     }
-
+    
+    func pulseAnimation() {
+        let pulseAnimation = CABasicAnimation(keyPath: "transform.scale")
+        pulseAnimation.fromValue = 0.98
+        pulseAnimation.toValue = 1.02
+        pulseAnimation.duration = 1
+        pulseAnimation.autoreverses = true
+        pulseAnimation.repeatCount = .infinity
+        continueButton.layer.add(pulseAnimation, forKey: "animateOpacity")
+    }
+    
     private func setupScrollView() {
         view.addSubview(scrollView)
         view.addSubview(bottomContainerView)
@@ -216,25 +242,31 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         scrollView.delegate = self
         
         closeButton.snp.makeConstraints { make in
-            make.width.height.equalTo(28)
-            make.leading.equalToSuperview().offset(28)
-            make.top.equalTo(view.snp.topMargin).offset(20)
+            make.width.height.equalTo(24)
+            make.leading.equalToSuperview().offset(16)
+            make.top.equalTo(view.snp.topMargin).offset(10)
         }
+        
         bottomContainerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(300)
-            make.bottom.equalToSuperview().offset(-21)
+            make.height.equalTo(271)
+            make.top.equalTo(scrollView.snp.bottom)
+            make.bottom.equalToSuperview().offset(-34)
         }
-
+        
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.bottom.equalTo(bottomContainerView.snp.top)
         }
-
+        
         var previousPage: UIView? = nil
         for page in pagesView {
             scrollView.addSubview(page)
             page.snp.makeConstraints { make in
-                make.top.bottom.equalToSuperview()
+                make.top.equalTo(scrollView.snp.top)
+                make.bottom.equalTo(scrollView.snp.bottom)
                 make.width.equalTo(view)
                 if let previousPage = previousPage {
                     make.left.equalTo(previousPage.snp.right)
@@ -244,23 +276,24 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             }
             previousPage = page
         }
-
+        
         if let lastPage = pagesView.last {
             scrollView.snp.makeConstraints { make in
                 make.right.equalTo(lastPage.snp.right)
             }
         }
     }
-
+    
     private func setupPageControl() {
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
     }
-
+    
     private func setupContinueButton() {
         continueButton.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        continueButton.titleLabel?.font = R.font.interMedium(size: 16)
     }
-
+    
     private var scrolledByButton = false
     @objc private func continueButtonTapped() {
         let currentPage = pageControl.currentPage
@@ -277,7 +310,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             dismiss(animated: true)
         }
     }
-
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !scrolledByButton else {
             return
@@ -299,16 +332,22 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         if page == .buy, review {
             var configuration = continueButton.configuration
             guard let paywall = PurchaseService.shared.inAppPaywall else { return }
-            configuration?.title = "\(paywall.config.purchaseTitle) \(paywall.config.priceDescription) \(paywall.products.first?.localizedPrice ?? "")"
-            configuration?.subtitle = paywall.config.priceSubtitle
+            configuration?.title = "Try my FREE TRIAL, then $6.99/week"// "\(paywall.config.purchaseTitle) \(paywall.config.priceDescription) \(paywall.products.first?.localizedPrice ?? "")"
+            configuration?.subtitle = "Auto renewable. Cancel anytime"// paywall.config.priceSubtitle
             configuration?.titleAlignment = .center
             configuration?.subtitleTextAttributesTransformer = UIConfigurationTextAttributesTransformer({ container in
                 var container = container
                 container.foregroundColor = UIColor.white.withAlphaComponent(0.4)
-               return container
+                return container
             })
             continueButton.configuration = configuration
             continueButton.updateConfiguration()
+            pageControl.isHidden = true
+            
+            continueButton.titleLabel?.font = R.font.interMedium(size: 16)
+            continueButton.subtitleLabel?.font = R.font.interMedium(size: 13)
+            
+            remakeConstraint(page)
         } else {
             var configuration = UIButton.Configuration.filled()
             configuration.baseBackgroundColor = R.color.accentColor()
@@ -316,7 +355,10 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             configuration.title = "Continue"
             continueButton.configuration = configuration
             continueButton.updateConfiguration()
+            continueButton.titleLabel?.font = R.font.interMedium(size: 16)
+            pageControl.isHidden = false
         }
+        continueButton.titleLabel?.font = R.font.interMedium(size: 16)
     }
     
     private func updateLabels(page: Int) {
@@ -325,8 +367,8 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         animateTextChange(for: descriptionLabel, newText: page.subtitle)
         descriptionLabel.isHidden = page == .buy
         subView.isHidden = page != .buy
-        continueButtonTopLabelConstraint?.isActive = page != .buy
-        continueButtonTopViewConstraint?.isActive = page == .buy
+        
+        remakeConstraint(page)
         
         // pageControl.isHidden = page == .buy
         footer.isHidden = page != .buy
@@ -337,11 +379,30 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4)) {
                 self.closeButton.isHidden = false
             }
+            
+            titleLabel.text = "Scan & Create QR Codes"
+            descriptionLabel.text = "Scan and create QR codes as much as you want with a 3-day free trial, then $6.99 per week."
         } else {
+            updateContinueButton(page: page)
             closeButton.isHidden = page != .buy
         }
+        
+        continueButton.titleLabel?.font = R.font.interMedium(size: 16)
     }
-
+    
+    func remakeConstraint(_ page: OnboardingPage) {
+        if review {
+            pageControl.snp.remakeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.width.equalToSuperview()
+                make.height.equalTo(20)
+                make.top.equalTo(bottomContainerView.snp.top).offset(page == .buy ? -18 : 12)
+            }
+            continueButtonTopLabelConstraint?.isActive = page != .buy
+            continueButtonTopViewConstraint?.isActive = page == .buy
+        }
+    }
+    
     private func animateTextChange(for label: UILabel, newText: String) {
         UIView.animate(withDuration: 0.35, animations: {
             label.alpha = 0
@@ -366,32 +427,32 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     @objc private func restoreTapped() {
         // TODO
     }
-
+    
     @objc private func privacyTapped() {
         loadURLString("https://docs.google.com/document/d/1fMjSzysmWVI2q7reiGkCYcdrf2BlfvYj5isq0_T7X4E/edit?usp=sharing")
     }
-
+    
 }
 
 final class OnboardingPageView: UIView {
-
+    
     init(image: UIImage?, title: String, description: String) {
         super.init(frame: .zero)
-
+        
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         addSubview(imageView)
         
         imageView.snp.makeConstraints { make in
-            make.top.equalTo(snp.topMargin)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(358)
-            make.height.equalTo(458)
+            //            make.top.equalTo(snp.topMargin)
+            //            make.centerX.equalToSuperview()
+            //            make.width.equalTo(358)
+            //            make.height.equalTo(458)
+            make.edges.equalToSuperview()
         }
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -405,60 +466,60 @@ final class SubscriptionOptionView: UIView {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-
+    
     private let freeTrialLabel: UILabel = {
         let label = UILabel()
         if let paywall = PurchaseService.shared.inAppPaywall {
-            label.text = paywall.config.trial
+            label.text = "3 Days for Free"// paywall.config.trial
         }
-        label.font = .systemFont(ofSize: 16)
+        label.font = R.font.interSemiBold(size: 16)
         label.textColor = R.color.accentColor()
         return label
     }()
-
+    
     private let priceLabel: UILabel = {
         let label = UILabel()
         if let paywall = PurchaseService.shared.inAppPaywall {
-            label.text = "\(paywall.config.priceDescription) \(paywall.products.first?.localizedPrice ?? "")"
+            label.text = "then $6.99/week"// "\(paywall.config.priceDescription) \(paywall.products.first?.localizedPrice ?? "")"
         }
-        label.font = .systemFont(ofSize: 16)
+        label.font = R.font.interRegular(size: 14)
         label.textColor = .black
         label.textAlignment = .right
         return label
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
     }
-
+    
     private func setupView() {
         backgroundColor = R.color.accentColor()?.withAlphaComponent(0.1)
         layer.cornerRadius = 15
-
+        
         addSubview(checkmarkImageView)
         addSubview(freeTrialLabel)
         addSubview(priceLabel)
-
+        
         checkmarkImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(12)
+            make.leading.equalToSuperview().offset(16)
             make.width.height.equalTo(24)
         }
-
+        
         freeTrialLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(checkmarkImageView.snp.trailing).offset(8)
         }
-
+        
         priceLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-12)
+            make.trailing.equalToSuperview().offset(-16)
             make.leading.equalTo(freeTrialLabel.snp.trailing).offset(8)
         }
     }
