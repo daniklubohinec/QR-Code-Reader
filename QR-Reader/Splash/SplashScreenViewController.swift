@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class SplashScreenViewController: UIViewController {
+final class SplashScreenViewController: UIViewController {
     
     @IBOutlet private var indicator: UIActivityIndicatorView!
     private var cancelable = Set<AnyCancellable>()
@@ -24,6 +24,12 @@ class SplashScreenViewController: UIViewController {
                 }
                 onMain {
                     self.showMainViewController()
+                    if !Storage.shared.onboardingShown, !PurchaseService.shared.hasPremium {
+                        self.showOnboarding()
+                    } else {
+                        self.unhideMain()
+                    }
+
                 }
             }
             .store(in: &cancelable)
@@ -34,7 +40,28 @@ class SplashScreenViewController: UIViewController {
         if let mainViewController = mainStoryboard.instantiateInitialViewController() {
             mainViewController.modalTransitionStyle = .crossDissolve
             mainViewController.modalPresentationStyle = .fullScreen
-            self.present(mainViewController, animated: true, completion: nil)
+            
+            self.addChild(mainViewController)
+            self.view.addSubview(mainViewController.view)
+            mainViewController.view.frame = self.view.bounds
+            mainViewController.didMove(toParent: self)
+            
+            mainViewController.view.isHidden = true
         }
+    }
+    
+    private func unhideMain() {
+        if let mainViewController = children.first {
+            mainViewController.view.isHidden = false
+        }
+    }
+    
+    private func showOnboarding() {
+        let vc = OnboardingViewController()
+        vc.completion = { [weak self] in
+            self?.unhideMain()
+        }
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: false)
     }
 }

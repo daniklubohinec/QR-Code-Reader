@@ -58,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let root = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController {
                 let presentOn: UIViewController?
                 if root is SplashScreenViewController {
-                    presentOn = root.presentedViewController
+                    presentOn = root.presentedViewController ?? root.children.first
                 } else {
                     presentOn = root
                 }

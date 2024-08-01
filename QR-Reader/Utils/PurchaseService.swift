@@ -6,6 +6,8 @@ struct AdaptyConfig: Decodable {
     var priceSubtitle: String
     var priceDescription: String
     var purchaseTitle: String
+    var descriptionSubtitle: String
+    var descriptionPerWeek: String
     var review: Bool
 }
 

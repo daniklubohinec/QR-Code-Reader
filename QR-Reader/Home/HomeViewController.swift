@@ -63,12 +63,6 @@ final class HomeViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-
-        if !Storage.shared.onboardingShown {
-            let vc = OnboardingViewController()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: false)
-        }
     }
     
     func animateButtonViews() {

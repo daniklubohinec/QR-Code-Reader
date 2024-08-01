@@ -38,7 +38,7 @@ final class ToastViewController: UIViewController {
     ) {
         let presentOn: UIViewController?
         if onViewController is SplashScreenViewController {
-            presentOn = onViewController?.presentedViewController
+            presentOn = onViewController?.presentedViewController ?? onViewController?.children.first
         } else {
             presentOn = onViewController
         }
