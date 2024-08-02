@@ -312,9 +312,15 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             updateLabels(page: currentPage + 1)
         } else {
             Storage.shared.onboardingShown = true
-            // TODO: BUY SUBSCRIPTION
-            completion?()
-            dismiss(animated: true)
+            if let product = PurchaseService.shared.inAppPaywall?.products.first {
+                Task { [weak self] in
+                    await PurchaseService.shared.makePurchase(product: product)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.completion?()
+                        self?.dismiss(animated: true)
+                    }
+                }
+            }
         }
     }
     

@@ -84,7 +84,9 @@ class SettingsViewController: UIViewController, MFMailComposeViewControllerDeleg
     /// On Onboarding same things
     @IBAction
     private func restoreTapped() {
-        // TODO
+        Task {
+           await PurchaseService.shared.restorePurchases()
+        }
     }
     
     @IBAction
