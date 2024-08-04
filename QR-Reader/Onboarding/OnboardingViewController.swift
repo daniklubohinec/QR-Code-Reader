@@ -7,7 +7,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     private let review = PurchaseService.shared.review
     
     private let scrollView = UIScrollView()
-
+    
     private lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.currentPageIndicatorTintColor = R.color.accentColor()!
@@ -127,7 +127,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
             make.height.equalTo(20)
             make.top.equalTo(view.snp.top).offset(12)
         }
-
+        
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom).offset(12)
             make.leading.equalToSuperview().offset(16)
@@ -171,7 +171,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }()
     private let disposeBag = DisposeBag()
     var completion: (() -> Void)?
-
+    
     init(pages: [OnboardingPage] = OnboardingPage.allCases) {
         self.pages = pages
         super.init(nibName: nil, bundle: nil)
@@ -184,13 +184,13 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = R.color.cF1F1F1()
-
+        
         setupScrollView()
         setupPageControl()
         setupContinueButton()
         titleLabel.text = OnboardingPage.reader.title
         descriptionLabel.text = OnboardingPage.reader.subtitle
-                
+        
         // pageControl.isHidden = pages.count == 1
         footer.isHidden = !(pages.count == 1)
         
@@ -230,7 +230,7 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         }
         pulseAnimation()
     }
-        
+    
     func pulseAnimation() {
         let pulseAnimation = CABasicAnimation(keyPath: "transform.scale")
         pulseAnimation.fromValue = 0.98
@@ -447,7 +447,9 @@ final class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @objc private func restoreTapped() {
-        // TODO
+        Task {
+            await PurchaseService.shared.restorePurchases()
+        }
     }
     
     @objc private func privacyTapped() {
