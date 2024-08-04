@@ -358,9 +358,9 @@ extension QRCodeCreatorViewController: UICollectionViewDataSource, UICollectionV
         saveToGallery(qrImage: qrImage) { saved, error in
             onMain {
                 if saved {
-                    ToastViewController.showToast(with: "Saved to Gallery!", with: "checkmark")
-                } else {
-                    ToastViewController.showToast(with: error?.localizedDescription ?? "Failed to save", with: "exclamationmark.circle")
+                    // ToastViewController.showToast(with: "Saved to Gallery!", with: "checkmark")
+                } else if error != nil {
+                    // ToastViewController.showToast(with: error?.localizedDescription ?? "Failed to save", with: "exclamationmark.circle")
                 }
             }
         }

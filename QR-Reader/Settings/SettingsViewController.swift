@@ -60,7 +60,7 @@ class SettingsViewController: UIViewController, MFMailComposeViewControllerDeleg
     
     @IBAction
     func shareApp() {
-        let linkToShare = ["https://itunes.apple.com/app/App ID"]
+        let linkToShare = ["https://itunes.apple.com/app/id6575368844"]
         let activityController = UIActivityViewController(activityItems: linkToShare, applicationActivities: nil)
         self.present(activityController, animated: true, completion: nil)
     }

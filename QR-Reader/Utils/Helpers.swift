@@ -86,9 +86,9 @@ func saveToGallery(qrImage: UIImage, completion: ((Bool, Error?) -> Void)? = nil
             completion?(true, nil)
         } else {
             onMain {
-                ToastViewController.showToast(with: "Something went wrong", with: "exclamationmark.circle")
+                ToastViewController.showToast(with: "Failed to save", with: "exclamationmark.circle")
             }
-            completion?(false, NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Access to photo library is not authorized."]))
+            completion?(false, NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to save"]))
         }
     }
 }
