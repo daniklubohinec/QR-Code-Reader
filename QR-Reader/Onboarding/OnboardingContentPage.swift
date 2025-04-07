@@ -1,6 +1,6 @@
 import UIKit
 
-enum OnboardingPage: CaseIterable {
+enum OnboardingPage: Int, CaseIterable {
     case reader
     case compatibility
     case create
@@ -22,25 +22,25 @@ enum OnboardingPage: CaseIterable {
     var title: String {
         switch self {
         case .reader:
-            return "Instant QR Code Reader"
+            return "Qr Code & Barcode Scanner"
         case .compatibility:
-            return "Wide Barcode Compatibility"
+            return "Broad Barcode Support"
         case .create:
-            return "Create and Share QR Codes"
+            return "Create & Customize your own QR Codes"
         case .buy:
-            return "QR Code Scanning and Generating"
+            return "Scan & Create QR Codes"
         }
     }
     var subtitle: String {
         switch self {
         case .reader:
-            return "Quickly scan QR codes with a single tap using your phone's camera."
+            return PurchaseService.shared.review ? "Quickly scan QR codes with a single tap using your phone's camera." : "Use your phone's camera to scan QR codes quickly with a single tap."
         case .compatibility:
-            return "Compatible with various barcode types including Data Matrix, EAN, Code128, UPC, and more."
+            return PurchaseService.shared.review ? "Supports a variety of barcode types, including Data Matrix, EAN, Code39, EAN, and more." : "Supports a variety of barcode types, including Data Matrix, EAN, Code39, EAN, and more."
         case .create:
-            return "Easily generate and share your custom QR codes with friends."
+            return "Seamlessly design and share your unique QR codes with friends."
         case .buy:
-            return ""
+            return "Scan and create QR codes as much as you want with a 3-day free trial, then $6.99 per week."
         }
     }
     var showPriceOptions: Bool {
@@ -50,29 +50,5 @@ enum OnboardingPage: CaseIterable {
         case .buy:
             return true
         }
-    }
-}
-
-final class OnboardingContentPage: UIViewController {
-    
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var titleLabel: UILabel!
-    @IBOutlet private var descriptionLabel: UILabel!
-    @IBOutlet private var continueButton: UIButton!
-    private var page: OnboardingPage?
-    private var nextTappedImpl: ((OnboardingPage) -> Void)?
-    
-    func setupView(page: OnboardingPage, nextTapped: @escaping ((OnboardingPage) -> Void)) {
-        imageView.image = page.image
-        titleLabel.text = page.title
-        descriptionLabel.text = page.subtitle
-        self.page = page
-        self.nextTappedImpl = nextTapped
-    }
-    
-    @IBAction
-    private func nextTapped() {
-        guard let page else { return }
-        nextTappedImpl?(page)
     }
 }

@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '12.0'
+platform :ios, '17.0'
 
 target 'QR-Reader' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -8,15 +8,11 @@ target 'QR-Reader' do
   # Pods for QR-Reader
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'RxDataSources'
   pod 'R.swift'
-
-  target 'QR-ReaderTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'QR-ReaderUITests' do
-    # Pods for testing
-  end
+  pod 'SnapKit', '~> 5.7.0'
+  pod 'PhoneNumberKit'
+  pod 'IQKeyboardManagerSwift'
+  pod 'Adapty', '~> 2.10.4'
 
 end

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "logo.png",
+      "filename" : "QR Code Reader  icon 1024x1024.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "logo2.png",
+      "filename" : "QR Code Reader  icon 1024x1024@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "logo3.png",
+      "filename" : "QR Code Reader  icon 1024x1024@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

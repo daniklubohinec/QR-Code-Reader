@@ -7,8 +7,10 @@
 
 import UIKit
 import RxSwift
+import Contacts
+import ContactsUI
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
     @IBOutlet weak var scanBackView: UIView!
     @IBOutlet weak var scanButton: UIButton!
@@ -26,9 +28,14 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var contactBackView: UIView!
     @IBOutlet weak var contactButton: UIButton!
     
-    private var onboardingShown: Bool {
-        UserDefaults.standard.bool(forKey: "onboardingShown")
-    }
+    private lazy var contactFlow: ContactSelectFeature = {
+        return ContactSelectFeature(
+            presenting: self,
+            onSelectedContact: { [weak self] in
+                self?.openCreateFrom(contact: $0)
+            }
+        )
+    }()
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -36,12 +43,23 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         animateButtonViews()
+        navigationItem.backButtonDisplayMode = .minimal
         
         scanButton.rx.tap
             .asDriver()
             .drive(onNext: { _ in
-                ActionSheetViewController.showActionSheet {
-                    print("Go to settings")
+                HapticGenerator.shared.generateImpact()
+                AuthorizationStatus.checkCameraAndPhotoLibraryAuthorizationStatus { [weak self] status in
+                    switch status {
+                    case .granted:
+                        guard let self, let scannerVC = R.storyboard.qrCodeScanner.qrCodeScanner.callAsFunction() else { return }
+                        scannerVC.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(scannerVC, animated: true)
+                    case .denied:
+                        ActionSheetViewController.showActionSheet {
+                            openAppSettings()
+                        }
+                    }
                 }
             })
             .disposed(by: disposeBag)
@@ -55,5 +73,119 @@ class HomeViewController: UIViewController {
         
         animateButtonView(urlButton, urlBackView, disposeBag)
         animateButtonView(contactButton, contactBackView, disposeBag)
+    }
+    
+    @IBAction
+    private func createWifi() {
+        HapticGenerator.shared.generateImpact()
+        openCreate(for: .wifi)
+    }
+    
+    @IBAction
+    func createContact() {
+        HapticGenerator.shared.generateImpact()
+        showContactOptions()
+    }
+    
+    @IBAction
+    func createText() {
+        HapticGenerator.shared.generateImpact()
+        openCreate(for: .text)
+    }
+    
+    @IBAction
+    func createLink() {
+        HapticGenerator.shared.generateImpact()
+        openCreate(for: .url)
+    }
+    
+    private func openCreate(for type: QRCodeData.QRCodeType, data: QRCodeData? = nil) {
+        if PurchaseService.shared.hasPremium {
+            let vc = QRCodeCreatorViewController(type: type, state: .creating)
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            showPaywall(presenting: self)
+        }
+    }
+    
+    private func showContactOptions() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let importContact = UIAlertAction(title: "Choose from Contacts", style: .default) { [weak self] _ in
+            HapticGenerator.shared.generateImpact()
+            self?.contactFlow.showContactPicker()
+        }
+        let manual = UIAlertAction(title: "Enter Manually", style: .default) { [weak self] _ in
+            HapticGenerator.shared.generateImpact()
+            self?.openCreate(for: .contact)
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        [importContact, manual, cancel].forEach { sheet.addAction($0) }
+        present(sheet, animated: true)
+    }
+    
+    private func openCreateFrom(contact: CNContact) {
+        openCreate(for: .contact, data: contact.contactQRModel)
+    }
+}
+
+final class ContactSelectFeature: NSObject, CNContactPickerDelegate {
+    private let store = CNContactStore()
+    private weak var parent: UIViewController?
+    private let onSelectedContact: ((CNContact) -> Void)
+
+    init(
+        presenting: UIViewController,
+        onSelectedContact: @escaping ((CNContact) -> Void)
+    ) {
+        self.parent = presenting
+        self.onSelectedContact = onSelectedContact
+    }
+    
+    func showContactPicker() {
+        store.requestAccess(for: .contacts) { [weak self] granted, error in
+            guard granted else {
+                return
+            }
+            onMain {
+                self?.openContactPicker()
+            }
+        }
+    }
+    
+    private func openContactPicker() {
+        let contactPicker = CNContactPickerViewController()
+        contactPicker.delegate = self
+        // Вы можете настроить, какие свойства контактов показывать
+        contactPicker.displayedPropertyKeys = [CNContactGivenNameKey, CNContactPhoneNumbersKey]
+
+        parent?.present(contactPicker, animated: true, completion: nil)
+    }
+
+    // MARK: - CNContactPickerDelegate Methods
+
+    internal func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        onSelectedContact(contact)
+    }
+
+    internal func contactPickerDidCancel(_ picker: CNContactPickerViewController) {
+
+    }
+}
+extension CNContact {
+    var contactQRModel: QRCodeData {
+        let phone = phoneNumbers.first?.value.stringValue ?? ""
+        let mail = emailAddresses.first?.value as String?
+        let url = urlAddresses.first?.value as String?
+        
+        return QRCodeData(
+            type: .contact,
+            data: [
+                "Contact Name": "\(familyName) \(givenName)",
+                "Phone Number": phone,
+                "Mail": mail ?? "",
+                "URL": url ?? ""
+            ]
+        )
     }
 }

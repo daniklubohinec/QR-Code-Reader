@@ -5,7 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -21,37 +20,14 @@
     </customFonts>
     <scenes>
         <!--History-->
-        <scene sceneID="SDz-HT-tD4">
+        <scene sceneID="0A5-FQ-gfl">
             <objects>
-                <viewController id="PM6-yd-ys7" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mRv-SF-361">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="goU-48-n9w">
-                                <rect key="frame" x="16" y="161" width="361" height="32"/>
-                                <color key="backgroundColor" red="0.46274509803921571" green="0.46274509803921571" blue="0.50196078431372548" alpha="0.12" colorSpace="custom" customColorSpace="sRGB"/>
-                                <segments>
-                                    <segment title="Scanned"/>
-                                    <segment title="Created"/>
-                                </segments>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </segmentedControl>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="1a4-Gp-rDg"/>
-                        <color key="backgroundColor" name="cF1F1F1"/>
-                        <constraints>
-                            <constraint firstItem="goU-48-n9w" firstAttribute="leading" secondItem="1a4-Gp-rDg" secondAttribute="leading" constant="16" id="2jZ-gU-K6T"/>
-                            <constraint firstItem="goU-48-n9w" firstAttribute="top" secondItem="1a4-Gp-rDg" secondAttribute="top" constant="6" id="PJX-Zi-6T0"/>
-                            <constraint firstItem="1a4-Gp-rDg" firstAttribute="trailing" secondItem="goU-48-n9w" secondAttribute="trailing" constant="16" id="SUL-qe-rEZ"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="History" largeTitleDisplayMode="always" id="5C2-ur-AE5"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MZZ-Lw-rDg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="History" id="RYA-Xd-pDE" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="uXx-EK-Wqo"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aPs-VX-Onn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3107.6335877862593" y="-182.3943661971831"/>
+            <point key="canvasLocation" x="2998" y="-241"/>
         </scene>
         <!--QR Code Reader-->
         <scene sceneID="in5-bS-fwt">
@@ -156,7 +132,7 @@
                                                         <rect key="frame" x="12" y="12" width="24" height="24"/>
                                                     </imageView>
                                                 </subviews>
-                                                <color key="backgroundColor" name="c1C72F2o10"/>
+                                                <color key="backgroundColor" name="c000000o8"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="udS-zC-I93" secondAttribute="trailing" constant="12" id="2Dw-6Z-5Sm"/>
                                                     <constraint firstAttribute="width" constant="48" id="2vw-TZ-ibC"/>
@@ -202,6 +178,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createWifi" destination="fGS-DW-ii7" eventType="touchUpInside" id="q4v-cY-uhV"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -234,7 +213,7 @@
                                                         <rect key="frame" x="12" y="12" width="24" height="24"/>
                                                     </imageView>
                                                 </subviews>
-                                                <color key="backgroundColor" name="c1C72F2o10"/>
+                                                <color key="backgroundColor" name="c000000o8"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="knG-DK-jrE" secondAttribute="bottom" constant="12" id="3Pj-Lk-6ym"/>
                                                     <constraint firstItem="knG-DK-jrE" firstAttribute="top" secondItem="wun-y5-wsj" secondAttribute="top" constant="12" id="57X-L7-eUZ"/>
@@ -280,6 +259,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.33333333333334" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createText" destination="fGS-DW-ii7" eventType="touchUpInside" id="aSh-ea-y60"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -320,7 +302,7 @@
                                                         <rect key="frame" x="12" y="12" width="24" height="24"/>
                                                     </imageView>
                                                 </subviews>
-                                                <color key="backgroundColor" name="c1C72F2o10"/>
+                                                <color key="backgroundColor" name="c000000o8"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="qCg-sg-gPA" secondAttribute="bottom" constant="12" id="14l-Mj-MLK"/>
                                                     <constraint firstItem="qCg-sg-gPA" firstAttribute="leading" secondItem="EQA-rw-KRR" secondAttribute="leading" constant="12" id="LU4-E8-rVQ"/>
@@ -366,6 +348,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createLink" destination="fGS-DW-ii7" eventType="touchUpInside" id="p07-8m-BzY"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -398,7 +383,7 @@
                                                         <rect key="frame" x="12" y="12" width="24" height="24"/>
                                                     </imageView>
                                                 </subviews>
-                                                <color key="backgroundColor" name="c1C72F2o10"/>
+                                                <color key="backgroundColor" name="c000000o8"/>
                                                 <constraints>
                                                     <constraint firstItem="FKF-Nk-Q1u" firstAttribute="top" secondItem="EAF-sA-dcW" secondAttribute="top" constant="12" id="2hS-Mv-wH8"/>
                                                     <constraint firstAttribute="bottom" secondItem="FKF-Nk-Q1u" secondAttribute="bottom" constant="12" id="HRq-W6-fm1"/>
@@ -444,6 +429,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="176.33333333333334" height="114"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="createContact" destination="fGS-DW-ii7" eventType="touchUpInside" id="qAV-JK-Lcr"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -507,83 +495,17 @@
             </objects>
             <point key="canvasLocation" x="3107.6335877862593" y="-860.56338028169023"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="FSg-nE-yeI">
-            <objects>
-                <viewController id="bnY-e3-JKY" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ddD-mU-gs1">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PPv-Xk-XN8">
-                                <rect key="frame" x="76" y="101" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Q3i-hv-X4H">
-                                <rect key="frame" x="16" y="674" width="361" height="128"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eiV-VD-elZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="60"/>
-                                        <color key="backgroundColor" name="c1C72F2o10"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="wni-34-zA0"/>
-                                        </constraints>
-                                        <inset key="titleEdgeInsets" minX="4" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
-                                        <state key="normal" title="Download as Image" image="download">
-                                            <color key="titleColor" name="AccentColor"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="15"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zll-sQ-Ad1">
-                                        <rect key="frame" x="0.0" y="68" width="361" height="60"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="6o3-lP-x5U"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Inter-Medium" family="Inter" pointSize="16"/>
-                                        <state key="normal" title="Open in Notes">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="15"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ZAL-Ys-xWu"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="ZAL-Ys-xWu" firstAttribute="bottom" secondItem="Q3i-hv-X4H" secondAttribute="bottom" constant="16" id="Lk0-Z1-06F"/>
-                            <constraint firstItem="ZAL-Ys-xWu" firstAttribute="trailing" secondItem="Q3i-hv-X4H" secondAttribute="trailing" constant="16" id="SpG-pF-LtJ"/>
-                            <constraint firstItem="Q3i-hv-X4H" firstAttribute="leading" secondItem="ZAL-Ys-xWu" secondAttribute="leading" constant="16" id="wq9-B9-tv1"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7SW-as-MVu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3876" y="-861"/>
-        </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="Vmh-Vn-ak7">
             <objects>
-                <tabBarController id="Re2-Lx-BlH" sceneMemberID="viewController">
+                <tabBarController id="Re2-Lx-BlH" customClass="MainTabBarController" customModule="QR_Reader" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="adN-Jq-APM">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="AccentColor"/>
                         <color key="barTintColor" red="0.011764705882352941" green="0.011764705882352941" blue="0.011764705882352941" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <color key="selectedImageTintColor" name="AccentColor"/>
+                        <tabBarAppearance key="standardAppearance"/>
                     </tabBar>
                     <connections>
                         <segue destination="EXg-L1-6Fz" kind="relationship" relationship="viewControllers" id="FiA-eK-Xdf"/>
@@ -642,7 +564,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="PM6-yd-ys7" kind="relationship" relationship="rootViewController" id="rAk-Rs-bM4"/>
+                        <segue destination="RYA-Xd-pDE" kind="relationship" relationship="rootViewController" id="WWK-ad-BQ4"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TxI-n8-5UH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -721,6 +643,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="rateUs" destination="MKe-a0-yQM" eventType="touchUpInside" id="Of0-3M-RbM"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -774,6 +699,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="shareApp" destination="MKe-a0-yQM" eventType="touchUpInside" id="9Pf-Ts-L8U"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -821,6 +749,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="contactUs" destination="MKe-a0-yQM" eventType="touchUpInside" id="bEZ-5U-uVf"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -886,6 +817,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="restoreTapped" destination="MKe-a0-yQM" eventType="touchUpInside" id="DdW-3J-HGg"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -939,6 +873,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="privacyTapped" destination="MKe-a0-yQM" eventType="touchUpInside" id="1Q1-pi-aKR"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -986,6 +923,9 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="361" height="52.333333333333336"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
+                                                <connections>
+                                                    <action selector="termsOfUseTapped" destination="MKe-a0-yQM" eventType="touchUpInside" id="fXG-Fx-GmH"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1064,21 +1004,14 @@
         <image name="Text" width="24" height="24"/>
         <image name="URL" width="24" height="24"/>
         <image name="WiFi" width="24" height="24"/>
-        <image name="download" width="20" height="20"/>
         <namedColor name="AccentColor">
-            <color red="0.10980392156862745" green="0.44705882352941179" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.031372549019607843" green="0.031372549019607843" blue="0.035294117647058823" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="c000000o8">
             <color red="0.0" green="0.0" blue="0.0" alpha="0.079999998211860657" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="c1C72F2o10">
-            <color red="0.10980392156862745" green="0.44705882352941179" blue="0.94901960784313721" alpha="0.10000000149011612" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="cF1F1F1">
             <color red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

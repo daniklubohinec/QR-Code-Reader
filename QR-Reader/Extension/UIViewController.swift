@@ -39,4 +39,9 @@ extension UIViewController {
             })
             .disposed(by: disposeBag)
     }
+    
+    func loadURLString(_ link: String) {
+        guard let url = URL(string: link) else { return }
+        UIApplication.shared.open(url)
+    }
 }

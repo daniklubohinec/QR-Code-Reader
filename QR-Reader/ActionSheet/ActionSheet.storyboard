@@ -103,10 +103,13 @@
                                                         <integer key="value" value="15"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="settingsTapped" destination="Vov-g6-dxb" eventType="touchUpInside" id="Nie-8B-6oh"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZwW-M7-ftJ">
                                                 <rect key="frame" x="0.0" y="68" width="361" height="60"/>
-                                                <color key="backgroundColor" name="c1C72F2o10"/>
+                                                <color key="backgroundColor" name="c000000o8"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="FU5-7H-jnU"/>
                                                 </constraints>
@@ -174,10 +177,10 @@
         <image name="Allow-access" width="119" height="68"/>
         <image name="close-access" width="26" height="26"/>
         <namedColor name="AccentColor">
-            <color red="0.10980392156862745" green="0.44705882352941179" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.031372549019607843" green="0.031372549019607843" blue="0.035294117647058823" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="c1C72F2o10">
-            <color red="0.10980392156862745" green="0.44705882352941179" blue="0.94901960784313721" alpha="0.10000000149011612" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="c000000o8">
+            <color red="0.0" green="0.0" blue="0.0" alpha="0.079999998211860657" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
